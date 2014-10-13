@@ -1,0 +1,14 @@
+{
+    "name": "SKD-Decidir",
+    "version": "0.1.0",
+    "description": "",
+    "keywords": [
+        "sdk",
+        "decidir",
+        "web-services",
+		"gateway"
+    ],
+    "dependencies": {
+		"soap":"0.5.1"
+    }
+}
