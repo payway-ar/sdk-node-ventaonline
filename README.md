@@ -1,5 +1,5 @@
 <a name="inicio"></a>
-sdk-php
+sdk-Node
 =======
 
 Modulo para conexión con gateway de pago DECIDIR
@@ -20,7 +20,7 @@ Una vez descargado y descomprimido, debe incluirse la carpeta sdk-decidir en el 
 Instalar con [npm](http://github.com/isaacs/npm):
 
 ```
-  npm install soap
+  npm install sdk-decidir
 ```
 <br />
 [<sub>Volver a inicio</sub>](#inicio)
