@@ -2,6 +2,6 @@
     "name": "ejemplo",
     "version": "0.1.0",
     "dependencies": {
-		"sdk-decidir":"0.1.1"
+		"sdk-decidir":"0.1.2"
     }
 }
