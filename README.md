@@ -60,7 +60,7 @@ var parameters = {
 		'MEDIODEPAGO' : '1', //La tabla de medios de pagos se encuentra al final de la documentación. MANDATORIO.
 		'EMAILCLIENTE' : 'cliente@cliente.com', //NO MANDATORIO
 		....................................................
-		);
+		};
 ```
 <strong>Consideraciones para los medios de pago offline</strong>
 El parámetro NROOPERACION enviado debe ser numérico.
