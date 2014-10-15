@@ -388,7 +388,7 @@ var parameters = {
 [<sub>Volver a inicio</sub>](#inicio)
 <a name="ejemplo"></a>
 ## Ejemplo
-Existe un ejemplo en la carpeta https://github.com/decidir/sdk-nodejs/ejemplo que muestra los resultados de los 3 métodos principales del SDK.
+Existe un ejemplo en la carpeta https://github.com/decidir/sdk-nodejs/tree/master/ejemplo que muestra los resultados de los 3 métodos principales del SDK.
 
 <a name="test"></a>
 ## Modo Test
