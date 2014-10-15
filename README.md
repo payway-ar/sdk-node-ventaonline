@@ -44,7 +44,7 @@ sdk.getPaymentValues(options, parameters, function(result){
 });
 ```
 <ins><strong>Parámetros generales para todo tipo de operacion</strong></ins>
-parameters debe ser un array con la siguiente estructura:
+parameters debe ser un json con la siguiente estructura:
 
 ```javascript
 var parameters = {
@@ -68,7 +68,7 @@ Los parámetros adicionales a enviar en el requerimiento inicial son los siguien
 
 <ins>Rapipago:</ins>
 ```javascript
-var parameters = array (
+var parameters = {
 		.....................................................
 		'CODMEDPAGO':'214', //Valor fijo: “214”-Dato fijo. MANDATORIO. Numérico, 3 dígitos
 		'CODDECIDIR':'0012', //Identifica a DECIDIR ante Rapipago. Dato fijo. MANDATORIO. Numérico, 4 dígitos
@@ -78,19 +78,19 @@ var parameters = array (
 		'FECHAVTO': '140325', //Fecha de vencimiento para el pago del cuplan. Dato generado por el comercio. (AAMMDD). MANDATORIO. Numérico, 6 dígitos.
 		'CLIENTE':'80097765', //Código de cliente provisto por Rapipago al momento de habilitar el comercio. Dato fijo. MANDATORIO. Numérico, 8 dígitos.
 		....................................................
-		);
+		};
 ```
 
 <ins>Pago Fácil (CajaDePagos):</ins>
 ```javascript
-var parameters = array (
+var parameters = {
 		.....................................................
 		'CODMEDPAGO':'1434', //Valor fijo: “1434”. MANDATORIO. Numérico, 4 dígitos.
 		'RECARGO':'123', //(1.23)Se debe enviar el monto toal para el segundo vencimiento. Dato generado por el comercio. 4 cifras enteras y 2 decimales. ($$$$$¢¢). MANDATORIO. Numérico, 6 dígitos.
 		'FECHAVTO': '140325', //Fecha de vencimiento para el pago del cupón. Dato generado por el comercio. (AAMMDD). MANDATORIO. Numérico, 6 dígitos.
 		'FECHAVTO2': '140325', //Fecha del segundo vencimiento para el pago del cupón. Dato generado por el comercio. (AAMMDD). MANDATORIO. Numérico, 6 dígitos.
 		....................................................
-		);
+		};
 ```
 
 <ins>Consideraciones para Pagomiscuentas (Banelco)</ins>
@@ -100,12 +100,12 @@ var parameters = {
 		.....................................................
 		'FECHAVTO': '300515 2309', //Fecha y hora de vencimiento de la factura. Puede omitirse las “horas” y “minutos”, informando solo la fecha con formato DDMMYY. MANDATORIO. (DDMMYY HHMM)
 		....................................................
-		);
+		};
 ```
 
 <ins>Requerimiento adicionales de VISA para comercios Agregadores.</ins>
 ```javascript
-var parameters = array (
+var parameters = {
 		.....................................................
 		'AINDICADOR':0, //Indicador del tipo de documento. Numérico, 1 dígito. Valores posibles(0:cuit, 1:cuil, 2:número único).
 		'ADOCUMENTO':'2325xxxxxx9', //Número de CUIT, CUIL o Número Único(en el último caso se debe completar con ceros a la izquierda)
@@ -119,7 +119,7 @@ var parameters = array (
 		'ACODCANAL':'', //Código de canal. Alfanumérico de 3 caracteres.
 		'ACODGEOGRAFICO':'',//Código geográfico del vendedor. Alfanumérico de 5 caracteres.
 		....................................................
-		);
+		};
 ```
 <ins>Consideraciones para split de transacciones</ins>
 <p>por montos fijos</p>
@@ -131,7 +131,7 @@ var parameters = {
 	'CUOTASDIST':'01#06#24',//cantidad de cuotas para cada subcomercio. Decimal de 2 dígitos.
 	'IDMODALIDAD':'S',// indica si la transacción es distribuida. (S= transacción distribuida; N y null = no distribida)
 	................................................................
-);
+};
 ```
 <ins>por porcentaje</ins>
 ```javascript
@@ -139,7 +139,7 @@ var parameters = {
 	................................................................
 	'IDMODALIDAD':'S',// indica si la transacción es distribuida. (S= transacción distribuida; N y null = no distribida)
 	................................................................
-);
+};
 ```
 
 El método getPaymentValues devolvera un arreglo con los siguiente valores:
@@ -149,18 +149,18 @@ var parameters = {
 	'StatusMessage':'Solicitud de Autorizacion Registrada',//ej: Solicitud de Autorizacion Registrada
 	'URL_Request':'https://payment.decidir.net/Authorization/FEDCBA09876543211234567890ABCDEF',//url a la que se debe redirigir al cliente
 	'RequestKey':'0123-1234-2345-3456-4567-5678-6789',//clave de serguridad que será solicitada en el siguiente método para la confirmación del pago por parte del cliente
-);
+};
 ```
 
 ####3.Confirmación de transacción (no aplica para comercios PCI).
-En este caso hay que llamar a queryPayment(), enviando como parámetro un array como se describe a continuación.
+En este caso hay que llamar a queryPayment(), enviando como parámetro un json como se describe a continuación.
 ```javascript
 var parameters ={
 		'Security' : '1234567890ABCDEF1234567890ABCDEF',
 		'Merchant' : '12345',
 		'RequestKey' : '0123-1234-2345-3456-4567-5678-6789',
 		'AnswerKey' : '111122223333444455556666' // *Importante
-);
+};
 ```
 <strong><ins>*Importante:</ins></strong>El campo Answer viaja en el callback que se haga desde el sitio de Decidir cuando vuelva la respuesta (Se redirige agregando un parametro "Answer"), para nuestro ejemplo: <strong>https://ecommerce.merchant.com.ar/NotifyResponseErrorPayment?Order=test_22111&Answer=111122223333444455556666</strong>
 
