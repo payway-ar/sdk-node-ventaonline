@@ -388,13 +388,13 @@ var parameters = {
 [<sub>Volver a inicio</sub>](#inicio)
 <a name="ejemplo"></a>
 ## Ejemplo
-Existe un ejemplo en la carpeta https://github.com/decidir/sdk-php/ejemplo que muestra los resultados de los 3 métodos principales del SDK.
+Existe un ejemplo en la carpeta https://github.com/decidir/sdk-nodejs/ejemplo que muestra los resultados de los 3 métodos principales del SDK.
 
 <a name="test"></a>
 ## Modo Test
 Para utlilizar el modo test se debe pasar un end point de prueba (provisto por DECIDIR SPS).
 
-```php
+```javascript
 var options = {
 	wsdl : 'https://200.69.248.51:8443/services/t/decidir.net/Authorize?wsdl',
 	endpoint : "https://200.69.248.51:8443/services/t/decidir.net/Authorize",	
