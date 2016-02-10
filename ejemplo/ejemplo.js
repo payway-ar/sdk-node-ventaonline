@@ -30,7 +30,8 @@ http.createServer(function (request, response) {
 	};
 	var options = {
 		wsdl : 'https://200.69.248.51:8443/services/t/decidir.net/Authorize?wsdl',
-		endpoint : "https://200.69.248.51:8443/services/t/decidir.net/Authorize",	
+		endpoint : "https://200.69.248.51:8443/services/t/decidir.net/Authorize",
+		apikey: 'PRISMA 1234567890ABCDEF1234567890ABCDEF'
 	};
 	
 	sdk.getPaymentValues(options, parameters, function(result){
