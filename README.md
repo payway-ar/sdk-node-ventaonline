@@ -37,7 +37,8 @@ En este caso hay que llamar a getPaymentValues().
 ```javascript
 var options = {
 	wsdl : 'https://200.69.248.51:8443/services/t/decidir.net/Authorize?wsdl',
-	endpoint : "https://200.69.248.51:8443/services/t/decidir.net/Authorize",	
+	endpoint : "https://200.69.248.51:8443/services/t/decidir.net/Authorize",
+	apikey: "PRISMA SM9X1O1MJ0CLPL3T8TWNFA4M"
 };
 sdk.getPaymentValues(options, parameters, function(result){
 	console.log(result);
@@ -237,7 +238,7 @@ Para el envío de información adicional para control de fraude, el comercio deb
 <a name="generales"></a>
 ##### Parámetros Adicionales en el post inicial comunes a todos los rubros:
 ```javascript
-var parameters = {
+var parameters.Payload = {
 	...........................................................................
 	'CSBTCITY':'Villa General Belgrano', //Ciudad de facturación, MANDATORIO.
 	'CSBTCOUNTRY':'AR', //País de facturación. MANDATORIO. Código ISO. (http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf)
@@ -265,7 +266,7 @@ var parameters = {
 <a name="retail"></a>
 ##### Parámetros Adicionales en el post inicial para el rubro RETAIL
 ```javascript
-var parameters = {
+var parameters.Payload = {
 	...........................................................
 	'STCITY':'rosario', //Ciudad de enví­o de la orden. MANDATORIO.
 	'STCOUNTRY':'', //País de envío de la orden. MANDATORIO.
@@ -297,7 +298,7 @@ var parameters = {
 <a name="travel"></a>
 ##### Parámetros Adicionales en el post inicial para el rubro TRAVEL:
 ```javascript
-var parameters = {
+var parameters.Payload = {
 	..............................................................................
 	'CSDMCOMPLETEROUTE':'JFK-SFO:SFO-LAX', //Ruta completa del viaje, ORIG1-DEST1[:ORIG2-DEST2...:ORIGn-DESTn]. MANDATORIO.
 	'CSDMJOURNEYTYPEY':'round trip', //Tipo de viaje. valores posibles: round trip o one way. MANDATORIO.
@@ -335,7 +336,7 @@ var parameters = {
 <a name="ticketing"></a>
 ##### Parámetros Adicionales en el post inicial para el rubro TICKETING:
 ```javascript
-var parameters = {
+var parameters.Payload = {
 	.............................................................................
 	'CSMDD33':'', //
 	'CSMDD34':'', //
@@ -372,7 +373,7 @@ var parameters = {
 <a name="bienesdigitales"></a>
 ##### Parámetros Adicionales en el post inicial para el rubro BIENES DIGITALES:
 ```javascript
-var parameters = {
+var parameters.Payload = {
 	'CSMDD31':'', //Tipo de delivery. MANDATORIO. Valores posibles: WEB Session, Email, SmartPhone
 	.............................................................................
 	//Services, datos a enviar por cada servicio, los valores deben estar separado con “#”:
