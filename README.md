@@ -791,7 +791,7 @@ args = {
 };
 var paymentData = new PaymentDataModulo.paymentData(args);
 
-var datos_cs {
+var datos_cs = {
   device_unique_id : "devicefingerprintid",
   days_to_delivery: "55",
   dispatch_method: "storepickup",

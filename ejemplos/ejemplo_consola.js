@@ -67,21 +67,31 @@ function exampleGetToken(sdk) {
 
         var url = endpoint.developer;
         var client = new Client();
-        client.post(endpoint.developer + "/tokens", args, function(data, response) {
-            resolve(data.id);
-            if (Buffer.isBuffer(data)) {
-                data = JSON.parse(data.toString('utf8'));
-                //console.log(response);
-            }
+
+        sdk.token(args, function(result, err) {
+            resolve(result.id);
+
+            console.log("")
+            console.log("")
+            console.log("Se realiza una petición token de pago")
+            console.log("")
+            console.log("")
+            console.log("             PAYMENT REQUEST             ");
+            console.log("-----------------------------------------");
+            console.log("token result:");
+            console.log(result);
+            console.log("-----------------------------------------");
+            console.log("token error:");
+            console.log(err);
+            console.log("-------------------***-------------------");
         });
     });
 }
 
 function examplePaymentRequest(sdk) {
-
     return new Promise(function(resolve, reject) {
 
-        exampleGetToken().then(function(token) {
+        exampleGetToken(sdk).then(function(token) {
 
             var date = new Date().getTime();
 
@@ -103,25 +113,19 @@ function examplePaymentRequest(sdk) {
             var paymentData = new PaymentDataModulo.paymentData(args);
 
             var args = paymentData.getJSON();
+            var street1 = {
+                bill: {
+                    street1: 'siempreviva123'
 
-            var datos_cs = {
-                send_to_cs: 'true',
-                channel: 'Web/Mobile/Telefonica',
-                city: 'Buenos Aires',
-                country: 'AR',
-                customer_id: 'martinid',
-                email: 'accept@decidir.com.ar',
-                first_name: 'martin',
-                last_name: 'paoletta',
-                phone_number: '1547766329',
-                postal_code: '1427',
-                state: 'BA',
-                street1: 'GARCIA DEL RIO 4041',
-                street2: 'GARCIA DEL RIO 4041'
+                }
             }
+            var retail = new retailModulo.retailData(street1);
 
+            args.data.fraud_detection = retail;
             sdk.payment(args, function(result, err) {
+
                 resolve(result);
+
                 console.log("")
                 console.log("")
                 console.log("Se realiza una petición de pago enviando el payload y el token de pago ")
