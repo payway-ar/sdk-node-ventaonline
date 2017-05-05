@@ -1,9 +1,9 @@
 {
   "name": "sdk-decidir",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "keywords": [
     "sdk",
-    "decidir",
+    "Decidir",
     "web-services",
     "gateway"
   ],

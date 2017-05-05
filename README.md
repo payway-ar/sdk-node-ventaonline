@@ -629,23 +629,24 @@ Los parámetros comunes a todas las verticales deben enviarse junto con los dato
 
 var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 
-  $datos_cs = array(
-    'send_to_cs' => 'true',
-    'channel' => 'Web/Mobile/Telefonica' //una de las tres opciones son validas
-    'city'=>'Villa General Belgrano', //Ciudad de facturación, MANDATORIO.
-    'country'=>'AR', //País de facturación. MANDATORIO. Código ISO. (http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf)
-    'customerid'=>'453458', //Identificador del usuario al que se le emite la factura. MANDATORIO. No puede contener un correo electrónico.
-    'email'=>'decidir@hotmail.com', //Mail del usuario al que se le emite la factura. MANDATORIO.
-    'firstname'=>'Juan' ,//Nombre del usuario al que se le emite la factura. MANDATORIO.
-    'lastname'=>'Perez', //Apellido del usuario al que se le emite la factura. MANDATORIO.
-    'phone_number'=>'541160913988', //Teléfono del usuario al que se le emite la factura. No utilizar guiones, puntos o espacios. Incluir código de país. MANDATORIO.
-    'postalcode'=>' C1010AAP', //Código Postal de la dirección de facturación. MANDATORIO.
-    'state'=>'B', //Provincia de la dirección de facturación. MANDATORIO. Ver tabla anexa de provincias.
-    'street1'=>'Cerrito 740', //Domicilio de facturación (calle y nro). MANDATORIO.
-    'street2'=>'Piso 8', //Complemento del domicilio. (piso, departamento). NO MANDATORIO.
-    'currency'=>'ARS', //Moneda. MANDATORIO.
-    'amount'=>'5.00', //Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO. (Ejemplos:$125,38-> 125.38 $12-> 12 o 12.00)
-  );
+  var datos_cs = {
+    send_to_cs : 'true',
+    channel : 'Web/Mobile/Telefonica' //una de las tres opciones son validas
+    city : 'Villa General Belgrano', //Ciudad de facturación, MANDATORIO.
+    country : 'AR', //País de facturación. MANDATORIO. Código ISO. (http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf)
+    customerid : '453458', //Identificador del usuario al que se le emite la factura. MANDATORIO. No puede contener un correo electrónico.
+    email : 'decidir@hotmail.com', //Mail del usuario al que se le emite la factura. MANDATORIO.
+    firstname : 'Juan' ,//Nombre del usuario al que se le emite la factura. MANDATORIO.
+    lastname : 'Perez', //Apellido del usuario al que se le emite la factura. MANDATORIO.
+    phone_number' : '541160913988', //Teléfono del usuario al que se le emite la factura. No utilizar guiones, puntos o espacios. Incluir código de país. MANDATORIO.
+    postalcode' : ' C1010AAP', //Código Postal de la dirección de facturación. MANDATORIO.
+    state : 'B', //Provincia de la dirección de facturación. MANDATORIO. Ver tabla anexa de provincias.
+    street1 : 'Cerrito 740', //Domicilio de facturación (calle y nro). MANDATORIO.
+    street2 : 'Piso 8', //Complemento del domicilio. (piso, departamento). NO MANDATORIO.
+    currency : 'ARS', //Moneda. MANDATORIO.
+    amount : '5.00', //Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO. (Ejemplos:$125,38-> 125.38 $12-> 12 o 12.00)
+  };
+
 ```
 
 [Volver al inicio](#parámetros-comunes)
@@ -658,7 +659,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Ret
 
 ```nodejs
 
-  var datos_cs = array(
+  var datos_cs = {
     device_unique_id : "devicefingerprintid",
     days_to_delivery: "55",
     dispatch_method: "storepickup",
@@ -666,7 +667,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Ret
     customer_loyality_number: "123232",
     coupon_code: "cupon22",
 
-  );
+  };
 
 
 ```
@@ -737,23 +738,23 @@ sdk.payment(args, function(result, err) {
 Los siguientes parámetros se deben enviar específicamente para la vertical Ticketing. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
 
 ```nodejs
-  var datos_cs = array(
+  var datos_cs = {
     days_to_event : 55, //Número de días en los que se desarrollara el evento. MANDATORIO
     delivery_type :'Pick up', //Tipo de envío. MANDATORIO. Valores posibles: Pick up, Email, Smartphone, Other
-  );
+  };
 
   //Datos de productos, un array con los diferentes productos involucrados.
-  var cs_productos = array(
-    array(  // Producto 1
-      'productcode'=>'electronic_good', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
-      'productdescription'=>'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Descripción del producto. MANDATORIO.
-      'productname'=>'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Nombre del producto. MANDATORIO.
-      'productsku'=>'LEVJNSL36GN', //Código identificador del producto. MANDATORIO.
-      'totalamount'=>'1254.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
-      'quantity'=>'1', //Cantidad del producto. MANDATORIO.
-      'unitprice'=>'1254.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO    
-    ),
-    array(  // Producto 2
+  var cs_productos = {
+    {  // Producto 1
+      productcode=>'electronic_good', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
+      productdescription=>'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Descripción del producto. MANDATORIO.
+      productname=>'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Nombre del producto. MANDATORIO.
+      productsku=>'LEVJNSL36GN', //Código identificador del producto. MANDATORIO.
+      totalamount=>'1254.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
+      quantity=>'1', //Cantidad del producto. MANDATORIO.
+      unitprice=>'1254.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO    
+    },
+    {  // Producto 2
       'productcode'=>'default', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
       'productdescription'=>'PENDRIVE 2GB KINGSTON', //Descripción del producto. MANDATORIO.
       'productname'=>'PENDRIVE 2GB', //Nombre del producto. MANDATORIO.
@@ -761,9 +762,9 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Tic
       'totalamount'=>'248.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
       'quantity'=>'1', //Cantidad del producto. MANDATORIO.
       'unitprice'=>'248.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO     
-    ),
+    },
     ......... // Otros productos
-  );
+    };
 
 ```
 
@@ -790,7 +791,7 @@ args = {
 };
 var paymentData = new PaymentDataModulo.paymentData(args);
 
-var datos_cs = array(
+var datos_cs {
   device_unique_id : "devicefingerprintid",
   days_to_delivery: "55",
   dispatch_method: "storepickup",
@@ -834,15 +835,15 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Dig
 
 ```nodejs
 
-var datos_digitalgoods = array(
+var datos_digitalgoods = {
   'device_unique_id': 'devicefingerprintid',
   'digital_goods_transaction_data': {
   'delivery_type': 'Pick up',
-);
+};
 
 //Datos de productos, un array con los diferentes productos involucrados.
-var cs_productos = array(
-  array(  // Producto 1
+var cs_productos = {
+  {  // Producto 1
     productcode : 'electronic_good', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
     productdescription : 'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Descripción del producto. MANDATORIO.
     productname : 'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Nombre del producto. MANDATORIO.
@@ -850,8 +851,8 @@ var cs_productos = array(
     totalamount : '1254.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
     quantity : '1', //Cantidad del producto. MANDATORIO.
     unitprice : '1254.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO    
-  ),
-  array(  // Producto 2
+  },
+  {  // Producto 2
     productcode : 'default', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
     productdescription : 'PENDRIVE 2GB KINGSTON', //Descripción del producto. MANDATORIO.
     productname : 'PENDRIVE 2GB', //Nombre del producto. MANDATORIO.
@@ -859,9 +860,9 @@ var cs_productos = array(
     totalamount : '248.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
     quantity : '1', //Cantidad del producto. MANDATORIO.
     unitprice : '248.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO     
-  ),
+  },
   ......... // Otros productos
-);  
+};  
 
 
 ```
@@ -890,7 +891,7 @@ args = {
 };
 var paymentData = new PaymentDataModulo.paymentData(args);
 
-var datos_cs = array(
+var datos_cs = {
   device_unique_id : "devicefingerprintid",
   days_to_delivery: "55",
   dispatch_method: "storepickup",

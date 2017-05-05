@@ -1,0 +1,737 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <link rel="javascript" type="text/javascript" href="ejemplo_consola.js">
+    <link rel="javascript" type="text/javascript" href="ejemplos/ejemplo_consola.js">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <br/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="well well-sm">
+                    <form id="formPayment" class="form-horizontal" method="post">
+                        <fieldset>
+                            <legend class="text-center header">Payment Request</legend>
+                            <div class="form-group">
+                                <span class="col-md-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                                <div class="col-md-8 text-center">
+                                    <p> Token de pago: <button id="generateTokenBtn" type="submit" class="btn btn-primary btn-sm">Generate token</button></p>
+                                    <input id="token" name="token" type="text" value=<%=token %> class="form-control">
+
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <br/>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="col-md-1 text-center"><i class="fa fa-user bigicon"></i></span>
+                                <div class="col-md-5 text-center">
+                                    <p> Id de transacción: </p>
+                                    <input id="transactionId" name="transactionId" type="text" value='id_213123213' class="form-control">
+                                </div>
+                                <div class="col-md-5 text-center">
+                                    <p> Payment Method: </p>
+                                    <input id="payment_method_id" name="payment_method_id" type="text" value="1" placeholder="Last Name" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="col-md-1 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
+                                <div class="col-md-5 text-center">
+                                    <p> Bin: </p>
+                                    <input id="bin" name="bin" type="text" value="450799" placeholder="Email Address" class="form-control">
+                                </div>
+                                <div class="col-md-5 text-center">
+                                    <p> Amount: </p>
+                                    <input id="amount" name="amount" type="text" value=2000 placeholder="  " class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="col-md-1 text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
+                                <div class="col-md-5 text-center">
+                                    <p> Currency: </p>
+                                    <input id="currency" name="currency" type="text" value="ARS" placeholder="  " class="form-control">
+                                </div>
+                                <div class="col-md-5 text-center">
+                                    <p> installments: </p>
+                                    <input id="installments" name="installments" type="text" value=1 placeholder="  " class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <span class="col-md-1 text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
+                                <div class="col-md-5 text-center">
+                                    <p> Description: </p>
+                                    <textarea id="description" name="description" type="text" value="Una descripción del producto" class="form-control">  Una descripción del producto  </textarea>
+                                </div>
+                                <div class="col-md-5 text-center">
+                                    <p> Payment Type: </p>
+                                    <input id="paymentType" name="paymentType" type="text" value="single" placeholder="  " class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-5 col-md-offset-1 text-center">
+                                    <p> User: </p>
+                                    <input id="user_id" name="user_id" type="text" value="carlosreyes" placeholder="user id" class="form-control">
+                                </div>
+                                <div class="col-md-2 col-md-offset-1 text-center">
+                                    <button id="sendPaymentRequest" type="submit" class="btn btn-primary btn-lg">Send Payment</button>
+                                </div>
+                            </div>
+                            <input id="apiKeyHidden" name="apiKeyHidden" type="text" value="single" placeholder="  " style="display:none" class="form-control">
+                            <input id="contentTypeHidden" name="contentTypeHidden" type="text" value="single" placeholder="  " style="display:none" class="form-control">
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="well well-sm">
+                    <form class="form-horizontal" method="post">
+                        <fieldset>
+                            <legend class="text-center header">Header Request</legend>
+                            <div class="form-group">
+                                <span class="col-md-1 text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
+                                <div class="col-md-12 text-center">
+                                    <p> API Key privada: </p>
+                                    <input id="apiKey" name="apiKey" type="text" value="566f2c897b5e4bfaa0ec2452f5d67f13" placeholder="  " class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="col-md-2 text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
+                                <div class="col-md-8 text-center">
+                                    <p> Content Type: </p>
+                                    <input id="contentType" name="contentType" type="text" value="application/json" placeholder="  " class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="col-md-2 text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
+                                <div class="col-md-12 text-center">
+                                    <p> Token Tarjeta: </p>
+                                    <input id="cardToken" name="cardToken" type="text" placeholder="  " class="form-control">
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="well well-sm">
+                    <form class="form-horizontal" id="dataPartialRefund" method="post">
+                        <fieldset>
+                            <legend class="text-center header">Partial Refund</legend>
+                            <div class="form-group">
+                                <span class="col-md-1 text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
+                                <div class=" text-center">
+                                    <p> Id de la transacción: </p>
+                                    <input id="paymentId" name="paymentId" type="text" class="paymentId" placeholder="Id de la transacción" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="col-md-2 text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
+                                <div class="col-md-8 text-center">
+                                    <p> Amount retorno: </p>
+                                    <input id="amount" name="amount" type="text" placeholder="$" class="form-control">
+                                    <input id="totalAmount" name="totalAmount" type="text" style="display:none" class="form-control">
+                                    <input id="apiKeyHidden" name="apiKeyHidden" type="text" value="single" placeholder="  " style="display:none" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12   text-center">
+                                    <img src="http://www.iconarchive.com/download/i32309/tpdkdesign.net/refresh-cl/Symbols-Delete.ico" id="errorPartial" width="25px">
+                                    <button id="partialRefund" type="submit" class="btn btn-primary btn-sm">Send Request</button>
+                                    <img src="http://wealthntrust.com/wp-content/uploads/2015/05/Visto-Bueno.png" id="successPartial" width="25px">
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="well well-sm">
+                        <p>Transacción: <input id="paymentId" name="paymentId" type="text" class="paymentId" value="" placeholder="Id de la transacción" class="form-control"> Amount:
+                            <input id="amountRest" name="amountRest" type="text" class="amountRest" value="" placeholder="Id de la transacción" class="form-control">
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="well well-sm">
+                        <form class="form-horizontal" method="post">
+                            <fieldset>
+                                <legend class="text-center header">HealtCheck</legend>
+                                <div class="form-group">
+                                    <span class="col-md-1 text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
+                                    <div class="col-md-12 text-center">
+                                        <p>ESTADO:</p>
+                                        <br/>
+                                        <p style="color:#80BFFF"><strong><i>ONLINE</i></strong></p>
+                                    </div>
+                                </div>
+
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="well well-sm">
+                        <form class="form-horizontal" id="dataTotalRefund" method="post">
+                            <fieldset>
+                                <legend class="text-center header">Total Refund</legend>
+                                <div class="form-group">
+                                    <span class="col-md-1 text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
+                                    <div class="col-md-12 text-center">
+                                        <p> Id de la transacción: </p>
+                                        <input id="paymentId" name="paymentId" type="text" class="paymentId" value="" placeholder="Id de la transacción" class="form-control">
+                                        <input id="totalAmount" name="totalAmount" type="text" style="display:none" class="form-control">
+                                        <input id="apiKeyHidden" name="apiKeyHidden" type="text" value="single" placeholder="  " style="display:none" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12 text-center">
+                                        <img src="http://www.iconarchive.com/download/i32309/tpdkdesign.net/refresh-cl/Symbols-Delete.ico" id="errorTotal" width="25px">
+                                        <button id="totalRefund" type="submit" id="errorTotal" class="btn btn-primary btn-sm">Send Request</button>
+                                        <img src="http://wealthntrust.com/wp-content/uploads/2015/05/Visto-Bueno.png" id="successTotal" width="25px">
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div id="modalBox">
+
+
+        <p id="resultId"></p>
+        <p id="site_transaction_id"></p>
+        <p id="token"></p>
+        <p id="userId"></p>
+        <p id="paymentMethodId"></p>
+        <p id="cardBrand"></p>
+        <p id="bin"></p>
+        <p id="amount"></p>
+        <p id="currency"></p>
+        <p id="intallments"></p>
+        <p id="paymentType"></p>
+        <p id="subPayments"></p>
+        <p id="status"></p>
+        <p id="date"></p>
+
+        <div class="form-group">
+            <button id="cerrar" type="submit" class="btn btn-primary btn-md">Cerrar</button>
+        </div>
+
+        <br/>
+    </div>
+    <div id="modalBoxToken">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="well well-sm">
+                        <form id="dataRequestToken" class="form-horizontal" method="post">
+                            <fieldset>
+                                <legend class="text-center header">Get Token</legend>
+                                <div class="form-group">
+                                    <span class="col-md-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                                    <div class="col-md-8 text-center">
+                                        <p> Card Number: </p>
+                                        <input id="card_number" name="card_number" type="text" value='4507990000004905' class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <span class="col-md-1 text-center"><i class="fa fa-user bigicon"></i></span>
+                                    <div class="col-md-5 text-center">
+                                        <p> Expiration Month: </p>
+                                        <input id="card_expiration_month" name="card_expiration_month" type="text" value='08' placeholder="month" class="form-control">
+                                    </div>
+                                    <div class="col-md-5 text-center">
+                                        <p> Expiration Year: </p>
+                                        <input id="card_expiration_year" name="card_expiration_year" type="text" value="18" placeholder="year" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <span class="col-md-1 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
+                                    <div class="col-md-5 text-center">
+                                        <p> Security Code: </p>
+                                        <input id="security_code" name="security_code" type="text" value="775" placeholder="security code" class="form-control">
+                                    </div>
+                                    <div class="col-md-5 text-center">
+                                        <p> Card Holder Name: </p>
+                                        <input id="card_holder_name" name="card_holder_name" type="text" value='John Doe' placeholder="name" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <span class="col-md-1 text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
+                                    <div class="col-md-5 text-center">
+                                        <p> Type: </p>
+                                        <input id="type" name="type" type="text" value="dni" placeholder="dni" class="form-control">
+                                    </div>
+                                    <div class="col-md-5 text-center">
+                                        <p> Number: </p>
+                                        <input id="number" name="number" type="text" value="25123456" placeholder="number" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <span class="col-md-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                                    <div class="col-md-8 text-center">
+                                        <p> public token: </p>
+                                        <input id="apiKey" name="apiKey" type="text" value="b192e4cb99564b84bf5db5550112adea" placeholder="key" class="form-control">
+                                        <div class="col-md-6 text-center">
+                                            <p> Content Type: </p>
+                                            <input id="contentType" name="contentType" type="text" value="application/json" placeholder="application/json" class="form-control">
+                                        </div>
+                                        <div class="col-md-6 text-center">
+                                            <p> Cache Control: </p>
+                                            <input id="cacheControl" name="cacheControl" type="text" value="no-cache" placeholder="" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-6 text-center">
+                                            <br/>
+                                            <button id="tokenizedCard" type="submit" style="background-color:green" class="btn btn-primary btn-lg">Tokenized Card</button>
+                                        </div>
+                                        <div class="col-md-6 text-center">
+                                            <br/>
+                                            <button id="sendTokenRequest" type="submit" class="btn btn-primary btn-lg">Send Request</button>
+                                        </div>
+                                    </div>
+                                    <input id="apiKeyHidden" name="apiKeyHidden" type="text" value="single" placeholder="  " style="display:none" class="form-control">
+                                    <input id="contentTypeHidden" name="contentTypeHidden" type="text" value="single" placeholder="  " style="display:none" class="form-control">
+                            </fieldset>
+                        </form>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="modalBoxTokenized">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="well well-sm">
+                        <form id="dataRequestTokenized" class="form-horizontal" method="post">
+                            <fieldset>
+                                <legend class="text-center header">Get Token</legend>
+                                <div class="form-group">
+                                    <span class="col-md-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                                    <div class="col-md-8 text-center">
+                                        <p> Card Token: </p>
+                                        <input id="cardToken" name="cardToken" type="text" value='' class="form-control">
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <span class="col-md-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                                    <div class="col-md-8 text-center">
+                                        <p> Security Code: </p>
+                                        <input id="security_code" name="security_code" type="text" value='' class="form-control">
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <span class="col-md-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                                    <div class="col-md-8 text-center">
+                                        <p> public token: </p>
+                                        <input id="apiKey" name="apiKey" type="text" value="b192e4cb99564b84bf5db5550112adea" placeholder="key" class="form-control">
+                                        <div class="col-md-6 text-center">
+                                            <p> Content Type: </p>
+                                            <input id="contentType" name="contentType" type="text" value="application/json" placeholder="application/json" class="form-control">
+                                        </div>
+                                        <div class="col-md-6 text-center">
+                                            <p> Cache Control: </p>
+                                            <input id="cacheControl" name="cacheControl" type="text" value="no-cache" placeholder="" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <div class="col-md-6 col-md-offset-3 text-center">
+                                            <br/>
+                                            <button id="sendTokenizedRequest" type="submit" class="btn btn-primary btn-lg">Send Request</button>
+                                        </div>
+                                    </div>
+                                    <input id="apiKeyHidden" name="apiKeyHidden" type="text" value="single" placeholder="  " style="display:none" class="form-control">
+                                    <input id="contentTypeHidden" name="contentTypeHidden" type="text" value="single" placeholder="  " style="display:none" class="form-control">
+                            </fieldset>
+                        </form>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <br/>
+    </div>
+    <div id="darken"></div>
+    <!-- end darken -->
+
+    <script type="text/javascript">
+        jQuery(function() {
+            $("#successPartial").hide();
+            $("#successTotal").hide();
+            $("#errorTotal").hide();
+            $("#errorPartial").hide();
+
+            jQuery("input[name='apiKeyHidden']").attr('value', jQuery('#apiKey').val());
+
+            if ('sdfsd' != false) {
+                jQuery('.paymentId').val(<%= paymentId %>);
+            } else {
+                jQuery('.paymentId').val(findGetParameter('paymentId'));
+                jQuery('.amountRest').val(findGetParameter('amount'));
+
+            }
+            jQuery("input[name='totalAmount']").attr('value', jQuery('#amountRest').val());
+            var paymentId;
+
+            function findGetParameter(parameterName) {
+                var result = null,
+                    tmp = [];
+                location.search
+                    .substr(1)
+                    .split("&")
+                    .forEach(function(item) {
+                        tmp = item.split("=");
+                        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+                    });
+                return result;
+            }
+            var date = new Date().getTime();
+            jQuery('#transactionId').attr('value', "id_" + date);
+
+            jQuery('#totalRefund').click(function() {
+                jQuery("input[name='totalAmount']").attr('value', jQuery('#amountRest').val());
+
+                var ip = location.host;
+                $.ajax({
+                    url: 'http://' + ip + '/totalRefund',
+                    type: "POST",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    dataType: "json",
+                    data: $("#dataTotalRefund").serialize(),
+                    contentType: "application/json",
+                    cache: false,
+                    timeout: 5000,
+                    complete: function() {
+                        //called when complete
+
+
+                        console.log('process complete');
+                    },
+
+                    success: function(data) {
+                        if (data.error_type) {
+                            $("#errorTotal").show();
+                            $("#errorTotal").delay(3000).hide(600);
+                        } else if (data.status) {
+                            jQuery('#amountRest').val('0');
+                            $("#successTotal").show();
+                            $("#successTotal").delay(3000).hide(600);
+                        }
+                        console.log(data);
+
+                        console.log('process sucess');
+                    },
+
+                    error: function(e) {
+                        console.log(e);
+                        console.log('process error');
+                    },
+                });
+            })
+
+            jQuery('#partialRefund').click(function() {
+                var ip = location.host;
+
+                $.ajax({
+                    url: 'http://' + ip + '/partialRefund',
+                    type: "POST",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    dataType: "json",
+                    data: $("#dataPartialRefund").serialize(),
+                    contentType: "application/json",
+                    cache: false,
+                    timeout: 5000,
+                    complete: function() {
+
+                    },
+
+                    success: function(data) {
+
+
+                        if (data.error_type) {
+                            $("#errorPartial").show();
+                            $("#errorPartial").delay(3000).hide(600);
+                        } else if (data.status) {
+                            var amountRest = jQuery('#amountRest').val() - data.amount;
+                            jQuery('#amountRest').val(amountRest);
+                            $("#successPartial").show();
+                            $("#successPartial").delay(3000).hide(600);
+                        }
+                        console.log(data.status)
+
+                        console.log('process sucess');
+                    },
+
+                    error: function(e) {
+                        console.log(e);
+                        console.log('process error');
+                    },
+                });
+            })
+            jQuery('#generateTokenBtn').click(function() {
+                jQuery('#darken').fadeIn('500');
+                jQuery('#modalBoxToken').fadeIn('500');
+            })
+            jQuery('#tokenizedCard').click(function() {
+                jQuery('#modalBoxToken').fadeOut('500');
+                jQuery('#darken').fadeOut('500');
+                jQuery('#darken').fadeIn('500');
+                jQuery('#modalBoxTokenized').fadeIn('500');
+            })
+            jQuery('#sendTokenizedRequest').click(function() {
+
+                var ip = location.host;
+
+                $.ajax({
+                    url: 'http://' + ip + '/requestTokenized',
+                    type: "POST",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    dataType: "json",
+                    data: $("#dataRequestTokenized").serialize(),
+                    contentType: "application/json",
+                    cache: false,
+                    timeout: 5000,
+                    complete: function() {
+                        console.log('complete sucess');
+                        //  jQuery('#modalBoxToken').fadeOut('500');
+                    },
+
+                    success: function(data) {
+                        jQuery('#darken').fadeOut('500');
+                        jQuery('#modalBoxTokenized').fadeOut('500');
+                        jQuery('#modalBox').fadeOut('500');
+                        jQuery('#token').val(data.id);
+                        var date = new Date().getTime();
+                        jQuery('#transactionId').attr('value', "id_" + date);
+                        console.log(data);
+                    },
+
+                    error: function(e) {
+                        console.log(e);
+                        console.log('process error');
+                    },
+                });
+            })
+            jQuery('#sendTokenRequest').click(function() {
+
+                var ip = location.host;
+
+                $.ajax({
+                    url: 'http://' + ip + '/requestToken',
+                    type: "POST",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    dataType: "json",
+                    data: $("#dataRequestToken").serialize(),
+                    contentType: "application/json",
+                    cache: false,
+                    timeout: 5000,
+                    complete: function() {
+                        console.log('complete sucess');
+                        jQuery('#darken').fadeOut('500');
+                        jQuery('#modalBoxToken').fadeOut('500');
+                    },
+
+                    success: function(data) {
+                        jQuery('#token').val(data.id);
+                        var date = new Date().getTime();
+                        jQuery('#transactionId').attr('value', "id_" + date);
+                        console.log('process sucess');
+                    },
+
+                    error: function(e) {
+                        console.log(e);
+                        console.log('process error');
+                    },
+                });
+            })
+
+            jQuery('#sendPaymentRequest').click(function() {
+                jQuery('#darken').fadeIn('500');
+                jQuery('#modalBox').fadeIn('500');
+                jQuery('#contentTypeHidden').attr('value', jQuery('#contentType').val());
+
+                var ip = location.host;
+                $.ajax({
+                    url: 'http://' + ip + '/paymentRequest',
+                    type: "POST",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    dataType: "json",
+                    data: $("#formPayment").serialize(),
+                    contentType: "application/json",
+                    cache: false,
+                    timeout: 5000,
+                    complete: function() {
+                        //called when complete
+                        console.log('process complete');
+                    },
+
+                    success: function(data) {
+                        window.history.replaceState(null, null, window.location.pathname);
+                        paymentId = data.id;
+                        amountRest = data.amount;
+                        cardToken = data.cardToken;
+                        jQuery('.paymentId').val(paymentId);
+                        jQuery('#amountRest').val(amountRest);
+                        jQuery('#cardToken').val(cardToken);
+                        jQuery('#resultId').text("ID: " + data.id);
+                        jQuery('#site_transaction_id').text("SITE TRANSACTION ID: " + data.site_transaction_id);
+                        jQuery('#token').text("TOKEN: " + data.token);
+                        jQuery('#userId').text("USER ID: " + data.user_id);
+                        jQuery('#paymentMethodId').text("PAYMENT METHOD ID: " + data.payment_method_id);
+                        jQuery('#cardBrand').text("CARD BRAND: " + data.card_brand);
+                        jQuery('#bin').text("BIN: " + data.bin);
+                        jQuery('#amount').text("AMOUNT: " + data.amount);
+                        jQuery('#currency').text("CURRENCY: " + data.currency);
+                        jQuery('#intallments').text("INSTALLMENTS: " + data.installments);
+                        jQuery('#paymentType').text("PAYMENT TYPE: " + data.payment_type);
+                        jQuery('#subPayments').text("SUB PAYMENTS: " + data.sub_payments);
+                        jQuery('#status').text("STATUS: " + data.status);
+                        jQuery('#date').text("DATE: " + data.date);
+                        if (!data.hasOwnProperty('status')) {
+                          jQuery('#status').text("STATUS: Error. Token de pago o Id de la operación repetido ");
+
+                        }
+                        if (data.validation_errors) {
+                            console.log('La operación ha arrojado el siguiente error');
+                            console.log(data.validation_errors[0]);
+                        }
+                    },
+
+                    error: function(e) {
+                        console.log(e);
+                        console.log('process error');
+                    },
+                });
+                return false;
+            });
+            jQuery('#cerrar').click(function() {
+                jQuery('#darken').fadeOut('500');
+                jQuery('#modalBox').fadeOut('500');
+            });
+
+            //  jQuery('#cardToken').val(findGetParameter('cardToken')) jQuery("input[name='cardToken']").attr('value', findGetParameter('cardToken'));
+
+        });
+    </script>
+    <style type="text/css">
+            #modalBox {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            height: 315px;
+            margin-left: -200px;
+            margin-top: -200px;
+            border: #ccc 10px solid;
+            padding: 10px;
+            display: none;
+            background: white;
+            font-size: 12px;
+            color: black;
+            z-index: 200;
+        }
+
+        #modalBoxToken {
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            width: 1px;
+            height: 1px;
+            margin-left: -600px;
+            margin-top: -200px;
+            padding: 10px;
+            display: none;
+            font-size: 12px;
+            color: black;
+            z-index: 200;
+        }
+
+        #modalBoxTokenized {
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            width: 1px;
+            height: 1px;
+            margin-left: -600px;
+            margin-top: -200px;
+            padding: 10px;
+            display: none;
+            font-size: 12px;
+            color: black;
+            z-index: 200;
+        }
+
+        #darken {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 125%;
+            display: none;
+            z-index: 199;
+            background: black;
+            opacity: .5;
+            filter: Alpha(opacity=50);
+            /* Transparency in IE */
+        }
+
+        body {
+
+            background: blue;
+        }
+
+        .header {
+            color: #36A0FF;
+            font-size: 27px;
+            padding: 10px;
+
+            .bigicon {
+                font-size: 35px;
+                color: #36A0FF;
+            }
+    </style>
+</body>
+</html>
