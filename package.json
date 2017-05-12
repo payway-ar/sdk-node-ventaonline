@@ -1,18 +1,20 @@
 {
-  "name": "sdk-decidir",
+  "name": "Decidir 2.0",
   "version": "1.0.0",
   "keywords": [
     "sdk",
-    "Decidir",
+    "TodoPago",
     "web-services",
     "gateway"
   ],
   "dependencies": {
-    "soap": "0.5.1"
+    "soap": "0.5.1",
+	"xml2js": "0.4.10",
+	"node-rest-client": "1.5.1"
   },
-  "_id": "sdk-decidir@0.1.1",
+  "_id": "Decidir@0.1.4",
   "scripts": {},
   "_shasum": "3f9b8e951ce89206de5bde361c2cb8b9952e2b69",
-  "_from": "sdk-decidir@0.1.1",
+  "_from": "Decidir@0.1.4",
   "_npmVersion": "1.4.23"
 }
