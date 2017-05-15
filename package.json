@@ -8,7 +8,9 @@
     "gateway"
   ],
   "dependencies": {
-    "soap": "0.5.1"
+    "soap": "0.5.1",
+	"xml2js": "0.4.10",
+	"node-rest-client": "1.5.1"
   },
   "_id": "sdk-decidir@0.1.1",
   "scripts": {},
