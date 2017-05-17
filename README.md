@@ -187,25 +187,18 @@ args = {
     'Content-Type': "application/json"
 };
 
-            sdk.payment(args, function(result, err) {
+sdk.payment(args, function(result, err) {
 
-                resolve(result);
-
-                console.log("")
-                console.log("")
-                console.log("Se realiza una petición de pago enviando el payload y el token de pago ")
-                console.log("generado anteriormente")
-                console.log("")
-                console.log("")
-                console.log("             PAYMENT REQUEST             ");
-                console.log("-----------------------------------------");
-                console.log("sendPaymentRequest result:");
-                console.log(result);
-                console.log("-----------------------------------------");
-                console.log("sendPaymentRequest error:");
-                console.log(err);
-                console.log("-------------------***-------------------");
-            });
+resolve(result);
+console.log("")
+console.log("Se realiza una petición de pago enviando el payload y el token de pago ")
+console.log("generado anteriormente")
+console.log("             PAYMENT REQUEST             ");
+console.log("sendPaymentRequest result:");
+console.log(result);
+console.log("sendPaymentRequest error:");
+console.log(err);
+});
 
 ```
 
@@ -245,13 +238,10 @@ siteOperationId = '450799';
 merchantId = 'Id001';
 
 sdk.getAllPayments(args, offset, pageSize, merchantId, merchantId, function(result, err) {
-    console.log("-----------------------------------------");
     console.log("infoPayments:");
     console.log(result);
-    console.log("-----------------------------------------");
     console.log("infoPayments error:");
     console.log(err);
-    console.log("-------------------***-------------------");
 });
 
 ```
@@ -280,18 +270,15 @@ var args = {
     }
 };
 
-    sdk.paymentInfo(args, id, function(result, err) {
-        console.log("");
-        console.log("");
-        console.log("información de pago previamente realizado");
-        console.log("");
-        console.log("");
-        console.log(result);
-        console.log("-----------------------------------------");
-        console.log("error:");
-        console.log(err);
-        console.log("-------------------***-------------------");
-    });
+sdk.paymentInfo(args, id, function(result, err) {
+console.log("");
+console.log("información de pago previamente realizado");
+console.log("");
+console.log(result);
+console.log("-----------------------------------------");
+console.log("error:");
+console.log(err);
+});
 
 ```
 
@@ -318,21 +305,14 @@ var args = {
         "Cache-Control": ""
     }
 };
-    sdk.refund(args, id, function(result, err) {
-        console.log("")
-        console.log("")
-        console.log("Reintegro monto total de la transacción")
-        console.log("")
-        console.log("")
-        console.log("                  REFUND                 ");
-        console.log("-----------------------------------------");
-        console.log("refund result:");
-        console.log(result);
-        console.log("-----------------------------------------");
-        console.log("refund error:");
-        console.log(err);
-        console.log("-------------------***-------------------");
-    });
+sdk.refund(args, id, function(result, err) {
+console.log("Reintegro monto total de la transacción")
+console.log("                  REFUND                 ");
+console.log("refund result:");
+console.log(result);
+console.log("refund error:");
+console.log(err);
+});
 
 ```
 
@@ -360,21 +340,14 @@ var args = {
         "Cache-Control": ""
     }
 };
-    sdk.deleteRefund(args, paymentId, function(result, err) {
-        console.log("")
-        console.log("")
-        console.log("Reintegro monto total de la transacción")
-        console.log("")
-        console.log("")
-        console.log("                  REFUND                 ");
-        console.log("-----------------------------------------");
-        console.log("refund result:");
-        console.log(result);
-        console.log("-----------------------------------------");
-        console.log("refund error:");
-        console.log(err);
-        console.log("-------------------***-------------------");
-    });
+sdk.deleteRefund(args, paymentId, function(result, err) {
+console.log("")
+console.log("Reintegro monto total de la transacción")
+console.log("                  REFUND                 ");
+console.log(result);
+console.log("refund error:");
+console.log(err);
+});
 
 ```
 
@@ -402,21 +375,16 @@ var args = {
         "Cache-Control": ""
     }
 };
-    sdk.partialRefund(args, paymentId, function(result, err) {
-        console.log("")
-        console.log("")
-        console.log("Reintegro monto parcial de la transacción ")
-        console.log("")
-        console.log("")
-        console.log("              PARTIAL REFUND             ");
-        console.log("-----------------------------------------");
-        console.log("partial refund result:");
-        console.log(result);
-        console.log("-----------------------------------------");
-        console.log("partial refund error:");
-        console.log(err);
-        console.log("-------------------***-------------------");
-    });
+sdk.partialRefund(args, paymentId, function(result, err) {
+console.log("")
+console.log("Reintegro monto parcial de la transacción ")
+console.log("")
+console.log("              PARTIAL REFUND             ");
+console.log("partial refund result:");
+console.log(result);
+console.log("partial refund error:");
+console.log(err);
+});
 
 ```
 
@@ -445,21 +413,16 @@ var args = {
         "Cache-Control": ""
     }
 };
-    sdk.deletePartialRefund(args, paymentId, function(result, err) {
-        console.log("")
-        console.log("")
-        console.log("Reintegro monto parcial de la transacción ")
-        console.log("")
-        console.log("")
-        console.log("              PARTIAL REFUND             ");
-        console.log("-----------------------------------------");
-        console.log("partial refund result:");
-        console.log(result);
-        console.log("-----------------------------------------");
-        console.log("partial refund error:");
-        console.log(err);
-        console.log("-------------------***-------------------");
-    });
+sdk.deletePartialRefund(args, paymentId, function(result, err) {
+console.log("")
+console.log("Reintegro monto parcial de la transacción ")
+console.log("")
+console.log("              PARTIAL REFUND             ");
+console.log("partial refund result:");
+console.log(result);
+console.log("partial refund error:");
+console.log(err);
+});
 
 
 ```
@@ -494,22 +457,18 @@ var args = {
     }
 };
 setTimeout(function() {
-    sdk.cardTokens(args, user_id, function(result, err) {
-        resolve(result);
-        console.log("");
-        console.log("");
-        console.log("Luego de realizar un primer pago se genera automaticamente un token único");
-        console.log("para la tarjeta");
-        console.log("");
-        console.log("");
-        console.log("-----------------------------------------");
-        console.log("cardTokens result:");
-        console.log(result);
-        console.log("-----------------------------------------");
-        console.log("cardTokens error:");
-        console.log(err);
-        console.log("-------------------***-------------------");
-    });
+sdk.cardTokens(args, user_id, function(result, err) {
+resolve(result);
+console.log("");
+console.log("");
+console.log("Luego de realizar un primer pago se genera automaticamente un token único");
+console.log("para la tarjeta");
+console.log("");
+console.log("cardTokens result:");
+console.log(result);
+console.log("cardTokens error:");
+console.log(err);
+});
 
 ```
 
@@ -629,7 +588,7 @@ Los parámetros comunes a todas las verticales deben enviarse junto con los dato
 
 var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 
-  var datos_cs = {
+var datos_cs = {
     send_to_cs : 'true',
     channel : 'Web/Mobile/Telefonica' //una de las tres opciones son validas
     city : 'Villa General Belgrano', //Ciudad de facturación, MANDATORIO.
@@ -645,7 +604,7 @@ var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
     street2 : 'Piso 8', //Complemento del domicilio. (piso, departamento). NO MANDATORIO.
     currency : 'ARS', //Moneda. MANDATORIO.
     amount : '5.00', //Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO. (Ejemplos:$125,38-> 125.38 $12-> 12 o 12.00)
-  };
+};
 
 ```
 
@@ -659,15 +618,14 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Ret
 
 ```nodejs
 
-  var datos_cs = {
-    device_unique_id : "devicefingerprintid",
-    days_to_delivery: "55",
-    dispatch_method: "storepickup",
-    tax_voucher_required: true,
-    customer_loyality_number: "123232",
-    coupon_code: "cupon22",
-
-  };
+var datos_cs = {
+	device_unique_id : "devicefingerprintid",
+	days_to_delivery: "55",
+	dispatch_method: "storepickup",
+	tax_voucher_required: true,
+	customer_loyality_number: "123232",
+	coupon_code: "cupon22",
+};
 
 
 ```
@@ -710,22 +668,22 @@ var retail = new retailModulo.retailData(datos_cs);
 args.data.fraud_detection = retail;
 sdk.payment(args, function(result, err) {
 
-    resolve(result);
+resolve(result);
 
-    console.log("")
-    console.log("")
-    console.log("Se realiza una petición de pago enviando el payload y el token de pago ")
-    console.log("generado anteriormente")
-    console.log("")
-    console.log("")
-    console.log("             PAYMENT REQUEST             ");
-    console.log("-----------------------------------------");
-    console.log("sendPaymentRequest result:");
-    console.log(result);
-    console.log("-----------------------------------------");
-    console.log("sendPaymentRequest error:");
-    console.log(err);
-    console.log("-------------------***-------------------");
+console.log("")
+console.log("")
+console.log("Se realiza una petición de pago enviando el payload y el token de pago ")
+console.log("generado anteriormente")
+console.log("")
+console.log("")
+console.log("             PAYMENT REQUEST             ");
+console.log("-----------------------------------------");
+console.log("sendPaymentRequest result:");
+console.log(result);
+console.log("-----------------------------------------");
+console.log("sendPaymentRequest error:");
+console.log(err);
+console.log("-------------------***-------------------");
 });
 
 ```
@@ -738,13 +696,13 @@ sdk.payment(args, function(result, err) {
 Los siguientes parámetros se deben enviar específicamente para la vertical Ticketing. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
 
 ```nodejs
-  var datos_cs = {
-    days_to_event : 55, //Número de días en los que se desarrollara el evento. MANDATORIO
-    delivery_type :'Pick up', //Tipo de envío. MANDATORIO. Valores posibles: Pick up, Email, Smartphone, Other
-  };
+var datos_cs = {
+days_to_event : 55, //Número de días en los que se desarrollara el evento. MANDATORIO
+delivery_type :'Pick up', //Tipo de envío. MANDATORIO. Valores posibles: Pick up, Email, Smartphone, Other
+};
 
   //Datos de productos, un array con los diferentes productos involucrados.
-  var cs_productos = {
+var cs_productos = {
     {  // Producto 1
       productcode=>'electronic_good', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
       productdescription=>'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Descripción del producto. MANDATORIO.
@@ -764,7 +722,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Tic
       'unitprice'=>'248.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO     
     },
     ......... // Otros productos
-    };
+};
 
 ```
 
@@ -804,9 +762,7 @@ var ticketing = new ticketingModulo.ticketingData(datos_cs);
 
 args.data.fraud_detection = ticketing;
 sdk.payment(args, function(result, err) {
-
     resolve(result);
-
     console.log("")
     console.log("")
     console.log("Se realiza una petición de pago enviando el payload y el token de pago ")
@@ -922,6 +878,7 @@ sdk.payment(args, function(result, err) {
     console.log(err);
     console.log("-------------------***-------------------");
 });
+
 ```
 
 [Volver al inicio](#decidir-sdk-nodejs)
