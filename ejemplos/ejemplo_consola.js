@@ -63,7 +63,13 @@ function examplePayment(sdk) {
                 apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
                 'Content-Type': "application/json"
             };
+		var customer = {
+			id: "juanpepito",
+			email: "mauricio.ghiorzi@softtek.com"
+		};
+
             var paymentData = new PaymentDataModulo.paymentData(args);
+	    paymentData.setCustomer(customer);
             var args = paymentData.getJSON();
 
             // send_to_cs = TRUE O FALSE PARA ENVIAR PARAMETROS CS
