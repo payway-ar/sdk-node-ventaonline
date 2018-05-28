@@ -1,6 +1,6 @@
 {
   "name": "sdk-decidir-2.0",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "keywords": [
     "sdk",
     "Decidir",
@@ -8,9 +8,10 @@
     "gateway"
   ],
   "dependencies": {
-    "soap": "0.5.1",
-	"xml2js": "0.4.10",
-	"node-rest-client": "1.5.1"
+    "soap": "^0.24.0",
+    "xml2js": "^0.4.19",
+    "node-rest-client": "^3.1.0",
+    "promise": "^8.0.1"
   },
   "_id": "sdk-decidir@0.1.1",
   "scripts": {},

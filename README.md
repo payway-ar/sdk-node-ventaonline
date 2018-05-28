@@ -12,6 +12,7 @@ Modulo para conexión con gateway de pago DECIDIR2
   + [Uso](#uso)
     + [Inicializar la clase correspondiente al conector](#initconector)
     + [Operatoria del Gateway](#operatoria)
+      + [Pagos Offline](#pagos-offline)
       + [Health Check](#healthcheck)
       + [Ejecución del Pago](#payment)
       + [Listado de Pagos](#getallpayments)
@@ -137,13 +138,224 @@ var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 <a name="operatoria"></a>
 
 ## Operatoria del Gateway
+
+### Pagos Offline
+
+Para el caso de la operatoria de pago offline, la operación requiere en un principio de la solicitud de un token a partir de datos del usuario.
+
+Una vez generado y almacenado el token de Pago Offline, se deberá ejecutar la solicitud de pago utilizando el token previamente generado. Además del token de pago y los parámetros propios de la transacción, el comercio deberá identificar la compra con el site_transaction_id.
+
+*Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos decimales.
+
+
+#### Pago Fácil
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
+|token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
+|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
+|amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
+|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
+|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
+|invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
+|cod_p3  | Son los dias que existen entre el 1º y 2º vencimiento de la factura. |  SI|  2,fijo ("00" si la factura tiene no tiene 2° vencimientos)|  invoice_expiration: "191123"|
+|cod_p4  | Días después del 1º vencimiento y hasta que el cliente pueda abonar  |  SI|  3,fijo |  cod_p4: "123"|
+|client  | Codigo Cliente  |  SI|   8,fijo |  client: "12345678"|
+|surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: "10.01"|
+|payment_mode  | Tipo de metodo de pago  |  SI|  Strin "offline" |  payment_mode: "offline"|
+
+
+##### Ejemplo
+```javascript
+data = {
+  site_transaction_id : "230518_41",
+  token: '92a95793-3321-447c-8795-8aeb8a8ac067',
+  payment_method_id: 25,
+  amount: 10.00,
+  currency: 'ARS',
+  payment_type: 'single',
+  email: 'user@mail.com',
+  invoice_expiration : 191123,
+  cod_p3: 12,
+  cod_p4: 134,
+  client: 12345678,
+  surcharge: 10.01,
+  payment_mode: 'offline'
+};
+
+
+```
+
+[<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
+
+#### Rapipago
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
+|token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
+|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
+|amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
+|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
+|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
+|invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
+|cod_p3  | Son los dias que existen entre el 1º y 2º vencimiento de la factura. |  SI|  2,fijo ("00" si la factura tiene no tiene 2° vencimientos)|  invoice_expiration: "191123"|
+|cod_p4  | Días después del 1º vencimiento y hasta que el cliente pueda abonar  |  SI|  3,fijo |  cod_p4: "123"|
+|client  | Codigo Cliente  |  SI|   8,fijo |  client: "12345678"|
+|surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: "10.01"|
+|payment_mode  | Tipo de metodo de pago  |  SI|  Strin "offline" |  payment_mode: "offline"|
+
+
+##### Ejemplo
+```javascript
+
+const data = {
+  site_transaction_id: "230518_38",
+  token: "8e190c82-6a63-467e-8a09-9e8fa2ab6215",
+  payment_method_id: 26,
+  amount: 10.00,
+  currency: "ARS",
+  payment_type: "single",
+  email: "user@mail.com",
+  invoice_expiration: "191123",
+  cod_p3: "12",
+  cod_p4: "134",
+  client: "12345678",
+  surcharge: 10.01,
+  payment_mode: "offline"
+};
+
+```
+
+#### Pago mis Cuentas
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
+|token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
+|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
+|amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
+|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
+|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
+|invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
+|bank_id  | Id de banco de la operacion  |  SI|  String "offline" |  bank_id: 1 ([refencia](https://decidirv2.api-docs.io/1.0/transacciones-simples/flujo-de-pago-offline))|
+
+
+##### Ejemplo
+```javascript
+
+const data = {
+  site_transaction_id : "220518_39",
+  token : "9ae1d130-8c89-4c3b-a267-0e97b88fedd0",
+  payment_method_id : 41,
+  amount : 10.00,
+  currency : "ARS",
+  payment_type : "single",
+  email : "user@mail.com",
+  bank_id : 1,
+  sub_payments : 100,
+  invoice_expiration : "191123"
+}
+```
+
+[<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
+
+
+#### Cobro Express
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
+|token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
+|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
+|amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
+|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
+|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
+|invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
+|second_invoice_expiration  | Segunda fecha de vencimiento del cupón  |  SI|  Formato AAMMDD |  second_invoice_expiration: "191123"|
+|cod_p3  | Son los dias que existen entre el 1º y 2º vencimiento de la factura. |  SI|  2,fijo ("00" si la factura tiene no tiene 2° vencimientos)|  invoice_expiration: "191123"|
+|client  | Codigo Cliente  |  SI|   8,fijo |  client: "12345678"|
+|surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: "10.01"|
+|payment_mode  | Tipo de metodo de pago  |  SI|  Strin "offline" |  payment_mode: "offline"|
+
+
+##### Ejemplo
+```javascript 1.8
+
+const data = {
+  site_transaction_id : "160518_42",
+  token : "3df26771-67ab-4a8e-91e2-f1e0b0c559f7",
+  payment_method_id : 51,
+  amount : 10.00,
+  currency : "ARS",
+  payment_type : "single",
+  email : "user@mail.com",
+  invoice_expiration : "191123",
+  second_invoice_expiration : "191123",
+  cod_p3 : "1",
+  cod_p4 : "134",
+  client : "12345678",
+  surcharge : 10.01,
+  payment_mode : "offline"
+};
+
+```
+[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+
+#### Cobro Express
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
+|token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
+|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
+|amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
+|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
+|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
+|invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
+|second_invoice_expiration  | Segunda fecha de vencimiento del cupón  |  SI|  Formato AAMMDD |  second_invoice_expiration: "191123"|
+|cod_p3  | Son los dias que existen entre el 1º y 2º vencimiento de la factura. |  SI|  2,fijo ("00" si la factura tiene no tiene 2° vencimientos)|  invoice_expiration: "191123"|
+|cod_p4  | Días después del 1º vencimiento y hasta que el cliente pueda abonar  |  SI|  3,fijo |  cod_p4: "123"|
+|client  | Codigo Cliente  |  SI|   8,fijo |  client: "12345678"|
+|surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: "10.01"|
+|payment_mode  | Tipo de metodo de pago  |  SI|  Strin "offline" |  payment_mode: "offline"|
+
+
+##### Ejemplo
+```javascript
+
+const data = {
+  site_transaction_id: "160518_42",
+  token: "3df26771-67ab-4a8e-91e2-f1e0b0c559f7",
+  payment_method_id: 51,
+  amount: 10.00,
+  currency: "ARS",
+  payment_type: "single",
+  email: "user@mail.com",
+  invoice_expiration: "191123",
+  second_invoice_expiration: "191123",
+  cod_p3: "1",
+  cod_p4: "134",
+  client: "12345678",
+  surcharge: 10.01,
+  payment_mode: "offline"
+}
+
+```
+
 <a name="healthcheck"></a>
 ### Health Check
 Este recurso permite conocer el estado actual de la API RESTful de DECIDIR.
 
-```nodejs
+```javascript
 
-var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 
 sdk.healthcheck(args, function(result, err) {
     console.log("-----------------------------------------");
@@ -167,9 +379,9 @@ Además del token de pago y los parámetros propios de la transacción, el comer
 
 *Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos.
 
-```nodejs
+```javascript
 
-var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 
 args = {
     site_transaction_id: "id_" + date,
@@ -254,12 +466,12 @@ sdk.getAllPayments(args, offset, pageSize, merchantId, merchantId, function(resu
 
 Mediante este recurso, se genera una solicitud de información de un pago previamente realizado, pasando como parámetro el id del pago.
 
-```nodejs
+```javascript
 
-var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 
 id = result.id;
-var args = {
+const args = {
     data: {
 
     },
@@ -290,12 +502,12 @@ console.log(err);
 
 Mediante este recurso, se genera una solicitud de anulación / devolución total de un pago puntual, pasando como parámetro el id del pago.
 
-```nodejs
+```javascript
 
-var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 
 id = result.id;
-var args = {
+const args = {
     data: {
 
     },
@@ -325,12 +537,12 @@ console.log(err);
 
 Mediante este recurso, se genera una solicitud de anulación de devolución total de un pago puntual, pasando como parámetro el id del pago y el id de la devolución.
 
-```nodejs
+```javascript
 
-var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 
 paymentId = result.id;
-var args = {
+const args = {
     data: {
 
     },
@@ -359,13 +571,13 @@ console.log(err);
 
 Mediante este recurso, se genera una solicitud de devolución parcial de un pago puntual, pasando como parámetro el id del pago y el monto de la devolución.
 
-```nodejs
+```javascript
 
-var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 
 paymentId = result.id;
 amount = 10.50;
-var args = {
+const args = {
     data: {
         "amount": amount
     },
@@ -397,13 +609,13 @@ console.log(err);
 
 Mediante este recurso, se genera una solicitud de anulación de devolución parcial de un pago puntual, pasando como parámetro el id del pago y el id de la devolución.
 
-```nodejs
+```javascript
 
-var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 
 paymentId = result.id;
 amount = 10.50;
-var args = {
+const args = {
     data: {
         "amount": amount
     },
@@ -441,12 +653,12 @@ Como primer paso se debe realizar una un pago normal, el token generado estara e
 
 Este metodo permite conocer el listado de tarjetas tokenizadas que posee un usuario determinado. Para esto es necesario el nombre de usuario a la instancia de token
 
-```nodejs
+```javascript
 
-var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 
 user_id = result.user_id;
-var args = {
+const args = {
     data: {
 
     },
@@ -468,8 +680,8 @@ console.log("cardTokens result:");
 console.log(result);
 console.log("cardTokens error:");
 console.log(err);
-});
-
+})
+}
 ```
 
 [<sub>Volver a inicio</sub>](#listadotarjetastokenizadas)
@@ -490,9 +702,9 @@ Al cargar el formulario de pago este mostrara las tarjetas tokenizadas que posee
 
 Una vez que se obtiene el token a partir de la tarjeta tokenizada, se deberá ejecutar la solicitud de pago. Además del token de pago y los parámetros propios de la transacción, el comercio deberá identificar la compra con el "site_transaction_id" y "user_id".
 
-```nodejs
+```javascript
 
-var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 
 args = {
     site_transaction_id: "id_" + date,
@@ -603,6 +815,7 @@ var datos_cs = {
     street1 : 'Cerrito 740', //Domicilio de facturación (calle y nro). MANDATORIO.
     street2 : 'Piso 8', //Complemento del domicilio. (piso, departamento). NO MANDATORIO.
     currency : 'ARS', //Moneda. MANDATORIO.
+    dispatch_method: 'storepickup', //Retiro del producto
     amount : '5.00', //Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO. (Ejemplos:$125,38-> 125.38 $12-> 12 o 12.00)
 };
 
@@ -621,7 +834,6 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Ret
 var datos_cs = {
 	device_unique_id : "devicefingerprintid",
 	days_to_delivery: "55",
-	dispatch_method: "storepickup",
 	tax_voucher_required: true,
 	customer_loyality_number: "123232",
 	coupon_code: "cupon22",
@@ -695,40 +907,40 @@ console.log("-------------------***-------------------");
 
 Los siguientes parámetros se deben enviar específicamente para la vertical Ticketing. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
 
-```nodejs
-var datos_cs = {
-days_to_event : 55, //Número de días en los que se desarrollara el evento. MANDATORIO
-delivery_type :'Pick up', //Tipo de envío. MANDATORIO. Valores posibles: Pick up, Email, Smartphone, Other
+```javascript
+const datos_cs = {
+days_to_event: 55, //Número de días en los que se desarrollara el evento. MANDATORIO
+delivery_type:'Pick up', //Tipo de envío. MANDATORIO. Valores posibles: Pick up, Email, Smartphone, Other
 };
 
   //Datos de productos, un array con los diferentes productos involucrados.
-var cs_productos = {
+const cs_productos = [
     {  // Producto 1
-      productcode=>'electronic_good', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
-      productdescription=>'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Descripción del producto. MANDATORIO.
-      productname=>'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Nombre del producto. MANDATORIO.
-      productsku=>'LEVJNSL36GN', //Código identificador del producto. MANDATORIO.
-      totalamount=>'1254.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
-      quantity=>'1', //Cantidad del producto. MANDATORIO.
-      unitprice=>'1254.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO    
+      productcode:'electronic_good', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
+      productdescription:'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Descripción del producto. MANDATORIO.
+      productname:'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Nombre del producto. MANDATORIO.
+      productsku:'LEVJNSL36GN', //Código identificador del producto. MANDATORIO.
+      totalamount:'1254.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
+      quantity:'1', //Cantidad del producto. MANDATORIO.
+      unitprice:'1254.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO    
     },
     {  // Producto 2
-      'productcode'=>'default', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
-      'productdescription'=>'PENDRIVE 2GB KINGSTON', //Descripción del producto. MANDATORIO.
-      'productname'=>'PENDRIVE 2GB', //Nombre del producto. MANDATORIO.
-      'productsku'=>'KSPDRV2g', //Código identificador del producto. MANDATORIO.
-      'totalamount'=>'248.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
-      'quantity'=>'1', //Cantidad del producto. MANDATORIO.
-      'unitprice'=>'248.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO     
+      productcode: 'default', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
+      productdescription:'PENDRIVE 2GB KINGSTON', //Descripción del producto. MANDATORIO.
+      productname: 'PENDRIVE 2GB', //Nombre del producto. MANDATORIO.
+      productsku: 'KSPDRV2g', //Código identificador del producto. MANDATORIO.
+      totalamount: '248.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
+      quantity: '1', //Cantidad del producto. MANDATORIO.
+      unitprice: '248.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO     
     },
-    ......... // Otros productos
-};
-
+    // Otros productos
+    ];
+    
 ```
 
 Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase Ticketing de la siguiente manera.
 
-```nodejs
+```javascript
 
 var date = new Date().getTime();
 
@@ -747,9 +959,9 @@ args = {
     apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
     'Content-Type': "application/json"
 };
-var paymentData = new PaymentDataModulo.paymentData(args);
+const paymentData = new PaymentDataModulo.paymentData(args);
 
-var datos_cs {
+const datos_cs = {
   device_unique_id : "devicefingerprintid",
   days_to_delivery: "55",
   dispatch_method: "storepickup",
@@ -789,16 +1001,17 @@ sdk.payment(args, function(result, err) {
 Los siguientes parámetros se deben enviar específicamente para la vertical Digital Goods. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
 
 
-```nodejs
+```javascript
 
-var datos_digitalgoods = {
-  'device_unique_id': 'devicefingerprintid',
-  'digital_goods_transaction_data': {
-  'delivery_type': 'Pick up',
+const datos_digitalgoods = {
+  device_unique_id: 'devicefingerprintid',
+  digital_goods_transaction_data: {
+        delivery_type: 'Pick up',
+    }
 };
 
 //Datos de productos, un array con los diferentes productos involucrados.
-var cs_productos = {
+const cs_productos = [
   {  // Producto 1
     productcode : 'electronic_good', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
     productdescription : 'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Descripción del producto. MANDATORIO.
@@ -809,16 +1022,16 @@ var cs_productos = {
     unitprice : '1254.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO    
   },
   {  // Producto 2
-    productcode : 'default', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
-    productdescription : 'PENDRIVE 2GB KINGSTON', //Descripción del producto. MANDATORIO.
-    productname : 'PENDRIVE 2GB', //Nombre del producto. MANDATORIO.
-    productsku : 'KSPDRV2g', //Código identificador del producto. MANDATORIO.
-    totalamount : '248.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
-    quantity : '1', //Cantidad del producto. MANDATORIO.
-    unitprice : '248.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO     
+    productcode: 'default', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
+    productdescription: 'PENDRIVE 2GB KINGSTON', //Descripción del producto. MANDATORIO.
+    productname: 'PENDRIVE 2GB', //Nombre del producto. MANDATORIO.
+    productsku: 'KSPDRV2g', //Código identificador del producto. MANDATORIO.
+    totalamount: '248.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
+    quantity: '1', //Cantidad del producto. MANDATORIO.
+    unitprice: '248.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO     
   },
-  ......... // Otros productos
-};  
+    // Otros productos
+];  
 
 
 ```

@@ -90,7 +90,7 @@ function examplePayment(sdk) {
                     state: 'BA',
                     street1: 'GARCIA DEL RIO 4041',
                     street2: 'GARCIA DEL RIO 4041'
-                }
+                };
                 args.data.fraud_detection = datos_cs;
             }
 
