@@ -15,6 +15,8 @@ Modulo para conexión con gateway de pago DECIDIR2
       + [Pagos Offline](#pagos-offline)
       + [Health Check](#healthcheck)
       + [Ejecución del Pago](#payment)
+      + [Comercios agregadores](#comercios-agregadores)
+      + [Respuesta al pago](#respuesta-al-pago)
       + [Listado de Pagos](#getallpayments)
       + [Información de un Pago](#getpaymentinfo)
       + [Anulación / Devolución Total de Pago](#refund)
@@ -51,9 +53,9 @@ El flujo de una transacción a través de las **sdks** consta de dos pasos, la *
 
 
 ## Alcance
-La **sdk NODEJS** provee soporte para su **aplicaci&oacute;n back-end**, encargandose de la comunicaci&oacute;n del comercio con la **API Decidir** utilizando su **API Key privada**<sup>1</sup> y el **token de pago** generado por el cliente.
+La **sdk NODEJS** provee soporte para su **aplicación back-end**, encargándose de la comunicación del comercio con la **API Decidir** utilizando su **API Key privada**<sup>1</sup> y el **token de pago** generado por el cliente.
 
-Para generar el token de pago, la aplicaci&oacute;n cliente realizar&aacute; con **Decidir** a trav&eacute;s de alguna de las siguentes **sdks front-end**:
+Para generar el token de pago, la aplicación cliente realizará con **Decidir** a través de alguna de las siguentes **sdks front-end**:
 + [sdk IOS](https://github.com/decidir/SDK-IOS.v2)
 + [sdk Android](https://github.com/decidir/SDK-Android.v2)
 + [sdk Javascript](https://github.com/decidir/sdk-javascript-v2)
@@ -104,7 +106,7 @@ Se encuentra disponible la documentación **[Manual de Integración Decidir2](ht
 
 El sdk NODEJS permite trabajar con los ambientes de Sandbox y Producción de Decidir. El ambiente se debe definir al instanciar el SDK.
 
-```nodejs
+```javascript
 
 var ambient = "test";//valores posibles: "test" o "prod";
 var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
@@ -123,7 +125,7 @@ El Sdk para NODEJS permite trabajar con los ambientes de desarrollo y de producc
 El ambiente se debe instanciar como se indica a continuación.
 Instanciación de la clase `Decidir\Connector`
 La misma recibe como parámetros la public key o private key provisto por Decidir para el comercio y el ambiente en que se trabajará.
-```nodejs
+```javascript
 
 var publicKey = "b192e4cb99564b84bf5db5550112adea";
 var privateKey = "566f2c897b5e4bfaa0ec2452f5d67f13";
@@ -145,7 +147,7 @@ Para el caso de la operatoria de pago offline, la operación requiere en un prin
 
 Una vez generado y almacenado el token de Pago Offline, se deberá ejecutar la solicitud de pago utilizando el token previamente generado. Además del token de pago y los parámetros propios de la transacción, el comercio deberá identificar la compra con el site_transaction_id.
 
-*Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos decimales.
+*Aclaracion*: amount es un campo double el cual debería tener solo dos dígitos decimales.
 
 
 #### Pago Fácil
@@ -414,6 +416,118 @@ console.log(err);
 
 ```
 
+### Comercios agregadores
+
+#### Campos agregador para American Express
+
+El set de datos a enviar a la sdk son otros:
+
+```javascript
+
+let args = {
+    "customer": {
+        "id": "{{user}}",
+        "email": "{{email}}"
+    },
+    "site_transaction_id": "AGREGADOR_{{$timestamp}}",
+    "token": "{{token}}",
+    "payment_method_id": 65,
+    "bin": "{{bin}}",
+    "amount": 2000,
+    "currency": "ARS",
+    "installments": 1,
+    "description": "",
+    "payment_type": "single",
+    "sub_payments": [],
+    "aggregate_data": {
+        "indicator": "1",
+        "identification_number": "30598910045",
+        "bill_to_pay": "Decidir_Test",
+        "bill_to_refund": "Decidir_Test",
+        "merchant_name": "DECIDIR",
+        "street": "Lavarden",
+        "number": "247",
+        "postal_code": "C1437FBE",
+        "category": "05044",
+        "channel": "005",
+        "geographic_code": "C1437",
+        "city": "Ciudad de Buenos Aires",
+        "merchant_id": "decidir_Agregador",
+        "province": "Buenos Aires",
+        "country": "Argentina",
+        "merchant_email": "merchant@mail.com[13]",
+        "merchant_phone": "+541135211111"
+    }
+}
+
+
+
+```
+
+
+### Respuesta al pago:
+
+La respuesta de ante cualquier pago exitoso es:
+
+```JSON
+
+{
+    "id": 971344,
+    "site_transaction_id": "AGREGADOR_1527712473",
+    "payment_method_id": 65,
+    "card_brand": "Amex MT",
+    "amount": 2000,
+    "currency": "ars",
+    "status": "approved",
+    "status_details": {
+        "ticket": "4",
+        "card_authorization_code": "203430",
+        "address_validation_code": "VTE0011",
+        "error": null
+    },
+    "date": "2018-05-30T17:34Z",
+    "customer": {
+        "id": "juan",
+        "email": "jmejia@prismamp.com"
+    },
+    "bin": "373953",
+    "installments": 1,
+    "first_installment_expiration_date": null,
+    "payment_type": "single",
+    "sub_payments": [],
+    "site_id": "00020220",
+    "fraud_detection": {
+        "status": null
+    },
+    "aggregate_data": {
+        "indicator": "1",
+        "identification_number": "30598910045",
+        "bill_to_pay": "Decidir_Test",
+        "bill_to_refund": "Decidir_Test",
+        "merchant_name": "DECIDIR",
+        "street": "Lavarden",
+        "number": "247",
+        "postal_code": "C1437FBE",
+        "category": "05044",
+        "channel": "005",
+        "geographic_code": "C1437",
+        "city": "Ciudad de Buenos Aires",
+        "merchant_id": "decidir_Agregador",
+        "province": "Buenos Aires",
+        "country": "Argentina",
+        "merchant_email": "merchant@mail.com",
+        "merchant_phone": "+541135211111"
+    },
+    "establishment_name": null,
+    "spv": null,
+    "confirmed": null,
+    "pan": null,
+    "customer_token": "13e550af28e73b3b00af465d5d64c15ee1f34826744a4ddf68dc6b469dc604f5",
+    "card_data": "/tokens/971344"
+}
+
+```
+
 [<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
 
 
@@ -429,7 +543,7 @@ Este recurso admite la posibilidad de agregar los filtros adicionales:
 - (opcional) siteOperationId: ID único de la transacción a nivel comercio (equivalente al site_transaction_id).
 - (opcional) merchantId: ID Site del comercio.
 
-```nodejs
+```javascript
 
 var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 
@@ -751,7 +865,7 @@ sdk.payment(args, function(result, err) {
 
 El servicio da la posibilidad de eliminar un token de tarjeta generadas, esto se logra instanciando token y utilizando el metodo tokenDelete(). Funciona enviando el token de la tarjeta tokenizada.
 
-```nodejs
+```javascript
 
 var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 
@@ -796,7 +910,7 @@ Se han definido cinco verticales de negocio que requieren parámetros específic
 Los parámetros comunes a todas las verticales deben enviarse junto con los datos específicos de cada uno. A continuación, describiremos los párametros comúnes que se deberan agregar a los datos de cada vertical al momento de instanciar la clase correspondiente.
 
 
-```nodejs
+```javascript
 
 var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 
@@ -829,7 +943,7 @@ var datos_cs = {
 Los siguientes parámetros se deben enviar específicamente para la vertical Retail. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
 
 
-```nodejs
+```javascript
 
 var datos_cs = {
 	device_unique_id : "devicefingerprintid",
@@ -844,7 +958,7 @@ var datos_cs = {
 
 Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase Retail de la siguiente manera.
 
-```nodejs
+```javascript
 
 
 var date = new Date().getTime();
@@ -1039,7 +1153,7 @@ const cs_productos = [
 
 Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase digitalGoods de la siguiente manera.
 
-```nodejs
+```javascript
 
 var date = new Date().getTime();
 
