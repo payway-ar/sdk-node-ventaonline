@@ -152,6 +152,8 @@ Una vez generado y almacenado el token de Pago Offline, se deberá ejecutar la s
 
 #### Pago Fácil
 
+![imagen de sdks](./docs/img/me-rapipago-pagofacil.jpg)</br>
+
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
 |site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
@@ -194,6 +196,8 @@ data = {
 
 #### Rapipago
 
+![imagen de sdks](./docs/img/me-rapipago-pagofacil.jpg)</br>
+
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
 |site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
@@ -233,6 +237,8 @@ const data = {
 ```
 
 #### Pago mis Cuentas
+
+![imagen de sdks](./docs/img/me-pmc.jpg)</br>
 
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
