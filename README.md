@@ -4,8 +4,8 @@ Decidir SDK NODEJS
 Modulo para conexión con gateway de pago DECIDIR2
   + [Introducción](#introduccion)
     + [Alcance](#alcance)
-    + [Diagrama de secuencia](#diagramasecuencia)			
-  + [Instalación](#instalación)
+    + [Diagrama de secuencia](#diagrama-secuencia)			
+  + [Instalación](#instalacion)
     + [Versiones de NODEJS soportadas](#versiones)
     + [Manual de Integración](#manualintegracion)
     + [Ambiente](#ambiente)
@@ -38,6 +38,7 @@ Modulo para conexión con gateway de pago DECIDIR2
 	  + [Divisas Aceptadas](#divisasa)
     + [Provincias](#provincias)
 
+<a name="introduccion"></a>
 ## Introducción
 El flujo de una transacción a través de las **sdks** consta de dos pasos, la **generaci&oacute;n de un token de pago** por parte del cliente y el **procesamiento de pago** por parte del comercio. Existen sdks espec&iacute;ficas para realizar estas funciones en distintos lenguajes que se detallan a continuaci&oacute;n:
 
@@ -51,7 +52,7 @@ El flujo de una transacción a través de las **sdks** consta de dos pasos, la *
   + [sdk .Net](https://github.com/decidir/SDK-.NET.v2)
   + [sdk Node](https://github.com/decidir/SDK-.NODE.v2)
 
-
+<a name="alcance"></a>
 ## Alcance
 La **sdk NODEJS** provee soporte para su **aplicación back-end**, encargándose de la comunicación del comercio con la **API Decidir** utilizando su **API Key privada**<sup>1</sup> y el **token de pago** generado por el cliente.
 
@@ -79,7 +80,7 @@ A continuación, se presenta un diagrama con el Flujo de un Pago.
 
 [Volver al inicio](#diagramasecuencia)
 
-
+<a name="instalacion"></a>
 ## Instalación
 Descargar la última versión del SDK desde el botón Download ZIP en (poner link).		
 Se debe incluirse la carpeta del SDK dentro del proyecto.		
@@ -88,7 +89,7 @@ Se debe incluirse la carpeta del SDK dentro del proyecto.
 
 [Volver al inicio](#decidir-sdk-node)
 
-
+<a name="versiones"></a>
 ## Versiones de NODEJS soportadas
 
 La versión implementada de la SDK, está testeada para las versiones NODEJS desde la version 6.0.
@@ -433,7 +434,8 @@ El set de datos a enviar a la sdk son otros:
 let args = {
     "customer": {
         "id": "{{user}}",
-        "email": "{{email}}"
+        "email": "{{email}}",
+	"ip_address": "{{ip_address}}"
     },
     "site_transaction_id": "AGREGADOR_{{$timestamp}}",
     "token": "{{token}}",
@@ -494,7 +496,8 @@ La respuesta de ante cualquier pago exitoso es:
     "date": "2018-05-30T17:34Z",
     "customer": {
         "id": "juan",
-        "email": "jmejia@prismamp.com"
+        "email": "jmejia@prismamp.com",
+	"ip_address": "192.168.0.1"
     },
     "bin": "373953",
     "installments": 1,
@@ -760,7 +763,7 @@ console.log(err);
 ```
 
 
-<a name="Tokenizacion de tarjetas de crédito"></a>
+<a name="tokenizaciontarjeta"></a>
 
 ## Tokenizacion de tarjetas de crédito
 
@@ -1273,7 +1276,7 @@ sdk.payment(args, function(result, err) {
 
 [Volver al inicio](#decidir-sdk-nodejs)
 
-
+<a name="divisasa"></a>
 ### Divisas Aceptadas
 
 | Divisa | Descripción | Código API
@@ -1285,6 +1288,7 @@ sdk.payment(args, function(result, err) {
 
 [Volver al inicio](#decidir-sdk-nodejs)
 
+<a name="provincias"></a>
 
 ### Provincias
 
