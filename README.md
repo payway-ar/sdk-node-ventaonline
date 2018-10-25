@@ -109,7 +109,7 @@ El sdk NODEJS permite trabajar con los ambientes de Sandbox y Producción de Dec
 
 ```javascript
 
-var ambient = "test";//valores posibles: "test" o "prod";
+var ambient = "developer"; //valores posibles: "developer" o "production";
 var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 
 ```
@@ -130,7 +130,7 @@ La misma recibe como parámetros la public key o private key provisto por Decidi
 
 var publicKey = "b192e4cb99564b84bf5db5550112adea";
 var privateKey = "566f2c897b5e4bfaa0ec2452f5d67f13";
-var ambient = "test";//valores posibles: "test" o "prod";
+var ambient = "developer"; //valores posibles: "developer" o "production";
 
 var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 
