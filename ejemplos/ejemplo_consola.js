@@ -428,7 +428,7 @@ function exampleGetToken(sdk) {
         args = {
             card_number: '4507990000004905',
             card_expiration_month: '08',
-            card_expiration_year: "18",
+            card_expiration_year: "20",
             security_code: "775",
             card_holder_name: "John Doe",
             type: "dni",
