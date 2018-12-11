@@ -54,7 +54,7 @@ function exampleValidate(sdk) { //*************************
             
             args = {
                 site_transaction_id: "id_" + date,
-                token: '3af53fe3-96b7-4c0d-a7db-abb8215fbfb9',
+                token: 'd6788650-88b8-413e-95eb-85703f436c4a',
                 user_id: 'juanpepito',
                 payment_method_id: 1,
                 bin: "450799",
@@ -64,7 +64,7 @@ function exampleValidate(sdk) { //*************************
                 description: "Description of product",
                 payment_type: "single",
                 sub_payments: [],
-                apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
+                apiKey: "5cde7e72ea1e430db94d4312346a3744",
                 formSite: '00021625',
                 'Content-Type': "application/json"
             };
@@ -73,7 +73,6 @@ function exampleValidate(sdk) { //*************************
             id: "juanpepito",
             email: "mauricio.ghiorzi@softtek.com"
         };
-        
             var validateData = new validateMod.validate(args);
 
             // send_to_cs = TRUE O FALSE PARA ENVIAR PARAMETROS CS
