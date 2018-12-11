@@ -4,6 +4,8 @@ var paymentMod = require('../lib/payment');
 var partialRefundMod = require('../lib/partial_refund');
 var refundMod = require('../lib/refund');
 var paymentInfoMod = require('../lib/payment_info');
+var validateMod = require('../lib/validate');
+
 var getAllPaymentsMod = require('../lib/all_payments');
 var cardTokensMod = require('../lib/card_token');
 var deleteCardTokenMod = require('../lib/delete_cardToken');
@@ -22,7 +24,7 @@ var sdk = new sdkModulo.sdk('developer', "b192e4cb99564b84bf5db5550112adea", "56
 //EJEMPLO DE FUNCIONALIDADES
 
 //exampleHealthCheck(sdk);
-examplePayment(sdk);
+//examplePayment(sdk);
 //examplePartialRefund(sdk);
 //exampleRefund(sdk);
 //examplePaymentInfo(sdk);
@@ -32,6 +34,7 @@ examplePayment(sdk);
 //exampleDeleteTokenizedCard(sdk);
 //exampleDeletePartialRefund(sdk);
 //exampleDeleteRefund(sdk);
+exampleValidate(sdk);
 
 
 // EJEMPLO ESTADO DEL SERVICIO
@@ -41,6 +44,50 @@ function exampleHealthCheck(sdk) {
         console.log(resp)
     })
 };
+
+
+//EJEMPLO VALIDATE
+function exampleValidate(sdk) { //*************************
+    return new Promise(function(resolve, reject) {
+        //SE OBTIENE UN TOKEN DE PAGO
+            var date = new Date().getTime();
+            
+            args = {
+                site_transaction_id: "id_" + date,
+                token: '3af53fe3-96b7-4c0d-a7db-abb8215fbfb9',
+                user_id: 'juanpepito',
+                payment_method_id: 1,
+                bin: "450799",
+                amount: 25.50,
+                currency: "ARS",
+                installments: 1,
+                description: "Description of product",
+                payment_type: "single",
+                sub_payments: [],
+                apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
+                'Content-Type': "application/json"
+            };
+
+        var customer = {
+            id: "juanpepito",
+            email: "mauricio.ghiorzi@softtek.com"
+        };
+        
+            var validateData = new validateMod.validate(args);
+
+            // send_to_cs = TRUE O FALSE PARA ENVIAR PARAMETROS CS
+
+            //Se envian sdk y parametros al modulos de payment que realizará el pago
+            var instPayment = new validateMod.validate(sdk, args).then(function(result) {
+                console.log("-----------------------------------------")
+                console.log("Validate")
+                console.log("-------------------***-------------------");
+            })
+    })
+}
+
+
+
 
 // EJEMPLO REQUEST DE PAGO
 function examplePayment(sdk) {
@@ -514,7 +561,7 @@ function examplePaymentRequest(sdk) {
                 apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
                 'Content-Type': "application/json"
             };
-            var paymentData = new PaymentDataModulo.paymentData(args);
+            var paymentData = new validateMod.paymentData(args);
 
             var args = paymentData.getJSON();
 
