@@ -562,7 +562,7 @@ function examplePaymentRequest(sdk) {
                 formSite: '00021625'
                 'Content-Type': "application/json"
             };
-            var paymentData = new validateMod.paymentData(args);
+            var paymentData = new paymentMod.paymentData(args);
 
             var args = paymentData.getJSON();
 
