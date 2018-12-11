@@ -65,6 +65,7 @@ function exampleValidate(sdk) { //*************************
                 payment_type: "single",
                 sub_payments: [],
                 apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
+                formSite: '00021625',
                 'Content-Type': "application/json"
             };
 
@@ -559,7 +560,6 @@ function examplePaymentRequest(sdk) {
                 payment_type: "single",
                 sub_payments: [],
                 apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
-                formSite: '00021625',
                 'Content-Type': "application/json"
             };
             var paymentData = new paymentMod.paymentData(args);
