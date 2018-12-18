@@ -1203,7 +1203,7 @@ const cs_productos = [
 
 ```
 
-Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase digitalGoods de la siguiente manera.
+Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase services de la siguiente manera.
 
 ```javascript
 
@@ -1235,9 +1235,9 @@ var datos_cs = {
   coupon_code: "cupon22",
 }
 
-var digitalGoods = new digitalGoods.ticketingData(datos_cs);
+var services = new services.servicesData(datos_cs);
 
-args.data.fraud_detection = digitalGoods;
+args.data.fraud_detection = services;
 sdk.payment(args, function(result, err) {
 
     resolve(result);
