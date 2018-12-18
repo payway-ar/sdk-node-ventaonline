@@ -34,7 +34,7 @@ Modulo para conexión con gateway de pago DECIDIR2
       + [Ticketing](#ticketing)
       + [Digital Goods](#digital-goods)
       + [Servies](#services)
-      + [Travel](#services)      
+      + [Travel](#travel)      
   + [Tablas de referencia](#tablasreferencia)
     + [Códigos de Medios de Pago](#códigos-de-medios-de-pago)
 	  + [Divisas Aceptadas](#divisasa)
