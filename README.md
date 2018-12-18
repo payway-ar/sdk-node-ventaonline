@@ -32,7 +32,8 @@ Modulo para conexión con gateway de pago DECIDIR2
       + [Parámetros Comunes](#parámetros-comunes)
       + [Retail](#retail)
       + [Ticketing](#ticketing)
-      + [Digital Goods](#digital-goods)  	
+      + [Digital Goods](#digital-goods)
+      + [Servies](#services)        	
   + [Tablas de referencia](#tablasreferencia)
     + [Códigos de Medios de Pago](#códigos-de-medios-de-pago)
 	  + [Divisas Aceptadas](#divisasa)
@@ -1159,6 +1160,48 @@ const cs_productos = [
 
 ```
 
+
+#### Services
+
+Los siguientes parámetros se deben enviar específicamente para la vertical Services. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
+
+
+```javascript
+
+const datos_services = {
+  services_transaction_data: {
+        service_type: 'tiposervicio',
+        reference_payment_service1: "reference1",
+        reference_payment_service2: "reference2",
+        reference_payment_service3: "reference3"     
+    }
+};
+
+//Datos de productos, un array con los diferentes productos involucrados.
+const cs_productos = [
+  {  // Producto 1
+    productcode : 'electronic_good', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
+    productdescription : 'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Descripción del producto. MANDATORIO.
+    productname : 'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Nombre del producto. MANDATORIO.
+    productsku : 'LEVJNSL36GN', //Código identificador del producto. MANDATORIO.
+    totalamount : '1254.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
+    quantity : '1', //Cantidad del producto. MANDATORIO.
+    unitprice : '1254.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO    
+  },
+  {  // Producto 2
+    productcode: 'default', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
+    productdescription: 'PENDRIVE 2GB KINGSTON', //Descripción del producto. MANDATORIO.
+    productname: 'PENDRIVE 2GB', //Nombre del producto. MANDATORIO.
+    productsku: 'KSPDRV2g', //Código identificador del producto. MANDATORIO.
+    totalamount: '248.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
+    quantity: '1', //Cantidad del producto. MANDATORIO.
+    unitprice: '248.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO     
+  },
+    // Otros productos
+];  
+
+
+```
 
 Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase digitalGoods de la siguiente manera.
 
