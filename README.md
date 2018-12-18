@@ -771,6 +771,9 @@ console.log(err);
 
 Este servicio permite integrar en el comercio un formulario de pago. Utiliza el recurso "validate" para obtener un hash a partir de los datos de la operacion, luego este hash sera utilizado al momento de llamar al recurso "form" el cual devolvera el formulario renderizado propio para cada comercio listo para ser utilizado y completar el flujo de pago.
 
+![Caso2](https://raw.githubusercontent.com/decidir/sdk-nodejs-v2/master/docs/img/flujo-formulario-renderizado.png)</br>
+
+
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
 |site.id  | Merchant  | Condicional | Numérico de 20 digitos   | id: "12365436"  |
