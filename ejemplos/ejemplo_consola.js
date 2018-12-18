@@ -22,7 +22,7 @@ var sdk = new sdkModulo.sdk('developer', "b192e4cb99564b84bf5db5550112adea", "56
 //EJEMPLO DE FUNCIONALIDADES
 
 //exampleHealthCheck(sdk);
-//examplePayment(sdk);
+examplePayment(sdk);
 //examplePartialRefund(sdk);
 //exampleRefund(sdk);
 //examplePaymentInfo(sdk);
@@ -46,11 +46,11 @@ function exampleHealthCheck(sdk) {
 function examplePayment(sdk) {
     return new Promise(function(resolve, reject) {
         //SE OBTIENE UN TOKEN DE PAGO
-        exampleGetToken(sdk).then(function(token) {
+        //exampleGetToken(sdk).then(function(token) {
             var date = new Date().getTime();
             args = {
                 site_transaction_id: "id_" + date,
-                token: token,
+                token: '3af53fe3-96b7-4c0d-a7db-abb8215fbfb9',
                 user_id: 'juanpepito',
                 payment_method_id: 1,
                 bin: "450799",
@@ -63,6 +63,7 @@ function examplePayment(sdk) {
                 apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
                 'Content-Type': "application/json"
             };
+
 		var customer = {
 			id: "juanpepito",
 			email: "mauricio.ghiorzi@softtek.com"
@@ -111,7 +112,7 @@ function examplePayment(sdk) {
                 console.log(err);
                 console.log("-------------------***-------------------");
             })
-        })
+        //})
     })
 }
 
@@ -428,7 +429,7 @@ function exampleGetToken(sdk) {
         args = {
             card_number: '4507990000004905',
             card_expiration_month: '08',
-            card_expiration_year: "18",
+            card_expiration_year: "20",
             security_code: "775",
             card_holder_name: "John Doe",
             type: "dni",
