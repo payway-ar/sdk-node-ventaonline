@@ -1263,6 +1263,138 @@ sdk.payment(args, function(result, err) {
 [Volver al inicio](#decidir-sdk-nodejs)
 
 
+
+#### Services
+
+Los siguientes parámetros se deben enviar específicamente para la vertical Services. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
+
+
+```javascript
+const datos_services = {
+      device_unique_id: "devicefingerprintid",
+      travel_transaction_dat: {
+        reservation_code: "GJH784",
+        third_party_booking: false,
+        departure_city: "EZE",
+        final_destination_city: "HND",
+        international_flight: true,
+        frequent_flier_number: "00000123",
+        class_of_service: "class",
+        day_of_week_of_flight: 2,
+        week_of_year_of_flight: 5,
+        airline_code: "AA",
+        code_share: "SKYTEAM",
+        decision_manager_travel: {
+            complete_route: "EZE-LAX:LAX-HND",
+            journey_type: "one way",
+            departure_date: {
+                departure_time: "2017-05-30T09:00Z",
+                departure_zone: "GMT-0300"
+            }
+        },
+        passengers: {
+            email: "juan@mail.com",
+            first_name: "Juan",
+            last_name: "Perez",
+            passport_id: "412314851231",
+            phone: "541134356768",
+            passenger_status: "gold",
+            passenger_type: "ADT"
+            }
+         ,
+         airline_number_of_passengers: 1
+
+}
+```
+
+Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase travel de la siguiente manera.
+
+```javascript
+
+var date = new Date().getTime();
+
+args = {
+    site_transaction_id: "id_" + date,
+    token: token,
+    user_id: 'juanpepito',
+    payment_method_id: 1,
+    bin: "450799",
+    amount: 25.50,
+    currency: "ARS",
+    installments: 1,
+    description: "Description of product",
+    payment_type: "single",
+    sub_payments: [],
+    apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
+    'Content-Type': "application/json"
+};
+var paymentData = new PaymentDataModulo.paymentData(args);
+
+var datos_cs = {
+      device_unique_id: "devicefingerprintid",
+      travel_transaction_dat: {
+        reservation_code: "GJH784",
+        third_party_booking: false,
+        departure_city: "EZE",
+        final_destination_city: "HND",
+        international_flight: true,
+        frequent_flier_number: "00000123",
+        class_of_service: "class",
+        day_of_week_of_flight: 2,
+        week_of_year_of_flight: 5,
+        airline_code: "AA",
+        code_share: "SKYTEAM",
+        decision_manager_travel: {
+            complete_route: "EZE-LAX:LAX-HND",
+            journey_type: "one way",
+            departure_date: {
+                departure_time: "2017-05-30T09:00Z",
+                departure_zone: "GMT-0300"
+            }
+        },
+        passengers: {
+            email: "juan@mail.com",
+            first_name: "Juan",
+            last_name: "Perez",
+            passport_id: "412314851231",
+            phone: "541134356768",
+            passenger_status: "gold",
+            passenger_type: "ADT"
+            }
+         ,
+         airline_number_of_passengers: 1
+
+}
+
+var travel = new travel.travel(datos_cs);
+
+args.data.fraud_detection = travel;
+sdk.payment(args, function(result, err) {
+
+    resolve(result);
+
+    console.log("")
+    console.log("")
+    console.log("Se realiza una petición de pago enviando el payload y el token de pago ")
+    console.log("generado anteriormente")
+    console.log("")
+    console.log("")
+    console.log("             PAYMENT REQUEST             ");
+    console.log("-----------------------------------------");
+    console.log("sendPaymentRequest result:");
+    console.log(result);
+    console.log("-----------------------------------------");
+    console.log("sendPaymentRequest error:");
+    console.log(err);
+    console.log("-------------------***-------------------");
+});
+
+```
+[Volver al inicio](#decidir-sdk-nodejs)
+
+
+
+
 <a name="tablasreferencia"></a>
 
 ## Tablas de Referencia
