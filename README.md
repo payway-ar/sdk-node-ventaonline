@@ -808,14 +808,14 @@ pago es distribuido por monto, ya que si es por porcentaje toma los configurados
                 apiKey: "5cde7e72ea1e430db94d436543523744",
                 formSite: '0002031',
                 'Content-Type': "application/json",
-                "success_url": "https://shop.swatch.com/es_ar/", //si no se informa el "redirect_url" es requerido
-                "cancel_url": "https://swatch.com/api/result",
-                "redirect_url": "", //si no se informa el success_url es requerido
-                "fraud_detection": [], //si no esta activado cybersource no enviar este atributo
-                "success_url": "https://shop.swatch.com/es_ar/", //si no se informa el "redirect_url" es requerido
-                "cancel_url": "https://swatch.com/api/result",
-                "redirect_url": "", //si no se informa el "success_url" es requerido
-                "fraud_detection": array() //si no esta activado cybersource no enviar este atributo
+                success_url: "https://shop.swatch.com/es_ar/", //si no se informa el "redirect_url" es requerido
+                cancel_url: "https://swatch.com/api/result",
+                redirect_url: "", //si no se informa el success_url es requerido
+                fraud_detection: [], //si no esta activado cybersource no enviar este atributo
+                success_ur": "https://shop.swatch.com/es_ar/", //si no se informa el "redirect_url" es requerido
+                cancel_url: "https://swatch.com/api/result",
+                redirect_url: "", //si no se informa el "success_url" es requerido
+                fraud_detection: array() //si no esta activado cybersource no enviar este atributo
 
             };
 
