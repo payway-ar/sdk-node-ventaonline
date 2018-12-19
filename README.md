@@ -1284,7 +1284,7 @@ const cs_productos = [
 
 ```
 
-Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase digitalGoods de la siguiente manera.
+Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase services de la siguiente manera.
 
 ```javascript
 
@@ -1316,9 +1316,9 @@ var datos_cs = {
   coupon_code: "cupon22",
 }
 
-var travel = new travel.travelData(datos_cs);
+var services = new services.servicesData(datos_cs);
 
-args.data.fraud_detection = travel;
+args.data.fraud_detection = services;
 sdk.payment(args, function(result, err) {
 
     resolve(result);
@@ -1381,9 +1381,12 @@ const datos_travel = {
             phone: "541134356768",
             passenger_status: "gold",
             passenger_type: "ADT"
-            },
+            }
+         ,
          airline_number_of_passengers: 1
-	};
+
+}
+
 ```
 
 Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase travel de la siguiente manera.
@@ -1411,7 +1414,7 @@ var paymentData = new PaymentDataModulo.paymentData(args);
 
 var datos_cs = {
       device_unique_id: "devicefingerprintid",
-      travel_transaction_data: {
+      travel_transaction_dat: {
         reservation_code: "GJH784",
         third_party_booking: false,
         departure_city: "EZE",
@@ -1439,11 +1442,13 @@ var datos_cs = {
             phone: "541134356768",
             passenger_status: "gold",
             passenger_type: "ADT"
-            },
+            }
+         ,
          airline_number_of_passengers: 1
+
 }
 
-var travel = new travel.travelData(datos_cs);
+var travel = new travel.travel(datos_cs);
 
 args.data.fraud_detection = travel;
 sdk.payment(args, function(result, err) {
