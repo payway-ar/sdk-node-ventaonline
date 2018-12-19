@@ -28,6 +28,8 @@ Modulo para conexión con gateway de pago DECIDIR2
       + [Solicitud de token de pago](#solicitudpagotokenizado)
       + [Ejecucion de pago tokenizado](#pagotokenizado)
       + [Eliminacion de tarjeta tokenizada](#eliminartarjetatokenizada)
+    + [Formulario de pago](#formpago)
+      
     + [Integración con Cybersource](#cybersource)
       + [Parámetros Comunes](#parámetros-comunes)
       + [Retail](#retail)
@@ -761,6 +763,84 @@ console.log("partial refund error:");
 console.log(err);
 });
 
+
+```
+
+<a name="formpago"></a>
+
+### Formulario de pago
+
+Este servicio permite integrar en el comercio un formulario de pago. Utiliza el recurso "validate" para obtener un hash a partir de los datos de la operacion, luego este hash sera utilizado al momento de llamar al recurso "form" el cual devolvera el formulario renderizado propio para cada comercio listo para ser utilizado y completar el flujo de pago.
+
+![Caso2](https://raw.githubusercontent.com/decidir/sdk-nodejs-v2/master/docs/img/flujo-formulario-renderizado.png)</br>
+
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|site.id  | Merchant  | Condicional | Numérico de 20 digitos   | id: "12365436"  |
+|site.template.id  | Id de formulario de pago, el id es unico para cada comercio y es generado previamente por Decidir | SI | Numérico de 20 digitos  |   |
+|site.transaction_id  | Numero de operación  | SI | Alfanumérico  de 40 digitos |   |
+|customer.id  | d que identifica al usuario  | NO | Alfanumérico  de 40 digitos |   |
+|customer.email | Email del cliente. Se envía información del pago  | Es requerido si se desea realizar el envío de mails | Alfanumérico  de 40 digitos | email:"user@mail.com"  |
+|payment.amount  | Monto de la compra  | SI | Numérico |   |
+|payment.currency  | Tipo de moneda  | NO | Letras |   |
+|payment.payment_method_id  | Id del medio de pago  | SI | Númerico |   |
+|payment.bin  | Primeros 6 dígitos de la tarjeta  | NO | Númerico |   |
+|payment.installments  | Cantidad de cuotas  | SI | Númerico |   |
+|payment.payment_type  | Indica si es simple o distribuida  | SI | Valores posibles: "single", "distributed" |   |
+|payment.sub_payments  | Se utiliza para pagos distribuidos. Informa los subpayments  | Es requerido si el
+pago es distribuido por monto, ya que si es por porcentaje toma los configurados desde Adm Sites (SAC) | NA |   |
+|success_url  | Url a donde se rediccionará una vez que el usuario finalice la operación desde la página de feedback  | SI | Númerico |   |
+|cancel_url  | Url donde se rediccionará si el cliente quiere cancelar el formulario  | SI | NA |   |
+|redirect_url  | Url en la cual se enviaran los datos de la operación una vez finalizada la misma para que el comercio pueda capturarlos y mostrarlos como lo desee  | Es requerido en los casos donde no informe el campo "success_url" | NA |   |
+
+#### Ejemplo
+```javascript
+            var date = new Date().getTime();
+            
+            args = {
+                site_transaction_id: "id_" + date,
+                user_id: 'juanpepito',
+                payment_method_id: 1,
+                bin: "450799",
+                amount: 25.50,
+                currency: "ARS",
+                installments: 1,
+                description: "Description of product",
+                payment_type: "single",
+                sub_payments: [],
+                apiKey: "5cde7e72ea1e430db94d436543523744",
+                formSite: '0002031',
+                'Content-Type': "application/json",
+                success_url: "https://shop.swatch.com/es_ar/", //si no se informa el "redirect_url" es requerido
+                cancel_url: "https://swatch.com/api/result",
+                redirect_url: "", //si no se informa el success_url es requerido
+                fraud_detection: [], //si no esta activado cybersource no enviar este atributo
+                success_ur": "https://shop.swatch.com/es_ar/", //si no se informa el "redirect_url" es requerido
+                cancel_url: "https://swatch.com/api/result",
+                redirect_url: "", //si no se informa el "success_url" es requerido
+                fraud_detection: array() //si no esta activado cybersource no enviar este atributo
+
+            };
+
+
+      
+
+        var customer = {
+            id: "juanpepito",
+            email: "juan.pepito@hotmail.com"
+        };
+            var validateData = new validateMod.validate(args);
+
+            // send_to_cs = TRUE O FALSE PARA ENVIAR PARAMETROS CS
+
+            //Se envian sdk y parametros al modulos de payment que realizará el pago
+            var instPayment = new validateMod.validate(sdk, args).then(function(result) {
+                console.log("-----------------------------------------")
+                console.log("Validate")
+                console.log("-------------------***-------------------");
+            })
+    })
 
 ```
 
