@@ -64,22 +64,17 @@ function exampleValidate(sdk) { //*************************
                 description: "Description of product",
                 payment_type: "single",
                 sub_payments: [],
-                apiKey: "5cde7e72ea1e430db94d4312346a3744",
-                formSite: '00021625',
+                apiKey: "5cde7e72ea1e430db94d436543523744",
+                formSite: '00020621',
                 'Content-Type': "application/json",
-                "success_url": "https://shop.swatch.com/es_ar/", //si no se informa el "redirect_url" es requerido
-                "cancel_url": "https://swatch.com/api/result",
-                "redirect_url": "", //si no se informa el success_url es requerido
-                "fraud_detection": [] //si no esta activado cybersource no enviar este atributo
-
+                success_url: "https://shop.swatch.com/es_ar/", //si no se informa el "redirect_url" es requerido
+                cancel_url: "https://swatch.com/api/result",
+                redirect_url: "", //si no se informa el success_url es requerido
+                fraud_detection: [], //si no esta activado cybersource no enviar este atributo
             };
 
-/*
-  "success_url" => "https://shop.swatch.com/es_ar/", //si no se informa el "redirect_url" es requerido
-  "cancel_url" => "https://swatch.com/api/result",
-  "redirect_url" => "", //si no se informa el "success_url" es requerido
-  "fraud_detection" => array() //si no esta activado cybersource no enviar este atributo
-  */            
+
+      
 
         var customer = {
             id: "juanpepito",
