@@ -54,7 +54,6 @@ function exampleValidate(sdk) { //*************************
             
             args = {
                 site_transaction_id: ""+date,
-                //token: 'd6788650-88b8-413e-95eb-85703f436c4a',
                 user_id: 'juanpepito',
                 email: "mauricio.ghiorzi@softtek.com",
                 payment_method_id: 1,
@@ -65,8 +64,8 @@ function exampleValidate(sdk) { //*************************
                 description: "Description of product",
                 payment_type: "single",
                 sub_payments: [],
-                apiKey: "5cde7e72ea1e430db94d436543523744",
-                formSite: '00020621',
+                apiKey: "aaaaaa1e430db94d436543523744",
+                formSite: '00020555',
                 'Content-Type': "application/json",
                 success_url: "https://shop.swatch.com/es_ar/", //si no se informa el "redirect_url" es requerido
                 cancel_url: "https://swatch.com/api/result",
