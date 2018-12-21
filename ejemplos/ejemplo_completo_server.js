@@ -191,6 +191,7 @@ app.post('/paymentRequest', function(req, res) {
             apiKey: formulario.apiKeyHidden,
             'Content-Type': 'application/json'
         };
+        console.log(args)
         var sdk = new sdkModulo.sdk('developer', "b192e4cb99564b84bf5db5550112adea", args.apiKey);
 
         var paymentData = new PaymentDataModulo.paymentData(args);
