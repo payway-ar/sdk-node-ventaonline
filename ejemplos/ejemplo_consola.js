@@ -53,9 +53,10 @@ function exampleValidate(sdk) { //*************************
             var date = new Date().getTime();
             
             args = {
-                site_transaction_id: "id_" + date,
-                token: 'd6788650-88b8-413e-95eb-85703f436c4a',
+                site_transaction_id: ""+date,
+                //token: 'd6788650-88b8-413e-95eb-85703f436c4a',
                 user_id: 'juanpepito',
+                email: "mauricio.ghiorzi@softtek.com",
                 payment_method_id: 1,
                 bin: "450799",
                 amount: 25.50,
@@ -74,20 +75,15 @@ function exampleValidate(sdk) { //*************************
             };
 
 
-      
-
-        var customer = {
-            id: "juanpepito",
-            email: "mauricio.ghiorzi@softtek.com"
-        };
             var validateData = new validateMod.validate(args);
 
             // send_to_cs = TRUE O FALSE PARA ENVIAR PARAMETROS CS
 
-            //Se envian sdk y parametros al modulos de payment que realizará el pago
+            //Se envian sdk y parametros al modulos de validate que realizará el pago
             var instPayment = new validateMod.validate(sdk, args).then(function(result) {
                 console.log("-----------------------------------------")
                 console.log("Validate")
+                console.log(result);
                 console.log("-------------------***-------------------");
             })
     })
