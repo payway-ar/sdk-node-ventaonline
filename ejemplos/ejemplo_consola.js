@@ -34,7 +34,7 @@ var sdk = new sdkModulo.sdk('developer', "b192e4cb99564b84bf5db5550112adea", "56
 //exampleDeleteTokenizedCard(sdk);
 //exampleDeletePartialRefund(sdk);
 //exampleDeleteRefund(sdk);
-exampleValidate(sdk);
+//exampleValidate(sdk);
 
 
 // EJEMPLO ESTADO DEL SERVICIO
