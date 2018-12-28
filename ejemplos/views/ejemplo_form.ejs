@@ -5,6 +5,7 @@
     <link rel="javascript" type="text/javascript" href="ejemplo_consola.js">
     <link rel="javascript" type="text/javascript" href="ejemplos/ejemplo_consola.js">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://live.decidir.com/static/v1/decidir.js"></script>
 </head>
 
 <body>
@@ -13,14 +14,15 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="well well-sm">
-                    <form id="formPayment" class="form-horizontal" method="post">
                         <fieldset>
                             <legend class="text-center header">Payment Request</legend>
+                    <form id="formPayment" class="form-horizontal" method="post">
+
                             <div class="form-group">
                                 <span class="col-md-2 text-center"><i class="fa fa-user bigicon"></i></span>
                                 <div class="col-md-8 text-center">
-                                    <p> Token de pago: <button id="generateTokenBtn" type="submit" class="btn btn-primary btn-sm">Generate token</button></p>
-                                    <input id="token" name="token" type="text" value=<%=token %> class="form-control">
+                                    <p> Token de pago: <button id="generateTokenBtn" class="btn btn-primary btn-sm">Generate token</button></p>
+                                    <input id="token" name="token" type="text">
 
                                 </div>
                                 <div class="col-md-4 text-center">
@@ -28,6 +30,7 @@
 
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <span class="col-md-1 text-center"><i class="fa fa-user bigicon"></i></span>
                                 <div class="col-md-5 text-center">
@@ -84,6 +87,7 @@
                             </div>
                             <input id="apiKeyHidden" name="apiKeyHidden" type="text" value="single" placeholder="  " style="display:none" class="form-control">
                             <input id="contentTypeHidden" name="contentTypeHidden" type="text" value="single" placeholder="  " style="display:none" class="form-control">
+                        </form>
                         </fieldset>
                     </form>
                 </div>
@@ -238,47 +242,50 @@
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
                     <div class="well well-sm">
-                        <form id="dataRequestToken" class="form-horizontal" method="post">
+                        <!-- <form id="dataRequestToken" class="form-horizontal" method="post" onsubmit="sendFormFunc()"> -->
+                            <div id="dataRequestToken">
                             <fieldset>
                                 <legend class="text-center header">Get Token</legend>
                                 <div class="form-group">
                                     <span class="col-md-2 text-center"><i class="fa fa-user bigicon"></i></span>
                                     <div class="col-md-8 text-center">
                                         <p> Card Number: </p>
-                                        <input id="card_number" name="card_number" type="text" value='4507990000004905' class="form-control">
+                                        <input type="text" data-decidir="card_number" placeholder="XXXXXXXXXXXXXXXX" value="4507990000004905" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <span class="col-md-1 text-center"><i class="fa fa-user bigicon"></i></span>
                                     <div class="col-md-5 text-center">
                                         <p> Expiration Month: </p>
-                                        <input id="card_expiration_month" name="card_expiration_month" type="text" value='08' placeholder="month" class="form-control">
+                                        <input type="text"  data-decidir="card_expiration_month" placeholder="MM" value="08" class="form-control"/>
                                     </div>
                                     <div class="col-md-5 text-center">
                                         <p> Expiration Year: </p>
-                                        <input id="card_expiration_year" name="card_expiration_year" type="text" value="18" placeholder="year" class="form-control">
+                                        <input type="text"  data-decidir="card_expiration_year" placeholder="AA" value="20" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <span class="col-md-1 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
                                     <div class="col-md-5 text-center">
                                         <p> Security Code: </p>
-                                        <input id="security_code" name="security_code" type="text" value="775" placeholder="security code" class="form-control">
+                                         <input type="text"  data-decidir="security_code" placeholder="XXX" value="775" class="form-control" />
                                     </div>
                                     <div class="col-md-5 text-center">
                                         <p> Card Holder Name: </p>
-                                        <input id="card_holder_name" name="card_holder_name" type="text" value='John Doe' placeholder="name" class="form-control">
+                                        <input type="text" data-decidir="card_holder_name" placeholder="TITULAR" value="Tarjeta Visa" class="form-control"/>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <span class="col-md-1 text-center"><i class="fa fa-pencil-square-o bigicon"></i></span>
                                     <div class="col-md-5 text-center">
                                         <p> Type: </p>
-                                        <input id="type" name="type" type="text" value="dni" placeholder="dni" class="form-control">
+                                            <select data-decidir="card_holder_doc_type">
+                                                <option value="dni">DNI</option>
+                                            </select>
                                     </div>
                                     <div class="col-md-5 text-center">
                                         <p> Number: </p>
-                                        <input id="number" name="number" type="text" value="25123456" placeholder="number" class="form-control">
+                                        <input type="text"data-decidir="card_holder_doc_number" placeholder="XXXXXXXXXX" value="27859328" class="form-control"/>
                                     </div>
                                 </div>
 
@@ -304,13 +311,14 @@
                                         </div>
                                         <div class="col-md-6 text-center">
                                             <br/>
-                                            <button id="sendTokenRequest" type="submit" class="btn btn-primary btn-lg">Send Request</button>
+                                            <input type="submit" id="sendTokenRequest" class="btn btn-primary btn-lg" onclick="sendFormFunc()" value="Send Request" />
                                         </div>
                                     </div>
                                     <input id="apiKeyHidden" name="apiKeyHidden" type="text" value="single" placeholder="  " style="display:none" class="form-control">
                                     <input id="contentTypeHidden" name="contentTypeHidden" type="text" value="single" placeholder="  " style="display:none" class="form-control">
                             </fieldset>
-                        </form>
+                        </div>
+                        <!-- </form> -->
                         </div>
                     </div>
 
@@ -388,6 +396,41 @@
     <!-- end darken -->
 
     <script type="text/javascript">
+    const publicApiKey = "b192e4cb99564b84bf5db5550112adea";
+    const urlSandbox = "https://developers.decidir.com/api/v1";
+
+    const decidirSandbox = new Decidir(urlSandbox);
+    decidirSandbox.setPublishableKey(publicApiKey);
+    decidirSandbox.setTimeout(0);//se configura sin timeout
+
+    //funcion para manejar la respuesta
+    function sdkResponseHandler(status, response) {
+        //console.log(status);
+        if (status == '200' ||status == '201') {
+            console.log('OK - Respuesta: '+response );
+            console.log('TOKEN: '+response.id );
+            $('#token').val(response.id);
+
+        //alert("Token de pago: "+response.id);
+      }else {
+          console.log('ERROR - STATUS: ' + status + ' - Respuesta: ' +response );
+          console.log(response);
+      }
+    }
+
+
+    //funcion de invocacion con sdk
+    function sendFormFunc(event) {
+        console.log('Función sendFormFunc');
+      //event.preventDefault();
+      var form=document.querySelector('#dataRequestToken');
+      decidirSandbox.createToken(form, sdkResponseHandler);//formulario y callback
+      return false;
+    }
+
+
+//jQuery('#sendTokenRequest').click(function() {
+
         jQuery(function() {
             $("#successPartial").hide();
             $("#successTotal").hide();
@@ -551,8 +594,15 @@
                     },
                 });
             })
+            
             jQuery('#sendTokenRequest').click(function() {
 
+                        console.log('complete sucess');
+                        jQuery('#darken').fadeOut('500');
+                        jQuery('#modalBoxToken').fadeOut('500');
+
+
+/*
                 var ip = location.host;
 
                 $.ajax({
@@ -584,6 +634,7 @@
                         console.log('process error');
                     },
                 });
+*/                
             })
 
             jQuery('#sendPaymentRequest').click(function() {
@@ -720,7 +771,7 @@
 
         body {
 
-            background: blue;
+            background:  #4d4dff;
         }
 
         .header {
