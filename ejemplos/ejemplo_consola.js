@@ -35,7 +35,7 @@ var sdk = new sdkModulo.sdk('developer', "b192e4cb99564b84bf5db5550112adea", "56
 //exampleDeletePartialRefund(sdk);
 //exampleDeleteRefund(sdk);
 //exampleValidate(sdk);
-examplePaymentBsa(sdk)
+//examplePaymentBsa(sdk)
 
 // EJEMPLO ESTADO DEL SERVICIO
 function exampleHealthCheck(sdk) {
