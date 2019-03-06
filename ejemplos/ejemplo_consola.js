@@ -127,6 +127,7 @@ function exampleValidateOffline(sdk) { //*************************
                 },
 
                 "payment": {
+                    second_invoice_expiration: '010619',
                     amount: 10.00,
                     currency: "ARS",
                     payment_method_id: 48,
