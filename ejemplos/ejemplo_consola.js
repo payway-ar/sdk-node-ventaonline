@@ -132,7 +132,7 @@ function exampleValidateOffline(sdk) { //*************************
                     invoice_expiration: "191123",
                     client: "12345678",
                     surcharge: 10.01,
-                    //cod_p2: "0001",
+                    cod_p2: "0001",
                     second_invoice_expiration: "2019-12-20",
                     notifications_url: "http://localhost:10113/lae57f21",
                     company_code: "1234",
