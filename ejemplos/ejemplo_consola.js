@@ -18,6 +18,8 @@ var PaymentDataModulo = require('../lib/payment_data.js');
 var ValidateOfflineModulo = require('../lib/validate_offline.js');
 var ValidateOfflineCajaPagosDataModulo = require('../lib/validate_offline_caja_pagos_data.js');
 var ValidateOfflinePagofacilRapipagoDataModulo = require('../lib/validate_offline_pagofacil_rapipago_data.js');
+var ValidateOfflineCobroexpressDataModulo = require('../lib/validate_offline_cobroexpress_data.js');
+var ValidateOfflinePmcDataModulo = require('../lib/validate_offline_pmc_data.js');
 
 var retailModulo = require('../lib/fraud_detection/cs_retail.js');
 
@@ -188,12 +190,11 @@ function exampleValidateOffline(sdk) { //*************************
                 formSite: '00020555',
 
             };
-            //console.log('traza 2');
-            //console.log(args);
-            //process.exit();
+            var validateData = new ValidateOfflinePagofacilRapipagoDataModulo.validateOfflinePagofacilRapipagoData(args);
+
 */
 
-//Cobro Express
+/*Cobro Express
             args = {
                 "site": {
                     id: "00021621",
@@ -226,15 +227,38 @@ function exampleValidateOffline(sdk) { //*************************
                 formSite: '00020555',
 
             };
-            //console.log('traza 2');
-            //console.log(args);
-            //process.exit();
+            var validateData = new ValidateOfflineCobroexpressDataModulo.validateOfflineCobroexpressData(args);
+
+*/
 
 
+//Pago mis cuentas
+            args = {
+                "site": {
+                    id: "00021621",
+                    transaction_id: date,
+                    template: {
+                        id: 5
+                    }
+                },
+
+                "payment": {
+                    payment_method_id: 48,                    
+                    amount: 10.00,
+                    currency: "ARS",
+                    invoice_expiration: "191123",
+                    payment_mode: "offline",
+
+                },
+                "success_url": "https://shop.swatch.com/es_ar/",
+                "cancel_url": "https://swatch.com/api/result",
+                apiKey: '566f2c897b5e4bfaa0ec2452f5d67f13',
+                formSite: '00020555',
+
+            };
+            var validateData = new ValidateOfflinePmcDataModulo.validateOfflinePmcData(args);
 
 
-
-            var validateData = new ValidateOfflinePagofacilRapipagoDataModulo.validateOfflinePagofacilRapipagoData(args);
 
             var dev = validateData.getJSON();
 
