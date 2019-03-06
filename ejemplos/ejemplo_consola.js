@@ -152,7 +152,7 @@ function exampleValidateOffline(sdk) { //*************************
 */
 
 
-/* Pagofácil/Rapipago */
+/* Pagofácil/Rapipago
             args = {
                 "site": {
                     id: "00021621",
@@ -190,6 +190,48 @@ function exampleValidateOffline(sdk) { //*************************
             //console.log('traza 2');
             //console.log(args);
             //process.exit();
+*/
+
+//Cobro Express
+            args = {
+                "site": {
+                    id: "00021621",
+                    transaction_id: date,
+                    site_transaction_id: date,
+                    template: {
+                        id: 5
+                    }
+                },
+
+                "customer": {
+                    email: "user@mail.com",
+                },
+
+                "payment": {
+                    second_invoice_expiration: '2019-04-20',
+                    amount: 10.00,
+                    currency: "ARS",
+                    payment_method_id: 48,
+                    payment_mode: "offline",
+                    invoice_expiration: "191123",
+                    client: "12345678",
+                    surcharge: 10.01,
+                    notifications_url: "http://localhost:10113/lae57f21",
+                    company_code: "1234",
+                },
+                "success_url": "https://shop.swatch.com/es_ar/",
+                "cancel_url": "https://swatch.com/api/result",
+                apiKey: '566f2c897b5e4bfaa0ec2452f5d67f13',
+                formSite: '00020555',
+
+            };
+            //console.log('traza 2');
+            //console.log(args);
+            //process.exit();
+
+
+
+
 
             var validateData = new ValidateOfflinePagofacilRapipagoDataModulo.validateOfflinePagofacilRapipagoData(args);
 
