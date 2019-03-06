@@ -15,7 +15,10 @@ var Client = require('node-rest-client').Client;
 var Promise = require('promise');
 var TokenDataModulo = require('../lib/token_data.js');
 var PaymentDataModulo = require('../lib/payment_data.js');
+var ValidateOfflineModulo = require('../lib/validate_offline.js');
 var ValidateOfflineCajaPagosDataModulo = require('../lib/validate_offline_caja_pagos_data.js');
+var ValidateOfflinePagofacilRapipagoDataModulo = require('../lib/validate_offline_pagofacil_rapipago_data.js');
+
 var retailModulo = require('../lib/fraud_detection/cs_retail.js');
 
 // SE INSTANCIA SDK DECIDIR 2
@@ -96,7 +99,6 @@ function exampleValidateOffline(sdk) { //*************************
     return new Promise(function(resolve, reject) {
         //SE OBTIENE UN TOKEN DE PAGO
             var date = new Date().getTime();
-            console.log('traza');
 
             /*
             var hotels = { 
@@ -109,7 +111,7 @@ function exampleValidateOffline(sdk) { //*************************
 
 
 
-
+/* Caja de Pagos
             args = {
                 "site": {
                     id: "00021621",
@@ -148,33 +150,64 @@ function exampleValidateOffline(sdk) { //*************************
             //process.exit();
 
             var validateData = new ValidateOfflineCajaPagosDataModulo.validateOfflineCajaPagosData(args);
-           
+*/
 
 
-            //
+/* Pagofácil/Rapipago */
+            args = {
+                "site": {
+                    id: "00021621",
+                    transaction_id: date,
+                    site_transaction_id: date,
+                    template: {
+                        id: 5
+                    }
+                },
 
+                "customer": {
+                    email: "user@mail.com",
+                },
 
+                "payment": {
+                    gateway_code: 1234,
+                    days_to_second_expiration: 00,
+                    days_to_final_expiration: 00,
+                    amount: 10.00,
+                    currency: "ARS",
+                    payment_method_id: 48,
+                    payment_mode: "offline",
+                    invoice_expiration: "191123",
+                    client: "12345678",
+                    surcharge: 10.01,
+                    cod_p2: "0001",
+                    second_invoice_expiration: "2019-12-20",
+                    notifications_url: "http://localhost:10113/lae57f21",
+                    company_code: "1234",
+                },
+                "success_url": "https://shop.swatch.com/es_ar/",
+                "cancel_url": "https://swatch.com/api/result",
+                apiKey: '566f2c897b5e4bfaa0ec2452f5d67f13',
+                formSite: '00020555',
 
+            };
+            //console.log('traza 2');
+            //console.log(args);
+            //process.exit();
 
+            var validateData = new ValidateOfflinePagofacilRapipagoDataModulo.validateOfflinePagofacilRapipagoData(args);
 
-            console.log('validate data:');
             var dev = validateData.getJSON();
-            //console.log(dev);
-
-
-
 
             // send_to_cs = TRUE O FALSE PARA ENVIAR PARAMETROS CS
 
             //Se envian sdk y parametros al modulos de validate que realizará el pago
-            var instPayment = new ValidateOfflineCajaPagosDataModulo.validateOffline(sdk, args).then(function(result) {
+            var instPayment = new ValidateOfflineModulo.validateOffline(sdk, args).then(function(result) {
                 console.log("-----------------------------------------")
                 console.log("Validate")
                 console.log(result);
                 console.log("-------------------***-------------------");
             })
 
-            console.log('last');
     })
 }
 
