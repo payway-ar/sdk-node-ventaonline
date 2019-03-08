@@ -1,0 +1,95 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'todo-pago' ]
+2 info using npm@3.10.10
+3 info using node@v6.9.4
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly fetchPackageMetaData todo-pago
+8 silly fetchNamedPackageData todo-pago
+9 silly mapToRegistry name todo-pago
+10 silly mapToRegistry using default registry
+11 silly mapToRegistry registry https://registry.npmjs.org/
+12 silly mapToRegistry data Result {
+12 silly mapToRegistry   raw: 'todo-pago',
+12 silly mapToRegistry   scope: null,
+12 silly mapToRegistry   escapedName: 'todo-pago',
+12 silly mapToRegistry   name: 'todo-pago',
+12 silly mapToRegistry   rawSpec: '',
+12 silly mapToRegistry   spec: 'latest',
+12 silly mapToRegistry   type: 'tag' }
+13 silly mapToRegistry uri https://registry.npmjs.org/todo-pago
+14 verbose request uri https://registry.npmjs.org/todo-pago
+15 verbose request no auth needed
+16 info attempt registry request try #1 at 11:07:53
+17 verbose request id 1eaddfcf643445dc
+18 verbose etag W/"57e19a72-cf8"
+19 verbose lastModified Tue, 20 Sep 2016 20:22:10 GMT
+20 http request GET https://registry.npmjs.org/todo-pago
+21 http 304 https://registry.npmjs.org/todo-pago
+22 verbose headers { date: 'Wed, 01 Mar 2017 14:07:49 GMT',
+22 verbose headers   via: '1.1 varnish',
+22 verbose headers   'cache-control': 'max-age=300',
+22 verbose headers   etag: 'W/"57e19a72-cf8"',
+22 verbose headers   age: '51',
+22 verbose headers   connection: 'keep-alive',
+22 verbose headers   'x-served-by': 'cache-gru7123-GRU',
+22 verbose headers   'x-cache': 'HIT',
+22 verbose headers   'x-cache-hits': '1',
+22 verbose headers   'x-timer': 'S1488377269.832137,VS0,VE0',
+22 verbose headers   vary: 'Accept-Encoding' }
+23 silly get cb [ 304,
+23 silly get   { date: 'Wed, 01 Mar 2017 14:07:49 GMT',
+23 silly get     via: '1.1 varnish',
+23 silly get     'cache-control': 'max-age=300',
+23 silly get     etag: 'W/"57e19a72-cf8"',
+23 silly get     age: '51',
+23 silly get     connection: 'keep-alive',
+23 silly get     'x-served-by': 'cache-gru7123-GRU',
+23 silly get     'x-cache': 'HIT',
+23 silly get     'x-cache-hits': '1',
+23 silly get     'x-timer': 'S1488377269.832137,VS0,VE0',
+23 silly get     vary: 'Accept-Encoding' } ]
+24 verbose etag https://registry.npmjs.org/todo-pago from cache
+25 verbose get saving todo-pago to C:\Users\Legolas\AppData\Roaming\npm-cache\registry.npmjs.org\todo-pago\.cache.json
+26 verbose correctMkdir C:\Users\Legolas\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
+27 silly install normalizeTree
+28 silly loadCurrentTree Finishing
+29 silly loadIdealTree Starting
+30 silly install loadIdealTree
+31 silly cloneCurrentTree Starting
+32 silly install cloneCurrentTreeToIdealTree
+33 silly cloneCurrentTree Finishing
+34 silly loadShrinkwrap Starting
+35 silly install loadShrinkwrap
+36 silly loadShrinkwrap Finishing
+37 silly loadAllDepsIntoIdealTree Starting
+38 silly install loadAllDepsIntoIdealTree
+39 silly rollbackFailedOptional Starting
+40 silly rollbackFailedOptional Finishing
+41 silly runTopLevelLifecycles Finishing
+42 silly install printInstalled
+43 verbose stack Error: Refusing to install todo-pago as a dependency of itself
+43 verbose stack     at checkSelf (C:\Program Files\nodejs\node_modules\npm\lib\install\validate-args.js:53:14)
+43 verbose stack     at Array.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\bind-actor.js:15:8)
+43 verbose stack     at LOOP (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\chain.js:15:14)
+43 verbose stack     at chain (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\chain.js:20:5)
+43 verbose stack     at C:\Program Files\nodejs\node_modules\npm\lib\install\validate-args.js:16:5
+43 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:52:35
+43 verbose stack     at Array.forEach (native)
+43 verbose stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:52:11
+43 verbose stack     at Array.forEach (native)
+43 verbose stack     at asyncMap (C:\Program Files\nodejs\node_modules\npm\node_modules\slide\lib\async-map.js:51:8)
+44 verbose cwd C:\Users\Legolas\Desktop\Github\dev-Nodejs-sdk\lib
+45 error Windows_NT 10.0.14393
+46 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "todo-pago"
+47 error node v6.9.4
+48 error npm  v3.10.10
+49 error code ENOSELF
+50 error Refusing to install todo-pago as a dependency of itself
+51 error If you need help, you may report this error at:
+51 error     <https://github.com/npm/npm/issues>
+52 verbose exit [ 1, true ]
