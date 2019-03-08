@@ -141,6 +141,41 @@ app.get('/transaction', function(req, res) {
 
 
 
+
+app.get('/pago_tp', function(req, res) {
+    console.log('transaction');
+    console.log(req.query.ord);
+
+    //var endpoint;
+    db.get(`SELECT * FROM transaccion WHERE id=`+req.query.ord, (err, row) => {
+        if (err) {
+          console.error(err.message);
+        }          
+        var dataTransaction=JSON.parse(row.transactionresponse);
+        console.log(dataTransaction);
+        console.log(dataTransaction.transactionresponse);
+
+        var dataGeneral = JSON.parse(row.data);
+
+        if(row.ambiente=="dev"){
+            var endpoint="https://portalqa.visa2.com.ar/resources/TPBSAForm.min.js";
+        }else{
+            var endpoint="https://forms.todopago.com.ar/resources/TPBSAForm.min.js";
+        }
+        
+        res.render('./pago_tp.ejs', {
+            endpoint: endpoint,
+            operationid: req.query.ord,
+            publicKey: dataTransaction.publicRequestKey,
+            merchant: dataGeneral.merchant,
+        }); 
+
+
+         
+    });
+});
+
+
 app.get('/', function(req, res) {
     db.all(`SELECT * FROM transaccion`, (err, rows) => {
         if (err) {
