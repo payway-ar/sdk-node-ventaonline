@@ -40,7 +40,15 @@
                 <% } %>
             </td>
 
-            <td><a href="pago_tp.php?ord=sdk_node<%= row.id %>" class="btn site btn-sm disabled">Pagar TP</a></td>
+            <td>
+                <a href="pago_tp?ord=<%= row.id %>" class="btn site btn-sm 
+                <% if(row.transactionresponse){ %>
+                <% }else{ %>
+                        disabled
+                <% } %>
+
+                ">Pagar TP</a>
+            </td>
             <td>
                 xxxx       
             </td>
