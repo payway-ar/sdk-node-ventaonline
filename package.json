@@ -8,10 +8,13 @@
     "gateway"
   ],
   "dependencies": {
-    "soap": "^0.24.0",
-    "xml2js": "^0.4.19",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
     "node-rest-client": "^3.1.0",
-    "promise": "^8.0.1"
+    "promise": "^8.0.1",
+    "soap": "^0.24.0",
+    "sqlite3": "^4.0.6",
+    "xml2js": "^0.4.19"
   },
   "_id": "sdk-decidir@0.1.1",
   "scripts": {},
