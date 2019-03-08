@@ -120,7 +120,8 @@ app.get('/transaction', function(req, res) {
         console.log("getTransaction:");
         console.log(result);
         db.all(`UPDATE transaccion 
-            SET transactionresponse='`+result+`'`, (err, rows) => {
+            SET transactionresponse='`+ JSON.stringify(result) +`'
+            WHERE id='`+ req.query.ord +`'`, (err, rows) => {
             if (err) {
               console.error(err.message);
             }
