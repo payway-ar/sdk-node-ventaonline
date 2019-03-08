@@ -125,6 +125,8 @@ app.get('/transaction', function(req, res) {
             if (err) {
               console.error(err.message);
             }
+
+            res.render('./success.ejs');
         });         
         console.log('error: ');
         console.log(err.toString('utf8'));
