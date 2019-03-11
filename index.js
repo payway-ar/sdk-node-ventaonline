@@ -1,3 +1,3 @@
 "use strict";
 
-module.exports = require('./lib/sdk-decidir');
+module.exports = require('./lib/sdk');
