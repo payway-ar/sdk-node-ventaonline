@@ -64,7 +64,11 @@
 
             ">Pago Decidir</a></td>
             <td>
-                xxxx       
+                <% if(row.pagotpstatus){ %>
+                    <%= row.pagotpstatus %>
+                <% }else{ %>      
+                    PENDIENTE
+                <% } %>
             </td>
 
             <td><a href="push_notification.php?ord=sdk_node<%= row.id %>" class="btn site btn-sm disabled">Pushnotification</a></td>
