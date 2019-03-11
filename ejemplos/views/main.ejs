@@ -50,10 +50,19 @@
                 ">Pagar TP</a>
             </td>
             <td>
-                xxxx       
+                <% if(row.pagotpstatus){ %>      
+                    <%= row.pagotpstatus %>
+                <% }else{ %>
+                    PENDIENTE
+                <% } %>
             </td>
 
-            <td><a href="pago_dec.php?ord=sdk_node<%= row.id %>" class="btn site btn-sm disabled">Pago Decidir</a></td>
+            <td><a href="pago_decidir?ord=<%= row.id %>" class="btn site btn-sm
+            <% if(row.pagotpstatus!="ACEPTADO"){ %>
+                disabled
+            <% } %>
+
+            ">Pago Decidir</a></td>
             <td>
                 xxxx       
             </td>
