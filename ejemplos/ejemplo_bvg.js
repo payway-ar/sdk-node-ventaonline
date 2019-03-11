@@ -7,9 +7,12 @@ var Client = require('node-rest-client').Client;
 var Promise = require('promise');
 var TokenDataModulo = require('../lib/token_data.js');
 var PaymentDataModulo = require('../lib/payment_data.js');
+var paymentInfoMod = require('../lib/payment_info');
 var querystring = require('querystring');
 var sdkModulo = require('../lib/sdk');
 var bsa = require('./SDK-Nodejs-BilleteraVirtualGateway-master/lib/BSA/bsa.js'); // Obtengo las funciones discover y transaction
+
+var sdk = new sdkModulo.sdk('developer', "b192e4cb99564b84bf5db5550112adea", "566f2c897b5e4bfaa0ec2452f5d67f13");
 
 
 app.set('view engine', 'ejs');
@@ -219,7 +222,7 @@ app.get('/pago_decidir', function(req, res) {
             var flag_code_check = "0";
         }
 
-        /*
+        
         var args = {
             data: {
                "public_token":dataTpResponse.Token,
@@ -247,10 +250,10 @@ app.get('/pago_decidir', function(req, res) {
                 'Content-Type': 'application/json'
             }
         };
-        */
-
-
         
+
+
+        /*
         var args = {
             data: {
                "public_token":96291105,
@@ -278,7 +281,7 @@ app.get('/pago_decidir', function(req, res) {
                 'Content-Type': 'application/json'
             }
         };        
-        
+        */
 
         var client = new Client();
 
