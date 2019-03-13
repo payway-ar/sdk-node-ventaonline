@@ -357,6 +357,141 @@ app.get('/pago_decidir', function(req, res) {
 });
 
 
+
+app.get('/push_notification', function(req, res) {
+    db.get(`SELECT * FROM transaccion WHERE id=`+req.query.ord, (err, row) => {
+        if (err) {
+          console.error(err.message);
+        }       
+        var args = {
+            data: {
+
+            },
+            headers: {
+                "apikey": "566f2c897b5e4bfaa0ec2452f5d67f13",
+                "Content-Type": "application/json",
+                "Cache-Control": "no-cache"
+            }
+        };
+
+
+        var dataTransaction=JSON.parse(row.transactionresponse);
+        var dataGeneral = JSON.parse(row.data);
+        var dataTpResponse = JSON.parse(row.pagotpresponse);
+        var dataPagoDecidirResponse = JSON.parse(row.pagodecresponse);
+/*
+        console.log(dataPagoDecidirResponse);
+        console.log(dataPagoDecidirResponse.id);
+        process.exit();
+*/
+
+        
+        setTimeout(function() {
+            var query = "?expand=card_data";
+
+
+
+
+            var paymentInfo = new paymentInfoMod.paymentInfo(sdk, dataPagoDecidirResponse.id + query, args).then(function(resp) {
+            //var paymentInfo = new paymentInfoMod.paymentInfo(sdk, 861757 + query, args).then(function(resp) {
+            //console.log(resp);
+            //console.log(resp.card_data.card_number);    
+
+            /*
+                $remove = array(":", "-", " ");
+    $currentdate = str_replace($remove, "",date("Y-m-d H:i:s")); 
+*/
+
+                var today = new Date();
+                var minutes = today.getMinutes();
+                var seconds = today.getSeconds();
+                var hours = today.getHours();
+                var mm = today.getMonth()+1; 
+                var yyyy = today.getFullYear();
+                var dd = today.getDate();
+
+                if(dd<10) 
+                {
+                    dd='0'+dd;
+                } 
+
+                if(mm<10) 
+                {
+                    mm='0'+mm;
+                }  
+                               
+                if(minutes<10) 
+                {
+                    minutes='0'+minutes;
+                } 
+
+                if(seconds<10) 
+                {
+                    seconds='0'+seconds;
+                } 
+
+                if(hours<10) 
+                {
+                    hours='0'+hours;
+                } 
+
+                console.log('año: ' + yyyy);
+
+
+                var fulldate=""+yyyy+mm+dd+hours+minutes+seconds;
+                console.log("fulldate: " + fulldate);
+                //varfulldate="20190101010101";
+                var ip = req.ip.split(':').pop();
+                console.log(ip);
+
+                var generalData = {
+                    "merchant": parseInt(dataGeneral.merchant),
+                    "security": dataGeneral.security,
+                    "operationName": "Compra",
+                    "publicRequestKey": dataTransaction.publicRequestKey,
+                    "remoteIpAddress": ip
+                    
+                };
+                
+
+
+                var operationData = {
+                    "resultCodeMedioPago": -1,
+                    "resultCodeGateway": -1,
+                    "idGateway": 8,
+                    "resultMessage": dataPagoDecidirResponse.status,
+                    "operationDatetime": fulldate, //fecha de operacion del transaction
+                    "ticketNumber": dataPagoDecidirResponse.status_details.ticket,
+                    "codigoAutorizacion": dataPagoDecidirResponse.status_details.card_authorization_code,
+                    "currencyCode": dataGeneral.currency,
+                    "operationID": dataGeneral.operacion,
+                    "concept": "compra",
+                    "amount": dataGeneral.amount,
+                    "facilitiesPayment": "03"
+                };
+
+
+                var tokenizationData = {
+                    "publicTokenizationField": dataTpResponse.Token,
+                    "credentialMask": resp.card_data.card_number
+                };
+
+
+                console.log('antes de push notification');
+                //pushNotification: function(generalData, operationData, tokenizationData, callback
+                bsa.pushNotification(generalData, operationData, tokenizationData, function(result, err) {
+                    console.log("-------------------***-------------------");
+                    console.log(result);
+                    console.log("-------------------***-------------------");
+                });
+
+            });
+        }, 2000);
+            
+    });
+
+});
+
 app.get('/', function(req, res) {
     db.all(`SELECT * FROM transaccion`, (err, rows) => {
         if (err) {

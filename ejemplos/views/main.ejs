@@ -71,7 +71,11 @@
                 <% } %>
             </td>
 
-            <td><a href="push_notification.php?ord=sdk_node<%= row.id %>" class="btn site btn-sm disabled">Pushnotification</a></td>
+            <td><a href="push_notification?ord=<%= row.id %>" class="btn site btn-sm 
+            <% if(row.pagotpstatus!="ACEPTADO"){ %>
+                disabled
+            <% } %>
+            ">Pushnotification</a></td>
             <td>
                 xxxx   
             </td>
