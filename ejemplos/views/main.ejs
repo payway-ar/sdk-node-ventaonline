@@ -77,7 +77,11 @@
             <% } %>
             ">Pushnotification</a></td>
             <td>
-                xxxx   
+            <% if(row.pushstatus){ %>
+                <%= row.pagotpstatus %>
+            <% }else{ %>
+                PENDIENTE
+            <% } %>   
             </td>
         </tr>
 

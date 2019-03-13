@@ -482,6 +482,23 @@ app.get('/push_notification', function(req, res) {
                 bsa.pushNotification(generalData, operationData, tokenizationData, function(result, err) {
                     console.log("-------------------***-------------------");
                     console.log(result);
+
+                    if(result.statusCode=="-1"){
+                        var pushstatus = "ACEPTADO";
+                    }else{
+                        var pushstatus = "RECHAZADO";
+                    }
+
+                    db.all(`UPDATE transaccion 
+                        SET pushresponse='`+ result +`',
+                        pushstatus='`+ pushstatus +`'
+                        WHERE id='`+ req.query.ord +`'`, (err, rows) => {
+                        if (err) {
+                          console.error(err.message);
+                        }
+
+                        res.render('./success.ejs');
+                    });                     
                     console.log("-------------------***-------------------");
                 });
 
