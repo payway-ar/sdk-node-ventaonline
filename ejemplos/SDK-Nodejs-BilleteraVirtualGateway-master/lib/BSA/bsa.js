@@ -45,8 +45,6 @@ module.exports = {
     },
 
     getDiscover: function(callback) {
-        console.log(baseEndpoint + 'ms/discover/api/BSA/paymentMethod/discover');
-                                       //bsa/discover/api/BSA/paymentMethod/discover
         restClient.get(baseEndpoint + 'ms/discover/api/BSA/paymentMethod/discover', function(data, result) {
             callback(data, data);
         });
@@ -96,13 +94,11 @@ module.exports = {
     },
 
     pushNotification: function(generalData, operationData, tokenizationData, callback) {
-
         if (validateInteger(generalData.merchant) != true) {
             errorMessage = 'merchant debe ser tipo integer. Por favor, revíselo e intente nuevamente la operación.'
             callback(errorMessage, errorMessage);
             return;
         }
-
         if (isValidDate(operationData.operationDatetime) == false) {
             errorMessage = 'operationDatetime no tiene un formato válido. Por favor, revíselo e intente nuevamente la operación.'
             callback(errorMessage, errorMessage);
@@ -148,12 +144,17 @@ function isValidDate(dateString) {
     return dateString.match(regEx) != null;
 }
 
-function validateIp(dateString) {
-    return /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$|^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\-]*[A-Za-z0-9])$|^\s*((([0-9A-Fa-f]{1,4}:){7}([0-9A-Fa-f]{1,4}|:))|(([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}|((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){5}(((:[0-9A-Fa-f]{1,4}){1,2})|:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3})|:))|(([0-9A-Fa-f]{1,4}:){4}(((:[0-9A-Fa-f]{1,4}){1,3})|((:[0-9A-Fa-f]{1,4})?:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){3}(((:[0-9A-Fa-f]{1,4}){1,4})|((:[0-9A-Fa-f]{1,4}){0,2}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){2}(((:[0-9A-Fa-f]{1,4}){1,5})|((:[0-9A-Fa-f]{1,4}){0,3}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(([0-9A-Fa-f]{1,4}:){1}(((:[0-9A-Fa-f]{1,4}){1,6})|((:[0-9A-Fa-f]{1,4}){0,4}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:))|(:(((:[0-9A-Fa-f]{1,4}){1,7})|((:[0-9A-Fa-f]{1,4}){0,5}:((25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)(\.(25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)){3}))|:)))(%.+)?\s*$/.test(generalData.remoteIpAddress)
+function validateIp(ip) {
+    var regex =  /^(?=.*[^\.]$)((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.?){4}$/igm;
+    if(ip.match(regex)){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 function validateAmount(amount) {
-    var number = parseFloat(operationData.amount.replace(',', '.'))
+    var number = parseFloat(amount.replace(',', '.'))
     var fixedNumber = number.toFixed(2)
     var amount = fixedNumber.toString();
     amount = amount.replace('.', ',');
