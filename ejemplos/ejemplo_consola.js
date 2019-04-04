@@ -5,6 +5,8 @@ var partialRefundMod = require('../lib/partial_refund');
 var refundMod = require('../lib/refund');
 var paymentInfoMod = require('../lib/payment_info');
 var validateMod = require('../lib/validate');
+var tokensMod = require('../lib/tokens');
+
 
 var getAllPaymentsMod = require('../lib/all_payments');
 var cardTokensMod = require('../lib/card_token');
@@ -36,6 +38,7 @@ var sdk = new sdkModulo.sdk('developer', "b192e4cb99564b84bf5db5550112adea", "56
 //exampleDeleteRefund(sdk);
 //exampleValidate(sdk);
 //examplePaymentBsa(sdk)
+//exampleTokens(sdk);
 
 // EJEMPLO ESTADO DEL SERVICIO
 function exampleHealthCheck(sdk) {
@@ -82,6 +85,46 @@ function exampleValidate(sdk) { //*************************
             var instPayment = new validateMod.validate(sdk, args).then(function(result) {
                 console.log("-----------------------------------------")
                 console.log("Validate")
+                console.log(result);
+                console.log("-------------------***-------------------");
+            })
+    })
+}
+
+
+
+function exampleTokens(sdk) { //*************************
+    return new Promise(function(resolve, reject) {
+        //SE OBTIENE UN TOKEN DE PAGO
+            var date = new Date().getTime();
+            console.log('traza 1');
+            args = {
+              "public_token": "4507994025297787",
+              "volatile_encrypted_data": "YRfrWggICAggsF0nR6ViuAgWsPr5ouR5knIbPtkN+yntd7G6FzN/Xb8zt6+QHnoxmpTraKphZVHvxA==",
+              "public_request_key": "12345678",
+              "issue_date": "123123123123",
+              "flag_security_code": "0",
+              "flag_tokenization": "0",
+              "flag_selector_key": "1",
+              "flag_pei": "1",
+              "card_holder_name": "Horacio",
+              "card_holder_identification_type": "dni",
+              "card_holder_identification_number": "23968498",
+              "fraud_detection_device_unique_identifier": "12345",
+              "apiKey": "aaaaaaaaaaaaaa0ec2452f5d67f13",
+              "Content-Type": "application/json",
+
+            };
+
+
+            var tokensData = new tokensMod.tokens(args);
+
+            // send_to_cs = TRUE O FALSE PARA ENVIAR PARAMETROS CS
+
+            //Se envian sdk y parametros al modulos de validate que realizará el pago
+            var instPayment = new tokensMod.tokens(sdk, args).then(function(result) {
+                console.log("-----------------------------------------")
+                console.log("Tokens")
                 console.log(result);
                 console.log("-------------------***-------------------");
             })
