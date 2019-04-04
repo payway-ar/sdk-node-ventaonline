@@ -113,7 +113,7 @@ El sdk NODEJS permite trabajar con los ambientes de Sandbox y Producción de Dec
 
 ```javascript
 
-var ambient = "test";//valores posibles: "test" o "prod";
+var ambient = "developer";//valores posibles: "developer" o "production";
 var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 
 ```
