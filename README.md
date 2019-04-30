@@ -409,6 +409,9 @@ args = {
     payment_type: "single",
     sub_payments: [],
     apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
+    //"payment_mode": "gds", //solo para medio de pago 53 LPWT
+    //"nro_location": "11140407", //solo para medio de pago 53 LPWT
+    //"iata_code": "10101010", //solo para medio de pago 53 LPWT    
     'Content-Type': "application/json"
 };
 
