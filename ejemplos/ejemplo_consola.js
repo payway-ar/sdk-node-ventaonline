@@ -153,6 +153,7 @@ function examplePayment(sdk) {
                 payment_type: "single",
                 nro_location: "11140407",
                 iata_code: "10101010",
+                payment_mode: "example",
                 sub_payments: [],
                 apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
                 'Content-Type': "application/json"
