@@ -151,9 +151,9 @@ function examplePayment(sdk) {
                 installments: 1,
                 description: "Description of product",
                 payment_type: "single",
-                nro_location: "11140407",
-                iata_code: "10101010",
-                payment_mode: "example",
+                //nro_location: "11140407", //solo para medio de pago 53 LPWT
+                //iata_code: "10101010", //solo para medio de pago 53 LPWT
+                //payment_mode: "example", //solo para medio de pago 53 LPWT
                 sub_payments: [],
                 apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
                 'Content-Type': "application/json"
