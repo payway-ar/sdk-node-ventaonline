@@ -78,7 +78,7 @@ function exampleValidate(sdk) { //*************************
                 identification_type: "dni",
                 identification_number: "12312300",
                 door_number: "123",
-                date_of_birth: "1990-07-05",
+                date_of_birth: "19900705",
 
 
             };

@@ -796,7 +796,7 @@ pago es distribuido por monto, ya que si es por porcentaje toma los configurados
 |identification_type  | Tipo de documento del cliente  | NO | DNI, CI, LE o LC |   |
 |identification_number  | Número de documento  | NO | Numéroco 1-8 dígitos  |   |
 |door_number  | Numero de puerta del domicilio del cliente   | NO | NA |   |
-|date_of_birth  | Fecha de nacimiento del cliente  | NO | "yyyy-MM-dd" |   |
+|date_of_birth  | Fecha de nacimiento del cliente  | NO | "yyyyMMdd" |   |
 
 #### Ejemplo
 ```javascript
