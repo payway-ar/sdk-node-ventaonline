@@ -793,6 +793,10 @@ pago es distribuido por monto, ya que si es por porcentaje toma los configurados
 |success_url  | Url a donde se rediccionará una vez que el usuario finalice la operación desde la página de feedback  | SI | Númerico |   |
 |cancel_url  | Url donde se rediccionará si el cliente quiere cancelar el formulario  | SI | NA |   |
 |redirect_url  | Url en la cual se enviaran los datos de la operación una vez finalizada la misma para que el comercio pueda capturarlos y mostrarlos como lo desee  | Es requerido en los casos donde no informe el campo "success_url" | NA |   |
+|identification_type  | Tipo de documento del cliente  | NO | DNI, CI, LE o LC |   |
+|identification_number  | Número de documento  | NO | Numéroco 1-8 dígitos  |   |
+|door_number  | Numero de puerta del domicilio del cliente   | NO | NA |   |
+|date_of_birth  | Fecha de nacimiento del cliente  | NO | "yyyy-MM-dd" |   |
 
 #### Ejemplo
 ```javascript
