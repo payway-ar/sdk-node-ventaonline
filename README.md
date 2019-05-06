@@ -823,8 +823,12 @@ pago es distribuido por monto, ya que si es por porcentaje toma los configurados
                 success_ur": "https://shop.swatch.com/es_ar/", //si no se informa el "redirect_url" es requerido
                 cancel_url: "https://swatch.com/api/result",
                 redirect_url: "", //si no se informa el "success_url" es requerido
-                fraud_detection: array() //si no esta activado cybersource no enviar este atributo
+                fraud_detection: array(), //si no esta activado cybersource no enviar este atributo
 
+                identification_type: "dni",
+                identification_number: "12312300",
+                door_number: "123",
+                date_of_birth: 19910123
             };
 
 
