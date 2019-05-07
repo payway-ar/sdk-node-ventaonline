@@ -38,6 +38,7 @@ var sdk = new sdkModulo.sdk('developer', "b192e4cb99564b84bf5db5550112adea", "56
 //exampleDeleteRefund(sdk);
 //exampleValidate(sdk);
 //exampleForms(sdk);
+//examplePaymentForms(sdk);
 //examplePaymentBsa(sdk)
 //exampleTokens(sdk);
 
@@ -122,20 +123,41 @@ function exampleForms(sdk) { //*************************
 
 
             var validateData = new validateMod.validate(args);
-            console.log("1");
 
             // send_to_cs = TRUE O FALSE PARA ENVIAR PARAMETROS CS
 
             //Se envian sdk y parametros al modulos de validate que realizará el pago
             var instPayment = new validateMod.forms(sdk, args).then(function(result) {
                 console.log("-----------------------------------------")
-                console.log("Validate")
+                console.log("Forms")
                 console.log(result);
                 console.log("-------------------***-------------------");
             })
     })
 }
 
+
+function examplePaymentForms(sdk) { //*************************
+    return new Promise(function(resolve, reject) {
+        //SE OBTIENE UN TOKEN DE PAGO
+            var date = new Date().getTime();
+            
+            args = {
+                apiKey: "1111111111111",
+                hash: "759746c8-7f41-43b5-99c8-1572544f70e2"
+            };
+
+
+            // send_to_cs = TRUE O FALSE PARA ENVIAR PARAMETROS CS
+
+            var instPayment = new sdk.paymentForms(sdk, args).then(function(result) {
+                console.log("-----------------------------------------")
+                console.log("payment/forms")
+                console.log(result);
+                console.log("-------------------***-------------------");
+            })
+    })
+}
 
 
 
