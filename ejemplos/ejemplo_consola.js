@@ -37,6 +37,7 @@ var sdk = new sdkModulo.sdk('developer', "b192e4cb99564b84bf5db5550112adea", "56
 //exampleDeletePartialRefund(sdk);
 //exampleDeleteRefund(sdk);
 //exampleValidate(sdk);
+//exampleForms(sdk);
 //examplePaymentBsa(sdk)
 //exampleTokens(sdk);
 
@@ -90,6 +91,51 @@ function exampleValidate(sdk) { //*************************
             })
     })
 }
+
+
+
+function exampleForms(sdk) { //*************************
+    return new Promise(function(resolve, reject) {
+        //SE OBTIENE UN TOKEN DE PAGO
+            var date = new Date().getTime();
+            
+            args = {
+                site_transaction_id: ""+date,
+                user_id: 'juanpepito',
+                email: "mauricio.ghiorzi@softtek.com",
+                payment_method_id: 1,
+                bin: "450799",
+                amount: 25.50,
+                currency: "ARS",
+                installments: 1,
+                description: "Description of product",
+                payment_type: "single",
+                sub_payments: [],
+                apiKey: "aaaaaa1e430db94d436543523744",
+                formSite: '00020555',
+                'Content-Type': "application/json",
+                success_url: "https://shop.swatch.com/es_ar/", //si no se informa el "redirect_url" es requerido
+                cancel_url: "https://swatch.com/api/result",
+                redirect_url: "", //si no se informa el success_url es requerido
+                fraud_detection: [], //si no esta activado cybersource no enviar este atributo
+            };
+
+
+            var validateData = new validateMod.validate(args);
+            console.log("1");
+
+            // send_to_cs = TRUE O FALSE PARA ENVIAR PARAMETROS CS
+
+            //Se envian sdk y parametros al modulos de validate que realizará el pago
+            var instPayment = new validateMod.forms(sdk, args).then(function(result) {
+                console.log("-----------------------------------------")
+                console.log("Validate")
+                console.log(result);
+                console.log("-------------------***-------------------");
+            })
+    })
+}
+
 
 
 
