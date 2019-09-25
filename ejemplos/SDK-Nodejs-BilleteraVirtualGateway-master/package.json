@@ -1,0 +1,20 @@
+{
+  "name": "todo-pago",
+  "version": "1.1.1",
+  "keywords": [
+    "sdk",
+    "TodoPago",
+    "web-services",
+    "gateway"
+  ],
+  "dependencies": {
+    "soap": "0.5.1",
+	"xml2js": "0.4.10",
+	"node-rest-client": "1.5.1"
+  },
+  "_id": "TodoPago@0.1.4",
+  "scripts": {},
+  "_shasum": "3f9b8e951ce89206de5bde361c2cb8b9952e2b69",
+  "_from": "TodoPago@0.1.4",
+  "_npmVersion": "1.4.23"
+}

@@ -5,6 +5,8 @@ var partialRefundMod = require('../lib/partial_refund');
 var refundMod = require('../lib/refund');
 var paymentInfoMod = require('../lib/payment_info');
 var validateMod = require('../lib/validate');
+var tokensMod = require('../lib/tokens');
+
 
 var getAllPaymentsMod = require('../lib/all_payments');
 var cardTokensMod = require('../lib/card_token');
@@ -35,7 +37,8 @@ var sdk = new sdkModulo.sdk('developer', "b192e4cb99564b84bf5db5550112adea", "56
 //exampleDeletePartialRefund(sdk);
 //exampleDeleteRefund(sdk);
 //exampleValidate(sdk);
-
+//examplePaymentBsa(sdk)
+//exampleTokens(sdk);
 
 // EJEMPLO ESTADO DEL SERVICIO
 function exampleHealthCheck(sdk) {
@@ -82,6 +85,46 @@ function exampleValidate(sdk) { //*************************
             var instPayment = new validateMod.validate(sdk, args).then(function(result) {
                 console.log("-----------------------------------------")
                 console.log("Validate")
+                console.log(result);
+                console.log("-------------------***-------------------");
+            })
+    })
+}
+
+
+
+function exampleTokens(sdk) { //*************************
+    return new Promise(function(resolve, reject) {
+        //SE OBTIENE UN TOKEN DE PAGO
+            var date = new Date().getTime();
+            console.log('traza 1');
+            args = {
+              "public_token": "4507994025297787",
+              "volatile_encrypted_data": "YRfrWggICAggsF0nR6ViuAgWsPr5ouR5knIbPtkN+yntd7G6FzN/Xb8zt6+QHnoxmpTraKphZVHvxA==",
+              "public_request_key": "12345678",
+              "issue_date": "123123123123",
+              "flag_security_code": "0",
+              "flag_tokenization": "0",
+              "flag_selector_key": "1",
+              "flag_pei": "1",
+              "card_holder_name": "Horacio",
+              "card_holder_identification_type": "dni",
+              "card_holder_identification_number": "23968498",
+              "fraud_detection_device_unique_identifier": "12345",
+              "apiKey": "aaaaaaaaaaaaaa0ec2452f5d67f13",
+              "Content-Type": "application/json",
+
+            };
+
+
+            var tokensData = new tokensMod.tokens(args);
+
+            // send_to_cs = TRUE O FALSE PARA ENVIAR PARAMETROS CS
+
+            //Se envian sdk y parametros al modulos de validate que realizará el pago
+            var instPayment = new tokensMod.tokens(sdk, args).then(function(result) {
+                console.log("-----------------------------------------")
+                console.log("Tokens")
                 console.log(result);
                 console.log("-------------------***-------------------");
             })
@@ -164,6 +207,95 @@ function examplePayment(sdk) {
         //})
     })
 }
+
+// EJEMPLO PAGO BSA
+function examplePaymentBsa(sdk) {
+    return new Promise(function(resolve, reject) {
+        bsa_data = {
+            public_token: 'Token',
+            volatile_encrypted_data: 'VOLATILE_ENCRYPTED_DATA',
+            public_request_key: 'publicRequestKey',
+            ip_address: 'ipaddress',
+            issue_date: 'TokenDate',
+            flag_security_code: 'flag_code_check',
+            flag_tokenization: 'flag_token',
+            flag_selector_key: 'SelectorClaveFlag',
+            flag_pei: "1",
+            card_holder_name: 'DatosAdicionales - nombre',
+            card_holder_identification: {"type": 'DatosAdicionales tipoDocumento', "number": 'DatosAdicionales numeroDocumento'},
+            fraud_detection: {"device_unique_identifier": "12345"}
+        };        
+
+        var date = new Date().getTime();
+        args = {
+            site_transaction_id: "id_" + date,
+            payment_mode: "bsa",
+            card_token_bsa: bsa_data,
+            token: 'fe8d1e34-2446-4405-bff5-e51fa90593eb',
+            user_id: 'juanpepito',
+            payment_method_id: 1,
+            bin: "450799",
+            amount: 25.50,
+            currency: "ARS",
+            installments: 1,
+            description: "Description of product",
+            payment_type: "single",
+            sub_payments: [],
+            apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
+            'Content-Type': "application/json"
+        };
+
+        var customer = {
+            id: "juanpepito",
+            email: "mauricio.ghiorzi@softtek.com"
+        };
+
+            var paymentData = new PaymentDataModulo.paymentData(args);
+        paymentData.setCustomer(customer);
+            var args = paymentData.getJSON();
+
+            // send_to_cs = TRUE O FALSE PARA ENVIAR PARAMETROS CS
+            var send_to_cs = true;
+
+            if (send_to_cs == true) {
+                var datos_cs = {
+                    send_to_cs: true,
+                    channel: 'Web/Mobile/Telefonica',
+                    city: 'Buenos Aires',
+                    country: 'AR',
+                    customer_id: 'martinid',
+                    email: 'accept@decidir.com.ar',
+                    first_name: 'martin',
+                    last_name: 'paoletta',
+                    phone_number: '1547766329',
+                    postal_code: '1427',
+                    state: 'BA',
+                    street1: 'GARCIA DEL RIO 4041',
+                    street2: 'GARCIA DEL RIO 4041'
+                };
+                args.data.fraud_detection = datos_cs;
+            }
+
+            //Se envian sdk y parametros al modulos de payment que realizará el pago
+            var instPayment = new paymentMod.payment(sdk, args).then(function(result) {
+                console.log("")
+                console.log("")
+                console.log("Se realiza una petición de pago enviando el payload y el token de pago ")
+                console.log("generado anteriormente")
+                console.log("")
+                console.log("")
+                console.log("             PAYMENT REQUEST             ");
+                console.log("-----------------------------------------");
+                console.log("sendPaymentRequest result:");
+                console.log(result);
+                console.log("-----------------------------------------");
+                console.log("sendPaymentRequest error:");
+                console.log(err);
+                console.log("-------------------***-------------------");
+            })
+    })
+}
+
 
 //EJEMPLO DEVOLUCIÖN PARCIAL
 function examplePartialRefund(sdk) {

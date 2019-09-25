@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <title>Formulario Híbrido</title>
+        <meta charset="UTF-8">
+        <script src="<%= endpoint %>"></script>
+        <link rel="stylesheet" type="text/css" href="css/styles.css">
+        <script type="text/javascript">
+        </script>
+    </head>
+    <body class="contentContainer">
+    </body>
+    <script>
+        path = '/pago_tp_action';
+        
+
+        
+        var success = function(data) {
+            console.log(data);
+
+            encrypteddata = data.VOLATILE_ENCRYPTED_DATA
+            hashString= encrypteddata.replace(/\+/g, "%2B");
+            data.VOLATILE_ENCRYPTED_DATA = hashString;
+            jsonresponse = JSON.stringify(data);
+  
+            url = path+"?ord=<%= operationid %>&success=1&formresponse="+jsonresponse;
+
+            window.location.href = url;
+        };
+        
+        var error = function(data) {
+            console.log(data);
+            jsonresponse = JSON.stringify(data);
+            url = path+"?ord=<%= operationid %>&error=1&formresponse="+jsonresponse;   
+            window.location.href = url;
+        };
+    
+        var validation = function(data) {
+            console.log(data);
+        }
+
+        window.TPFORMAPI.hybridForm.initBSA({
+            publicKey: "<%= publicKey %>",
+            merchantAccountId: <%= merchant %>,
+            callbackCustomSuccessFunction: "success",
+            callbackCustomErrorFunction: "error",
+            callbackValidationErrorFunction: "validation"
+        });
+        
+    </script>
+</html>
