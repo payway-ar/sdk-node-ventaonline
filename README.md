@@ -15,14 +15,16 @@ Modulo para conexión con gateway de pago DECIDIR2
       + [Pagos Offline](#pagos-offline)
       + [Health Check](#healthcheck)
       + [Ejecución del Pago](#payment)
+      + [Operación en dos pasos](#twosteps)
       + [Comercios agregadores](#comercios-agregadores)
       + [Respuesta al pago](#respuesta-al-pago)
       + [Listado de Pagos](#getallpayments)
       + [Información de un Pago](#getpaymentinfo)
-      + [Anulación / Devolución Total de Pago](#refund)
-      + [Anulación de Devolución Total](#deleterefund)
-      + [Devolución Parcial de un Pago](#partialrefund)
-      + [Anulación de Devolución Parcial](#deletepartialrefund)
+      + [Devoluciones de pagos](#refunds)
+        + [Anulación / Devolución Total de Pago](#refund)
+        + [Anulación de Devolución Total](#deleterefund)
+        + [Devolución Parcial de un Pago](#partialrefund)
+        + [Anulación de Devolución Parcial](#deletepartialrefund)
     + [Tokenizacion de tarjetas de crédito](#tokenizaciontarjeta)
       + [Listado de tarjetas tokenizadas](#listadotarjetastokenizadas)
       + [Solicitud de token de pago](#solicitudpagotokenizado)
@@ -426,6 +428,36 @@ console.log(err);
 });
 
 ```
+
+<a name="twosteps"></a>
+
+### Operación en dos pasos
+Una vez generado y almacenado el token de pago, se deberá ejecutar la solicitud de pago más el token previamente generado.
+Si el pago es preaprobado `Status.PRE_APPROVED`, se procederá a realizar la confirmaci&oacute;n del pago enviando **ID de pago, monto y usario aprobador**.
+A continuaci&oacute;n se muestra un ejemplo con una transacci&oacute;n simple sin Cybersource.
+
+```javascript
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+
+args = {
+    amount: 25.50,
+};
+
+sdk.confirmPayment(args, function(result, err) {
+
+resolve(result);
+console.log("")
+console.log("Se realiza una petición de confirmación de pago enviando el payload y el token de pago ")
+console.log("generado anteriormente")
+console.log("             CONFIRM PAYMENT REQUEST             ");
+console.log("sendPaymentRequest result:");
+console.log(result);
+console.log("sendPaymentRequest error:");
+console.log(err);
+});
+```
+
+[<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
 
 ### Comercios agregadores
 
@@ -1482,50 +1514,7 @@ sdk.payment(args, function(result, err) {
 
 ### Códigos de Medios de pago
 
-| MEDIO DE PAGO | NOMBRE |
-----------------|--------
-| 1 | VISA |
-| 8 | DINERS |
-| 15 | MASTERCARD |
-| 20 | MASTERCARD TEST |
-| 23 | TARJETA SHOPPING |
-| 24 | TARJETA NARANJA |
-| 25 | PAGO FACIL |
-| 26 | RAPIPAGO |
-| 27 | CABAL |
-| 29 | ITALCRED |
-| 30 | ARGENCARD |
-| 31 | VISA DEBITO<sup>1</sup> |
-| 34 | COOPEPLUS |
-| 36 | ARCASH |
-| 37 | NEXO |
-| 38 | CREDIMAS |
-| 39 | TARJETA NEVADA |
-| 41 | PAGOMISCUENTAS |
-| 42 | NATIVA |
-| 43 | TARJETA MAS |
-| 44 | TARJETA CARREFOUR |
-| 45 | TARJETA PYMENACION |
-| 46 | PAYSAFECARD |
-| 47 | MONEDERO ONLINE |
-| 48 | CAJA DE PAGOS |
-| 50 | BBPS |
-| 51 | COBRO EXPRESS |
-| 52 | QIDA |
-| 53 | LAPOS WEB TRAVEL |
-| 54 | GRUPAR |
-| 55 | PATAGONIA 365 |
-| 56 | TARJETA CLUD DIA |
-| 59 | TARJETA TUYA |
-| 60 | DISTRIBUTION |
-| 61 | LA ANONIMA |
-| 62 | CREDIGUIA |
-| 63 | CABAL PRISMA |
-| 64 | TARJETA SOL |
-| 65 | AMEX MT |
-| 66 | MC DEBIT |
-| 67 | CABAL DEBITO (Cabal24) |
-| 99 | MAESTRO |
+https://decidirv2.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-implementador/medios-de-pago-disponibles
 
 1. Visa Debito no acepta devoluciones parciales en ecommerce.
 

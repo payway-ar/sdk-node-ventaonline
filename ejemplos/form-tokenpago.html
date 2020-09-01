@@ -1,66 +1,64 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<script src="https://live.decidir.com/static/v1/decidir.js"></script>
+<script src="https://live.decidir.com/static/v2/decidir.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <meta charset="utf-8" />
 </head>
 <body>
 
 <script type="text/javascript">
+  const publicApiKey = "b192e4cb99564b84bf5db5550112adea";
+  const urlSandbox = "https://developers.decidir.com/api/v2";
 
-const publicApiKey = "b192e4cb99564b84bf5db5550112adea";
-const urlSandbox = "https://developers.decidir.com/api/v1";
+  const decidirSandbox = new Decidir(urlSandbox);
+  decidirSandbox.setPublishableKey(publicApiKey);
+  decidirSandbox.setTimeout(0);//se configura sin timeout
 
-const decidirSandbox = new Decidir(urlSandbox);
-decidirSandbox.setPublishableKey(publicApiKey);
-decidirSandbox.setTimeout(0);//se configura sin timeout
+  //funcion para manejar la respuesta
+  function sdkResponseHandler(status, response) {
+    if (status == '200' ||status == '201') {
+      console.log('OK - Respuesta: '+response );
+      console.log('TOKEN: '+response.id );
 
-//funcion para manejar la respuesta
-function sdkResponseHandler(status, response) {
-	//console.log(status);
-	if (status == '200' ||status == '201') {
-		console.log('OK - Respuesta: '+response );
-		console.log('TOKEN: '+response.id );
+      alert("Token de pago: "+response.id);
 
-    alert("Token de pago: "+response.id);
-
-    /*$.ajax('form_action.php',
-    {
-        method  : 'POST',
-        data    :
-        {
-              token      : response.id
-        },                                    
-        success : function (response)
-        {
-              var res = JSON.parse(response);
-              if(res["status"]=="approved"){
-                console.log('ok pagado'+response+' - Estado: '+res["status"]);
-              }else{
-                console.log('Error al pagar'+response+' - Estado: '+res["status"]);
-              }
-        },
-        error   : function (e, status)
-        {
-              console.log('Error pagado'+response);
-        }
-    });
-    */
-    
-  }else {
-      console.log('ERROR - STATUS: ' + status + ' - Respuesta: ' +response );
+      /*$.ajax('form_action.php',
+      {
+          method  : 'POST',
+          data    :
+          {
+                token      : response.id
+          },                                    
+          success : function (response)
+          {
+                var res = JSON.parse(response);
+                if(res["status"]=="approved"){
+                  console.log('ok pagado'+response+' - Estado: '+res["status"]);
+                }else{
+                  console.log('Error al pagar'+response+' - Estado: '+res["status"]);
+                }
+          },
+          error   : function (e, status)
+          {
+                console.log('Error pagado'+response);
+          }
+      });
+      */
+      
+    }else {
+        console.log('ERROR - STATUS: ' + status + ' - Respuesta: ' +response );
+    }
   }
-}
 
 
-//funcion de invocacion con sdk
-function sendFormFunc(event) {
-  //event.preventDefault();
-  var form=document.querySelector('#formulario');
-  decidirSandbox.createToken(form, sdkResponseHandler);//formulario y callback
-  return false;
-}
+  //funcion de invocacion con sdk
+  function sendFormFunc(event) {
+    //event.preventDefault();
+    var form=document.querySelector('#formulario');
+    decidirSandbox.createToken(form, sdkResponseHandler);//formulario y callback
+    return false;
+  }
 
 </script>
 

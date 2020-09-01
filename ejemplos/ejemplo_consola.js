@@ -18,9 +18,10 @@ var Promise = require('promise');
 var TokenDataModulo = require('../lib/token_data.js');
 var PaymentDataModulo = require('../lib/payment_data.js');
 var retailModulo = require('../lib/fraud_detection/cs_retail.js');
+const { PRIVATE_API_KEY, PUBLIC_API_KEY, ENDPOINT_DEVELOPER } = require('./constants');
 
 // SE INSTANCIA SDK DECIDIR 2
-var sdk = new sdkModulo.sdk('developer', "b192e4cb99564b84bf5db5550112adea", "566f2c897b5e4bfaa0ec2452f5d67f13");
+var sdk = new sdkModulo.sdk('developer', PUBLIC_API_KEY, PRIVATE_API_KEY);
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //EJEMPLO DE FUNCIONALIDADES
@@ -152,7 +153,7 @@ function examplePayment(sdk) {
                 description: "Description of product",
                 payment_type: "single",
                 sub_payments: [],
-                apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
+                apiKey: PRIVATE_API_KEY,
                 'Content-Type': "application/json"
             };
 
@@ -241,7 +242,7 @@ function examplePaymentBsa(sdk) {
             description: "Description of product",
             payment_type: "single",
             sub_payments: [],
-            apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
+            apiKey: PRIVATE_API_KEY,
             'Content-Type': "application/json"
         };
 
@@ -308,7 +309,7 @@ function examplePartialRefund(sdk) {
                 amount: amount
             },
             headers: {
-                "apikey": "566f2c897b5e4bfaa0ec2452f5d67f13",
+                "apikey": PRIVATE_API_KEY,
                 "Content-Type": "application/json",
                 "Cache-Control": ""
             }
@@ -343,7 +344,7 @@ function exampleRefund(sdk) {
 
             },
             headers: {
-                "apikey": "566f2c897b5e4bfaa0ec2452f5d67f13",
+                "apikey": PRIVATE_API_KEY,
                 "Content-Type": "application/json",
                 "Cache-Control": ""
             }
@@ -376,7 +377,7 @@ function examplePaymentInfo(sdk) {
 
             },
             headers: {
-                "apikey": "566f2c897b5e4bfaa0ec2452f5d67f13",
+                "apikey": PRIVATE_API_KEY,
                 "Content-Type": "application/json",
                 "Cache-Control": "no-cache"
             }
@@ -404,7 +405,7 @@ function exampleGetAllPayments(sdk) {
 
         },
         headers: {
-            "apikey": "566f2c897b5e4bfaa0ec2452f5d67f13",
+            "apikey": PRIVATE_API_KEY,
             "Content-Type": "application/json",
             "Cache-Control": "no-cache"
         }
@@ -436,7 +437,7 @@ function exampleCardTokens(sdk) {
 
                 },
                 headers: {
-                    "apikey": "566f2c897b5e4bfaa0ec2452f5d67f13",
+                    "apikey": PRIVATE_API_KEY,
                     "Content-Type": "application/json",
                     "Cache-Control": "no-cache"
                 }
@@ -480,7 +481,7 @@ function examplePayment_Tokenized(sdk) {
             description: "Description of product",
             payment_type: "single",
             sub_payments: [],
-            apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
+            apiKey: PRIVATE_API_KEY,
             'Content-Type': "application/json"
         };
         var paymentData = new PaymentDataModulo.paymentData(args);
@@ -511,7 +512,7 @@ function exampleDeleteTokenizedCard(sdk) {
 
         },
         headers: {
-            apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
+            apiKey: PRIVATE_API_KEY,
             'Content-Type': "application/json",
             'Cache-Control': "no-cache"
         }
@@ -537,7 +538,7 @@ function exampleDeletePartialRefund(sdk) {
                 "amount": amount
             },
             headers: {
-                "apikey": "566f2c897b5e4bfaa0ec2452f5d67f13",
+                "apikey": PRIVATE_API_KEY,
                 "Content-Type": "application/json",
                 "Cache-Control": ""
             }
@@ -571,7 +572,7 @@ function exampleDeleteRefund(sdk) {
 
             },
             headers: {
-                "apikey": "566f2c897b5e4bfaa0ec2452f5d67f13",
+                "apikey": PRIVATE_API_KEY,
                 "Content-Type": "application/json",
                 "Cache-Control": ""
             }
@@ -600,10 +601,6 @@ function exampleDeleteRefund(sdk) {
 //exampleGetToken(sdk);
 //exampleGetToken_Tokenized(sdk);
 
-var endpoint = {
-    developer: 'https://developers.decidir.com/api/v1'
-}
-
 function exampleGetToken(sdk) {
     return new Promise(function(resolve, reject) {
 
@@ -615,7 +612,7 @@ function exampleGetToken(sdk) {
             card_holder_name: "John Doe",
             type: "dni",
             number: "25123456",
-            apiKey: "b192e4cb99564b84bf5db5550112adea",
+            apiKey: PUBLIC_API_KEY,
             'Content-Type': "application/json",
             'Cache-Control': "no-cache"
         }
@@ -626,7 +623,7 @@ function exampleGetToken(sdk) {
 
         var client = new Client();
 
-        client.post('https://developers.decidir.com/api/v1' + "/tokens", args, function(data, response) {
+        client.post(ENDPOINT_DEVELOPER + "/tokens", args, function(data, response) {
             resolve(data.id);
 
             if (Buffer.isBuffer(data)) {
@@ -646,15 +643,14 @@ function exampleGetToken_Tokenized(token, security_code) {
             args = {
                 token: result.tokens[0].token,
                 security_code: '775',
-                apiKey: "b192e4cb99564b84bf5db5550112adea",
+                apiKey: PUBLIC_API_KEY,
                 'Content-Type': "application/json",
                 'Cache-Control': "no-cache"
             }
             var tokenData = new TokenDataModulo.tokenData(args);
             var args = tokenData.getJSON();
-            var url = endpoint.developer;
             var client = new Client();
-            client.post(endpoint.developer + "/tokens", args, function(data, response) {
+            client.post(ENDPOINT_DEVELOPER + "/tokens", args, function(data, response) {
                 resolve(data.id);
                 var payToken = data.id;
                 console.log("")
@@ -692,7 +688,7 @@ function examplePaymentRequest(sdk) {
                 description: "Description of product",
                 payment_type: "single",
                 sub_payments: [],
-                apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
+                apiKey: PRIVATE_API_KEY,
                 'Content-Type': "application/json"
             };
             var paymentData = new paymentMod.paymentData(args);

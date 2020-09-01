@@ -11,8 +11,9 @@ var paymentInfoMod = require('../lib/payment_info');
 var querystring = require('querystring');
 var sdkModulo = require('../lib/sdk');
 var bsa = require('./SDK-Nodejs-BilleteraVirtualGateway-master/lib/BSA/bsa.js'); // Obtengo las funciones discover y transaction
+const { PUBLIC_API_KEY, PRIVATE_API_KEY } = require('./constants.js');
 
-var sdk = new sdkModulo.sdk('developer', "b192e4cb99564b84bf5db5550112adea", "566f2c897b5e4bfaa0ec2452f5d67f13");
+var sdk = new sdkModulo.sdk('developer', PUBLIC_API_KEY, PRIVATE_API_KEY);
 
 
 app.set('view engine', 'ejs');
@@ -137,9 +138,6 @@ app.get('/transaction', function(req, res) {
     });        
     }); 
 
-
-
-
 });    
 
 
@@ -149,7 +147,6 @@ app.get('/pago_tp', function(req, res) {
     console.log('transaction');
     console.log(req.query.ord);
 
-    //var endpoint;
     db.get(`SELECT * FROM transaccion WHERE id=`+req.query.ord, (err, row) => {
         if (err) {
           console.error(err.message);
@@ -204,11 +201,6 @@ app.get('/pago_decidir', function(req, res) {
         var dataTransaction=JSON.parse(row.transactionresponse);
         var dataGeneral = JSON.parse(row.data);
         var dataTpResponse = JSON.parse(row.pagotpresponse);
-        /*
-        console.log(dataTransaction);
-        console.log(dataGeneral);
-        console.log(dataTpResponse);
-        */
 
         if(dataTpResponse.TokenizationFlag == "true"){
             var flag_token = "1";
@@ -251,8 +243,6 @@ app.get('/pago_decidir', function(req, res) {
             }
         };
         
-
-
         /*
         var args = {
             data: {
@@ -277,7 +267,7 @@ app.get('/pago_decidir', function(req, res) {
                }
             },
             headers: {
-                apikey: 'b192e4cb99564b84bf5db5550112adea',
+                apikey: PUBLIC_API_KEY,
                 'Content-Type': 'application/json'
             }
         };        
@@ -285,12 +275,9 @@ app.get('/pago_decidir', function(req, res) {
 
         var client = new Client();
 
-        client.post('https://developers.decidir.com/api/v2' + "/tokens", args, function(data, response) {
-            //resolve(data.id);
+        client.post(ENDPOINT_DEVELOPER + "/tokens", args, function(data, response) {
             console.log(data);
             //var dataResponse = JSON.parse(data);
-            console.log(data.id);
-
 
             dataPago = {
                 "site_transaction_id": req.query.ord,
@@ -308,7 +295,7 @@ app.get('/pago_decidir', function(req, res) {
                 "establishment_name": dataGeneral.establishment,
                 "sub_payments": []
             }
-            client.post('https://developers.decidir.com/api/v2' + "/payments", args, function(data, response) {
+            client.post(ENDPOINT_DEVELOPER + "/payments", args, function(data, response) {
                 //resolve(data.id);
                 console.log('data de pago::::');
                 console.log(data);
@@ -326,8 +313,8 @@ app.get('/pago_decidir', function(req, res) {
                     }`;
                     
                                                   
-                }else{
-
+                }
+                else{
                     var statusPago="RECHAZADO";
                 }
 
@@ -345,10 +332,7 @@ app.get('/pago_decidir', function(req, res) {
             });
 
 
-
         });
-
-        //console.log(dataInfo);
 
     });
 
@@ -368,7 +352,7 @@ app.get('/push_notification', function(req, res) {
 
             },
             headers: {
-                "apikey": "566f2c897b5e4bfaa0ec2452f5d67f13",
+                "apikey": PRIVATE_API_KEY,
                 "Content-Type": "application/json",
                 "Cache-Control": "no-cache"
             }
@@ -379,28 +363,11 @@ app.get('/push_notification', function(req, res) {
         var dataGeneral = JSON.parse(row.data);
         var dataTpResponse = JSON.parse(row.pagotpresponse);
         var dataPagoDecidirResponse = JSON.parse(row.pagodecresponse);
-/*
-        console.log(dataPagoDecidirResponse);
-        console.log(dataPagoDecidirResponse.id);
-        process.exit();
-*/
-
         
         setTimeout(function() {
             var query = "?expand=card_data";
 
-
-
-
             var paymentInfo = new paymentInfoMod.paymentInfo(sdk, dataPagoDecidirResponse.id + query, args).then(function(resp) {
-            //var paymentInfo = new paymentInfoMod.paymentInfo(sdk, 861757 + query, args).then(function(resp) {
-            //console.log(resp);
-            //console.log(resp.card_data.card_number);    
-
-            /*
-                $remove = array(":", "-", " ");
-    $currentdate = str_replace($remove, "",date("Y-m-d H:i:s")); 
-*/
 
                 var today = new Date();
                 var minutes = today.getMinutes();
