@@ -8,10 +8,9 @@ var TokenDataModulo = require('../lib/token_data.js');
 var PaymentDataModulo = require('../lib/payment_data.js');
 var querystring = require('querystring');
 var sdkModulo = require('../lib/sdk');
+const { PUBLIC_API_KEY, ENDPOINT_DEVELOPER, PRIVATE_API_KEY } = require('./constants.js');
 
-var endpoint = {
-    developer: 'https://developers.decidir.com/api/v1'
-}
+process.env.NODE_TLS_REJECT_UNAUTHORIZED='0'
 
 function exampleGetToken() {
     return new Promise(function(resolve, reject) {
@@ -23,22 +22,20 @@ function exampleGetToken() {
             card_holder_name: "John Doe",
             type: "dni",
             number: "25123456",
-            apiKey: "b192e4cb99564b84bf5db5550112adea",
+            apiKey: PUBLIC_API_KEY,
             'Content-Type': "application/json",
             'Cache-Control': "no-cache"
         }
 
         var tokenData = new TokenDataModulo.tokenData(args);
         var args = tokenData.getJSON();
-        var url = endpoint.developer;
         var client = new Client();
 
-        client.post(endpoint.developer + "/tokens", args, function(data, response) {
+        client.post(ENDPOINT_DEVELOPER + "/tokens", args, function(data, response) {
             resolve(data.id);
 
             if (Buffer.isBuffer(data)) {
                 data = JSON.parse(data.toString('utf8'));
-                //console.log(response);
             }
         });
     });
@@ -54,7 +51,9 @@ app.get('/', function(req, res) {
             token: token,
             partialRefund: '',
             totalRefund: '',
-            paymentId: ''
+            paymentId: '',
+            publicApiKey: PUBLIC_API_KEY,
+            privateApiKey: PRIVATE_API_KEY
         });
     })
 });
@@ -102,10 +101,9 @@ app.post('/requestToken', function(req, res) {
         }
         var tokenData = new TokenDataModulo.tokenData(args);
         var args = tokenData.getJSON();
-        var url = endpoint.developer;
         var client = new Client();
 
-        client.post(endpoint.developer + "/tokens", args, function(data, response) {
+        client.post(ENDPOINT_DEVELOPER + "/tokens", args, function(data, response) {
             console.log(data)
 
             res.send(data)
@@ -132,10 +130,9 @@ app.post('/requestTokenized', function(req, res) {
         }
         var tokenData = new TokenDataModulo.tokenData(args);
         var args = tokenData.getJSON();
-        var url = endpoint.developer;
         var client = new Client();
 
-        client.post(endpoint.developer + "/tokens", args, function(data, response) {
+        client.post(ENDPOINT_DEVELOPER + "/tokens", args, function(data, response) {
             console.log(data)
 
             res.send(data)
@@ -157,7 +154,7 @@ function exampleGetCardToken(user_id, sdk) {
 
             },
             headers: {
-                "apikey": "566f2c897b5e4bfaa0ec2452f5d67f13",
+                "apikey": PRIVATE_API_KEY,
                 "Content-Type": "application/json",
                 "Cache-Control": "no-cache"
             }
@@ -192,27 +189,57 @@ app.post('/paymentRequest', function(req, res) {
             'Content-Type': 'application/json'
         };
         console.log(args)
-        var sdk = new sdkModulo.sdk('developer', "b192e4cb99564b84bf5db5550112adea", args.apiKey);
+        var sdk = new sdkModulo.sdk('developer', PUBLIC_API_KEY, args.apiKey);
 
         var paymentData = new PaymentDataModulo.paymentData(args);
         var args = paymentData.getJSON();
 
-        exampleGetCardToken(args.data.user_id, sdk).then(function(key) {
+        //exampleGetCardToken(args.data.user_id, sdk).then(function(key) {
             sdk.payment(args, function(result, err) {
+                if(!result.hasOwnProperty('status')){
+                    console.log(err.getValidationErrors())
+                    result = err;
+                }
 
-      if(!result.hasOwnProperty('status')){
-    console.log(err.getValidationErrors())
-    result = err;
-
-      }
-
-                result.cardToken = key;
-                res.send(result)
+        //        result.cardToken = key;
+                res.send(result);
             });
-        })
+        //})
     })
 });
 
+app.put('/confirmPayment', function(req, res) {
+
+    var stringDatos = '';
+    var paymentId = '';
+    var statusRefund = '';
+    req.on('data', function(datosparciales) {
+        stringDatos += datosparciales;
+        var data = querystring.parse(stringDatos);
+        paymentId = data.paymentId;
+        console.log(data)
+        var args = {
+            data: {
+                "amount": parseInt(data.amount)
+            },
+            headers: {
+                "apikey": data.apiKeyHidden,
+                "Content-Type": "application/json",
+                "Cache-Control": ""
+            }
+        };
+        var sdk = new sdkModulo.sdk('developer', PUBLIC_API_KEY, data.apiKeyHidden);
+
+        sdk.confirmPayment(args, paymentId, function(result, err) {
+            statusRefund = result.status;
+            if (statusRefund == undefined) {
+                statusRefund = 'error'
+            }
+            res.send(result)
+
+        });
+    })
+})
 
 app.post('/partialRefund', function(req, res) {
 
@@ -235,7 +262,7 @@ app.post('/partialRefund', function(req, res) {
                 "Cache-Control": ""
             }
         };
-        var sdk = new sdkModulo.sdk('developer', "b192e4cb99564b84bf5db5550112adea", data.apiKeyHidden);
+        var sdk = new sdkModulo.sdk('developer', PUBLIC_API_KEY, data.apiKeyHidden);
 
         sdk.partialRefund(args, paymentId, function(result, err) {
             statusRefund = result.status;
@@ -266,7 +293,7 @@ app.post('/totalRefund', function(req, res) {
                 "Cache-Control": ""
             }
         };
-        var sdk = new sdkModulo.sdk('developer', "b192e4cb99564b84bf5db5550112adea", data.apiKeyHidden);
+        var sdk = new sdkModulo.sdk('developer', PUBLIC_API_KEY, data.apiKeyHidden);
 
         sdk.refund(args, paymentId, function(result, err) {
             statusRefund = result.status;
@@ -280,7 +307,6 @@ app.post('/totalRefund', function(req, res) {
 app.post('/', function(req, res) {
 
 });
-
 app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4000');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
