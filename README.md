@@ -88,7 +88,7 @@ A continuación, se presenta un diagrama con el Flujo de un Pago.
 
 <a name="instalacion"></a>
 ## Instalación
-Descargar la última versión del SDK desde el botón Download ZIP en (poner link).		
+Descargar la última versión del SDK desde el botón Download ZIP.		
 Se debe incluirse la carpeta del SDK dentro del proyecto.		
 <br />		
 
