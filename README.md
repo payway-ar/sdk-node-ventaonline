@@ -98,7 +98,7 @@ Se debe incluirse la carpeta del SDK dentro del proyecto.
 <a name="versiones"></a>
 ## Versiones de NODEJS soportadas
 
-La versión implementada de la SDK, está testeada para las versiones NODEJS desde la version 6.0.
+La versión implementada de la SDK, está testeada para las versiones 6.x de NODEJS.
 
 [Volver al inicio](#versiones)
 
