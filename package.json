@@ -1,9 +1,9 @@
 {
-  "name": "sdk-decidir-2.0",
+  "name": "sdk-payway-ventasonline",
   "version": "1.1.1",
   "keywords": [
     "sdk",
-    "Decidir",
+    "Payway",
     "web-services",
     "gateway"
   ],
@@ -16,9 +16,9 @@
     "sqlite3": "^4.0.6",
     "xml2js": "^0.4.19"
   },
-  "_id": "sdk-decidir@0.1.1",
+  "_id": "sdk-payway-vo@0.1.1",
   "scripts": {},
   "_shasum": "3f9b8e951ce89206de5bde361c2cb8b9952e2b69",
-  "_from": "sdk-decidir@0.1.1",
+  "_from": "sdk-payway-vo@0.1.1",
   "_npmVersion": "1.4.23"
 }

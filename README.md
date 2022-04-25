@@ -1,7 +1,7 @@
-Decidir SDK NODEJS
+Payway SDK NODEJS
 ===============
 
-Modulo para conexión con gateway de pago DECIDIR2
+Modulo para conexión con gateway de pago Payway
   + [Introducción](#introduccion)
     + [Alcance](#alcance)
     + [Diagrama de secuencia](#diagrama-secuencia)			
@@ -49,23 +49,19 @@ Modulo para conexión con gateway de pago DECIDIR2
 El flujo de una transacción a través de las **sdks** consta de dos pasos, la **generaci&oacute;n de un token de pago** por parte del cliente y el **procesamiento de pago** por parte del comercio. Existen sdks espec&iacute;ficas para realizar estas funciones en distintos lenguajes que se detallan a continuaci&oacute;n:
 
 + **Generaci&oacute;n de un token de pago.**  Se utiliza alguna de las siguentes **sdks front-end** :
-  + [sdk IOS](https://github.com/decidir/SDK-IOS.v2)
-  + [sdk Android](https://github.com/decidir/SDK-Android.v2)
-  + [sdk Javascript](https://github.com/decidir/sdk-javascript-v2)
+  + [sdk Javascript](https://github.com/payway-ar/sdk-javascript-ventaonline)
 + **Procesamiento de pago.**  Se utiliza alguna de las siguentes **sdks back-end** :
-  + [sdk Java](https://github.com/decidir/SDK-JAVA.v2)
-  + [sdk PHP](https://github.com/decidir/SDK-PHP.v2)
-  + [sdk .Net](https://github.com/decidir/SDK-.NET.v2)
-  + [sdk Node](https://github.com/decidir/SDK-.NODE.v2)
+  + [sdk Java](https://github.com/payway-ar/sdk-java-ventaonline)
+  + [sdk PHP](https://github.com/payway-ar/sdk-php-ventaonline)
+  + [sdk .Net](https://github.com/payway-ar/sdk-net-ventaonline)
+  + [sdk Node](https://github.com/payway-ar/sdk-node-ventaonline)
 
 <a name="alcance"></a>
 ## Alcance
-La **sdk NODEJS** provee soporte para su **aplicación back-end**, encargándose de la comunicación del comercio con la **API Decidir** utilizando su **API Key privada**<sup>1</sup> y el **token de pago** generado por el cliente.
+La **sdk NODEJS** provee soporte para su **aplicación back-end**, encargándose de la comunicación del comercio con la **API Payway** utilizando su **API Key privada**<sup>1</sup> y el **token de pago** generado por el cliente.
 
-Para generar el token de pago, la aplicación cliente realizará con **Decidir** a través de alguna de las siguentes **sdks front-end**:
-+ [sdk IOS](https://github.com/decidir/SDK-IOS.v2)
-+ [sdk Android](https://github.com/decidir/SDK-Android.v2)
-+ [sdk Javascript](https://github.com/decidir/sdk-javascript-v2)
+Para generar el token de pago, la aplicación cliente realizará con **Payway** a través de alguna de las siguentes **sdks front-end**:
+  + [sdk Javascript](https://github.com/payway-ar/sdk-javascript-ventaonline)
 
 ![imagen de sdks](./docs/img/DiagramaSDKs.png)</br>
 
@@ -93,7 +89,7 @@ Se debe incluirse la carpeta del SDK dentro del proyecto.
 <br />		
 
 
-[Volver al inicio](#decidir-sdk-node)
+[Volver al inicio](#payway-sdk-node)
 
 <a name="versiones"></a>
 ## Versiones de NODEJS soportadas
@@ -106,12 +102,12 @@ La versión implementada de la SDK, está testeada para las versiones 6.x de NOD
 <a name="manualintegracion"></a>
 ## Manual de Integración
 
-Se encuentra disponible la documentación **[Manual de Integración Decidir2](https://decidir.api-docs.io/1.0/guia-de-inicio/)** para su consulta online, en este detalla el proceso de integración. En el mismo se explican los servicios y operaciones disponibles, con ejemplos de requerimientos y respuestas, aquí sólo se ejemplificará la forma de llamar a los distintos servicios utilizando la presente SDK.
+Se encuentra disponible la documentación **[Manual de Integración Payway](https://decidir.api-docs.io/1.0/guia-de-inicio/)** para su consulta online, en este detalla el proceso de integración. En el mismo se explican los servicios y operaciones disponibles, con ejemplos de requerimientos y respuestas, aquí sólo se ejemplificará la forma de llamar a los distintos servicios utilizando la presente SDK.
 
 <a name="ambiente"></a>
 ## Ambientes
 
-El sdk NODEJS permite trabajar con los ambientes de Sandbox y Producción de Decidir. El ambiente se debe definir al instanciar el SDK.
+El sdk NODEJS permite trabajar con los ambientes de Sandbox y Producción de Payway. El ambiente se debe definir al instanciar el SDK.
 
 ```javascript
 
@@ -128,10 +124,10 @@ var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 <a name="initconector"></a>
 ### Inicializar la clase correspondiente al conector.
 
-El Sdk para NODEJS permite trabajar con los ambientes de desarrollo y de producción de Decidir.
+El Sdk para NODEJS permite trabajar con los ambientes de desarrollo y de producción de Payway.
 El ambiente se debe instanciar como se indica a continuación.
 Instanciación de la clase `Decidir\Connector`
-La misma recibe como parámetros la public key o private key provisto por Decidir para el comercio y el ambiente en que se trabajará.
+La misma recibe como parámetros la public key o private key provisto por Payway para el comercio y el ambiente en que se trabajará.
 ```javascript
 
 var publicKey = "b192e4cb99564b84bf5db5550112adea";
@@ -143,7 +139,7 @@ var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
 ```
 *Nota:* La sdk incluye un completo al cual se debe acceder desde el navegador y allí te permitirá configurar las distintas opciones.
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
+[<sub>Volver a inicio</sub>](#payway-sdk-nodejs)
 <a name="operatoria"></a>
 
 ## Operatoria del Gateway
@@ -199,7 +195,7 @@ data = {
 
 ```
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
+[<sub>Volver a inicio</sub>](#payway-sdk-nodejs)
 
 #### Rapipago
 
@@ -277,7 +273,7 @@ const data = {
 }
 ```
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
+[<sub>Volver a inicio</sub>](#payway-sdk-nodejs)
 
 
 #### Cobro Express
@@ -320,7 +316,7 @@ const data = {
 };
 
 ```
-[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+[<sub>Volver a inicio</sub>](#payway-sdk-php)
 
 #### Cobro Express
 
@@ -366,7 +362,7 @@ const data = {
 
 <a name="healthcheck"></a>
 ### Health Check
-Este recurso permite conocer el estado actual de la API RESTful de DECIDIR.
+Este recurso permite conocer el estado actual de la API RESTful de Payway.
 
 ```javascript
 
@@ -383,7 +379,7 @@ sdk.healthcheck(args, function(result, err) {
 });
 
 ```
-[<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
+[<sub>Volver a inicio</sub>](#payway-sdk-nodejs)
 
 
 <a name="payment"></a>
@@ -457,7 +453,7 @@ console.log(err);
 });
 ```
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
+[<sub>Volver a inicio</sub>](#payway-sdk-nodejs)
 
 ### Comercios agregadores
 
@@ -486,9 +482,9 @@ let args = {
     "aggregate_data": {
         "indicator": "1",
         "identification_number": "30598910045",
-        "bill_to_pay": "Decidir_Test",
-        "bill_to_refund": "Decidir_Test",
-        "merchant_name": "DECIDIR",
+        "bill_to_pay": "Payway_Test",
+        "bill_to_refund": "Payway_Test",
+        "merchant_name": "Payway",
         "street": "Lavarden",
         "number": "247",
         "postal_code": "C1437FBE",
@@ -496,7 +492,7 @@ let args = {
         "channel": "005",
         "geographic_code": "C1437",
         "city": "Ciudad de Buenos Aires",
-        "merchant_id": "decidir_Agregador",
+        "merchant_id": "Payway_Agregador",
         "province": "Buenos Aires",
         "country": "Argentina",
         "merchant_email": "merchant@mail.com[13]",
@@ -547,9 +543,9 @@ La respuesta de ante cualquier pago exitoso es:
     "aggregate_data": {
         "indicator": "1",
         "identification_number": "30598910045",
-        "bill_to_pay": "Decidir_Test",
-        "bill_to_refund": "Decidir_Test",
-        "merchant_name": "DECIDIR",
+        "bill_to_pay": "Payway_Test",
+        "bill_to_refund": "Payway_Test",
+        "merchant_name": "Payway",
         "street": "Lavarden",
         "number": "247",
         "postal_code": "C1437FBE",
@@ -557,7 +553,7 @@ La respuesta de ante cualquier pago exitoso es:
         "channel": "005",
         "geographic_code": "C1437",
         "city": "Ciudad de Buenos Aires",
-        "merchant_id": "decidir_Agregador",
+        "merchant_id": "Payway_Agregador",
         "province": "Buenos Aires",
         "country": "Argentina",
         "merchant_email": "merchant@mail.com",
@@ -573,7 +569,7 @@ La respuesta de ante cualquier pago exitoso es:
 
 ```
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
+[<sub>Volver a inicio</sub>](#payway-sdk-nodejs)
 
 
 <a name="getallpayments"></a>
@@ -617,7 +613,7 @@ sdk.getAllPayments(args, offset, pageSize, merchantId, merchantId, function(resu
 
 ```
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
+[<sub>Volver a inicio</sub>](#payway-sdk-nodejs)
 
 <a name="getpaymentinfo"></a>
 
@@ -653,7 +649,7 @@ console.log(err);
 
 ```
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
+[<sub>Volver a inicio</sub>](#payway-sdk-nodejs)
 
 <a name="refund"></a>
 
@@ -687,7 +683,7 @@ console.log(err);
 
 ```
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
+[<sub>Volver a inicio</sub>](#payway-sdk-nodejs)
 
 
 <a name="deleterefund"></a>
@@ -722,7 +718,7 @@ console.log(err);
 
 ```
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
+[<sub>Volver a inicio</sub>](#payway-sdk-nodejs)
 
 <a name="partialrefund"></a>
 
@@ -759,7 +755,7 @@ console.log(err);
 
 ```
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
+[<sub>Volver a inicio</sub>](#payway-sdk-nodejs)
 
 
 <a name="deletepartialrefund"></a>
@@ -810,7 +806,7 @@ Este servicio permite integrar en el comercio un formulario de pago. Utiliza el 
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
 |site.id  | Merchant  | Condicional | Numérico de 20 digitos   | id: "12365436"  |
-|site.template.id  | Id de formulario de pago, el id es unico para cada comercio y es generado previamente por Decidir | SI | Numérico de 20 digitos  |   |
+|site.template.id  | Id de formulario de pago, el id es unico para cada comercio y es generado previamente por Payway | SI | Numérico de 20 digitos  |   |
 |site.transaction_id  | Numero de operación  | SI | Alfanumérico  de 40 digitos |   |
 |customer.id  | d que identifica al usuario  | NO | Alfanumérico  de 40 digitos |   |
 |customer.email | Email del cliente. Se envía información del pago  | Es requerido si se desea realizar el envío de mails | Alfanumérico  de 40 digitos | email:"user@mail.com"  |
@@ -881,7 +877,7 @@ pago es distribuido por monto, ya que si es por porcentaje toma los configurados
 
 ## Tokenizacion de tarjetas de crédito
 
-Esta funcionalidad permite que luego de realizar una compra con una tarjeta, se genere un token alfanumerico unico en el backend de Decidir, esto permite que a la hora de comprar nuevamente con esta tarjeta solo requerira el codigo de seguridad.
+Esta funcionalidad permite que luego de realizar una compra con una tarjeta, se genere un token alfanumerico unico en el backend de Payway, esto permite que a la hora de comprar nuevamente con esta tarjeta solo requerira el codigo de seguridad.
 Como primer paso se debe realizar una un pago normal, el token generado estara en el campo "token" de la respuesta.
 
 <a name="listadotarjetastokenizadas"></a>
@@ -1043,7 +1039,7 @@ var datos_cs = {
     city : 'Villa General Belgrano', //Ciudad de facturación, MANDATORIO.
     country : 'AR', //País de facturación. MANDATORIO. Código ISO. (http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf)
     customerid : '453458', //Identificador del usuario al que se le emite la factura. MANDATORIO. No puede contener un correo electrónico.
-    email : 'decidir@hotmail.com', //Mail del usuario al que se le emite la factura. MANDATORIO.
+    email : 'Payway@hotmail.com', //Mail del usuario al que se le emite la factura. MANDATORIO.
     firstname : 'Juan' ,//Nombre del usuario al que se le emite la factura. MANDATORIO.
     lastname : 'Perez', //Apellido del usuario al que se le emite la factura. MANDATORIO.
     phone_number' : '541160913988', //Teléfono del usuario al que se le emite la factura. No utilizar guiones, puntos o espacios. Incluir código de país. MANDATORIO.
@@ -1137,7 +1133,7 @@ console.log("-------------------***-------------------");
 
 ```
 
-[Volver al inicio](#decidir-sdk-nodejs)
+[Volver al inicio](#payway-sdk-nodejs)
 
 
 #### Ticketing
@@ -1230,7 +1226,7 @@ sdk.payment(args, function(result, err) {
 
 ```
 
-[Volver al inicio](#decidir-sdk-nodejs)
+[Volver al inicio](#payway-sdk-nodejs)
 
 
 #### Digital Goods
@@ -1373,7 +1369,7 @@ sdk.payment(args, function(result, err) {
 
 ```
 
-[Volver al inicio](#decidir-sdk-nodejs)
+[Volver al inicio](#payway-sdk-nodejs)
 
 
 #### Travel
@@ -1504,7 +1500,7 @@ sdk.payment(args, function(result, err) {
 });
 
 ```
-[Volver al inicio](#decidir-sdk-nodejs)
+[Volver al inicio](#payway-sdk-nodejs)
 
 
 
@@ -1519,7 +1515,7 @@ https://decidirv2.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-imp
 1. Visa Debito no acepta devoluciones parciales en ecommerce.
 
 
-[Volver al inicio](#decidir-sdk-nodejs)
+[Volver al inicio](#payway-sdk-nodejs)
 
 <a name="divisasa"></a>
 ### Divisas Aceptadas
@@ -1529,9 +1525,9 @@ https://decidirv2.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-imp
 | AR$ | Pesos Argentinos | ARS |
 | U$S | Dólares Americanos | USD |
 
-**NOTA** Si bien la API RESTful de DECIDIR admite compras en Dólares Americanos, la legislación argentina sólo permite transacciones en Pesos Argentinos. Es por esto que DECIDIR recomienda que todas las transacciones se cursen en dicha moneda.
+**NOTA** Si bien la API RESTful de Payway admite compras en Dólares Americanos, la legislación argentina sólo permite transacciones en Pesos Argentinos. Es por esto que Payway recomienda que todas las transacciones se cursen en dicha moneda.
 
-[Volver al inicio](#decidir-sdk-nodejs)
+[Volver al inicio](#payway-sdk-nodejs)
 
 <a name="provincias"></a>
 
@@ -1564,4 +1560,4 @@ https://decidirv2.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-imp
 | Tierra del Fuego | V |
 | Tucumán | T | 	
 
-[Volver al inicio](#decidir-sdk-nodejs)
+[Volver al inicio](#payway-sdk-nodejs)
