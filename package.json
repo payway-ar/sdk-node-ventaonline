@@ -9,12 +9,13 @@
   ],
   "dependencies": {
     "express": "4.16.4",
-    "node-rest-client": "3.1.1"
+    "node-rest-client": "3.1.1",
+    "promise": "^8.0.1"
   },
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "run": "node index.js"
   },
   "repository": {
     "type": "git",
