@@ -3,13 +3,13 @@
 // module.exports = require('./lib/sdk');
 var sdkModulo = require('./lib/sdk');
 var constants = require('./lib/utils/constants')
-var refundMod = require('./lib/request/refundRequests');
+var refundMod = require('./lib/requests/refundRequests');
 var paymentMod = require('./lib/requests/paymentsRequests');
 // SE INSTANCIA SDK DECIDIR 2
 var sdk = new sdkModulo.sdk('developer', constants.PUBLIC_API_KEY, constants.PRIVATE_API_KEY);
 console.log("hola mundo");
 //exampleGetAllPayments(sdk);
-exampleRefund(sdk);
+//exampleRefund(sdk);
 
 function exampleGetAllPayments(sdk) {
     var args = {
