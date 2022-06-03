@@ -3,12 +3,13 @@
 // module.exports = require('./lib/sdk');
 var sdkModulo = require('./lib/sdk');
 var constants = require('./lib/utils/constants')
-
+var refundMod = require('./lib/request/refundRequests');
 var paymentMod = require('./lib/requests/paymentsRequests');
 // SE INSTANCIA SDK DECIDIR 2
 var sdk = new sdkModulo.sdk('developer', constants.PUBLIC_API_KEY, constants.PRIVATE_API_KEY);
 console.log("hola mundo");
-exampleGetAllPayments(sdk);
+//exampleGetAllPayments(sdk);
+exampleRefund(sdk);
 
 function exampleGetAllPayments(sdk) {
     var args = {
@@ -38,3 +39,35 @@ function exampleGetAllPayments(sdk) {
     });
 
 };
+function exampleRefund(sdk){
+    //SE HACE UN PAGO PARA PODER REALIZAR LA DEVOLUCIÓN
+        paymentId = 41359663;
+        var args = {
+            data: {
+    
+            },
+            headers: {
+                "apikey": constants.PRIVATE_API_KEY,
+                "Content-Type": "application/json",
+                "Cache-Control": "no-cache"
+            }
+        };
+        setTimeout(function() {
+             refundMod.refund(sdk, paymentId, args).then(function(resp) {
+                console.log("")
+                console.log("")
+                console.log("Reintegro monto total de la transacción")
+                console.log("")
+                console.log("")
+                console.log("                  REFUND                 ");
+                console.log("-----------------------------------------");
+                console.log("refund result:");
+                console.log(resp);
+                console.log("-----------------------------------------");
+                console.log("refund error:");
+                console.log(err);
+                console.log("-------------------***-------------------");
+            });
+        }, 2000);
+};
+    
