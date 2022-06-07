@@ -44,7 +44,7 @@ function exampleGetAllPayments(sdk) {
 };
 function exampleRefund(sdk){
     //SE HACE UN PAGO PARA PODER REALIZAR LA DEVOLUCIÓN
-        paymentId = 41359688;
+        paymentId = 41359853;
         var args = {
             data: {
     
@@ -76,8 +76,8 @@ function exampleRefund(sdk){
 
 function examplePartialRefund(sdk){
     //SE HACE UN PAGO PARA PODER REALIZAR LA DEVOLUCIÓN
-        paymentId = 41359719;
-        amount = 300;
+        paymentId = 41359854;
+        amount = 1000;
         var args = {
             data: {
                 amount: amount
