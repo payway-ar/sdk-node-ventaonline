@@ -6,6 +6,7 @@ var constants = require('./lib/utils/constants')
 var refundMod = require('./lib/requests/refundRequests');
 var paymentMod = require('./lib/requests/paymentsRequests');
 var tokensMod = require('./lib/requests/tokensRequests');
+var cardTokensMod = require('./lib/requests/cardTokenRequests');
 // SE INSTANCIA SDK DECIDIR 2
 var sdk = new sdkModulo.sdk('developer', constants.PUBLIC_API_KEY, constants.PRIVATE_API_KEY);
 console.log("hola mundo");
@@ -13,6 +14,7 @@ console.log("hola mundo");
 //exampleRefund(sdk);
 //examplePartialRefund(sdk);
 //exampleTokens(sdk);
+exampleCardToken(sdk);
 
 function exampleGetAllPayments(sdk) {
     var args = {
@@ -139,4 +141,39 @@ function exampleTokens(sdk) { //*************************{
                 console.log("-------------------***-------------------");
             })
 }
+
+function exampleCardToken(sdk){
+
+    user_id = "betoocando";
+    var args = {
+        data: {
+
+        },
+        headers: {
+            "apikey": "ScPLmMRUt1ivVJxQxZ6508s30I9jeXx7",
+            "Content-Type": "application/json",
+            "Cache-Control": "no-cache"
+        }
+    };
+    setTimeout(function() {
+        cardTokensMod.cardTokens(sdk, args).then(function(resp) {
+            console.log("");
+            console.log("");
+            console.log("Luego de realizar un primer pago se genera automaticamente un token único");
+            console.log("para la tarjeta");
+            console.log("");
+            console.log("");
+            console.log("-----------------------------------------");
+            console.log("cardTokens result:");
+            console.log(resp);
+            console.log("-----------------------------------------");
+            console.log("cardTokens error:");
+            console.log(err);
+            console.log("-------------------***-------------------");
+        });
+    }, 3500);
+}
+
+
+
     
