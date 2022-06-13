@@ -10,7 +10,7 @@ var cardTokensMod = require('./lib/requests/cardTokenRequests');
 // SE INSTANCIA SDK DECIDIR 2
 var sdk = new sdkModulo.sdk('developer', constants.PUBLIC_API_KEY, constants.PRIVATE_API_KEY);
 console.log("hola mundo");
-//exampleGetAllPayments(sdk);
+// exampleGetAllPayments(sdk);
 //exampleRefund(sdk);
 //examplePartialRefund(sdk);
 //exampleTokens(sdk);
