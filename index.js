@@ -14,7 +14,7 @@ console.log("hola mundo");
 //exampleRefund(sdk);
 //examplePartialRefund(sdk);
 //exampleTokens(sdk);
-exampleCardToken(sdk);
+//exampleCardToken(sdk);
 
 function exampleGetAllPayments(sdk) {
     var args = {
