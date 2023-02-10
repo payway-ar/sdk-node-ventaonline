@@ -828,6 +828,7 @@ pago es distribuido por monto, ya que si es por porcentaje toma los configurados
             
             args = {
                 site_transaction_id: "id_" + date,
+		site_template_id: <id template>
                 user_id: 'juanpepito',
                 payment_method_id: 1,
                 bin: "450799",
