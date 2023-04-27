@@ -707,7 +707,7 @@ const args = {
         "Cache-Control": ""
     }
 };
-sdk.deleteRefund(args, paymentId, function(result, err) {
+sdk.deleteRefund(args, paymentId, refund_id function(result, err) {
 console.log("")
 console.log("Reintegro monto total de la transacción")
 console.log("                  REFUND                 ");
