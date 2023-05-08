@@ -29,6 +29,8 @@ Modulo para conexión con gateway de pago DECIDIR2
       + [Listado de tarjetas tokenizadas](#listadotarjetastokenizadas)
       + [Solicitud de token de pago](#solicitudpagotokenizado)
       + [Ejecucion de pago tokenizado](#pagotokenizado)
+      + [Solicitud de token de pago con tokenización interna](#solicitud-de-token-de-pago-con-tokenización-interna)
+      + [Ejecución de pago con tokenización interna](#ejecución-de-pago-con-tokenización-interna)
       + [Eliminacion de tarjeta tokenizada](#eliminartarjetatokenizada)
     + [Formulario de pago](#formpago)
       
@@ -960,6 +962,223 @@ args = {
 };
 
 sdk.payment(args, function(result, err) {
+    resolve(result.user_id);
+    console.log("")
+    console.log("")
+    console.log("Se realiza una petición de pago enviando el payload y el token de pago ")
+    console.log("de la tarjeta tokenizada")
+    console.log("")
+    console.log("")
+    console.log("             PAYMENT REQUEST             ");
+    console.log("-----------------------------------------");
+    console.log("sendPaymentRequest result:");
+    console.log(result);
+    console.log("-----------------------------------------");
+    console.log("sendPaymentRequest error:");
+    console.log(err);
+    console.log("-------------------***-------------------");
+});
+
+```
+
+[<sub>Volver a inicio</sub>](#solicitudpagotokenizado)
+
+## Solicitud de token de pago con tokenización interna
+
+<br>
+
+### Estructura de solicitud de token
+La estructura TokenRequest representa una solicitud para generar un token asociado a una transacción con tarjeta. Contiene los siguientes campos:
+
+card_data (obligatorio): un objeto que contiene la información de la tarjeta.
+
+card_number (obligatorio): una cadena que representa el número de tarjeta.
+Longitud máxima: 19
+Longitud mínima: 15
+Patrón: el número de tarjeta no debe comenzar con un 0 y debe constar únicamente de dígitos numéricos.
+expiration_date (obligatorio): una cadena que representa la fecha de vencimiento de la tarjeta.
+Longitud mínima: 1
+Patrón: la fecha de vencimiento debe ser una cadena de cuatro dígitos numéricos.
+card_holder (obligatorio): una cadena que representa el nombre del titular de la tarjeta.
+Longitud mínima: 1
+security_code (obligatorio): una cadena que representa el código de seguridad de la tarjeta (CVV/CVC).
+Longitud mínima: 1
+Patrón: el código de seguridad debe ser una cadena de tres dígitos numéricos.
+número_cuenta (obligatorio): una cadena que representa el número de cuenta asociado con la tarjeta.
+Longitud mínima: 1
+email_holder (obligatorio): una cadena que representa la dirección de correo electrónico del titular de la tarjeta.
+Longitud mínima: 1
+establecimiento_número (obligatorio): una cadena que representa el número de establecimiento asociado con la transacción.
+
+Longitud mínima: 1
+Uso
+Para usar la estructura TokenRequest, cree una instancia con los campos obligatorios (card_data y establecimiento_number) y complete los detalles de la tarjeta dentro del objeto card_data. Asegúrese de que todos los campos obligatorios tengan valores válidos de acuerdo con las restricciones especificadas.
+
+### Validación
+Cuando utilice la estructura TokenRequest, asegúrese de que los datos proporcionados cumplan con las restricciones especificadas. Valide los campos antes de usarlos para evitar problemas durante el procesamiento.
+
+Verifique que card_number siga el patrón especificado y los requisitos de longitud.
+Asegúrese de que expiration_date sea una cadena de cuatro dígitos numéricos.
+Valide que card_holder no esté vacío o sea nulo.
+Compruebe que el código_seguridad es una cadena de tres dígitos numéricos.
+Valide que el número_cuenta no esté vacío o sea nulo.
+Verifique que email_holder no esté vacío o sea nulo.
+Asegúrese de que el número_establecimiento no esté vacío ni sea nulo.
+
+### Ejemplo de uso:
+
+```javascript
+
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+
+args = {
+    card_data: {
+        card_number: "4507990000004905",
+        expiration_date: "1250",
+        card_holder: "Jorge Jorgelin",
+        security_code: "123",
+        account_number: "12345678901234567890",
+        email_holder: "asd@medina.com"
+    },
+    establishment_number: "11223344"
+} 
+
+sdk.internaltokens(args, function(result, err) {
+    resolve(result.user_id);
+    console.log("")
+    console.log("")
+    console.log("Se realiza una petición de token enviando el payload ")
+    console.log("de la tarjeta tokenizada")
+    console.log("")
+    console.log("")
+    console.log("             PAYMENT REQUEST             ");
+    console.log("-----------------------------------------");
+    console.log("sendTokenRequest result:");
+    console.log(result);
+    console.log("-----------------------------------------");
+    console.log("sendTokenRequest error:");
+    console.log(err);
+    console.log("-------------------***-------------------");
+});
+
+```
+
+
+
+[<sub>Volver a inicio</sub>](#solicitudpagotokenizado)
+
+
+## Ejecución de pago con tokenización interna
+
+Una vez que se obtiene el token a partir de la tarjeta tokenizada, se deberá ejecutar la solicitud de pago. Además del token de pago y los parámetros propios de la transacción, el comercio deberá identificar la compra con el "merchant_id" y "merchant_transaction_id".
+
+
+### La estructura TransactionData representa los datos asociados con una transacción. Contiene los siguientes campos:
+
+<br>
+
+id_transacción_comerciante (obligatorio): una cadena que representa el identificador único de la transacción del comerciante.
+
+Longitud mínima: 1
+original_transaction_id (opcional): una cadena que representa el identificador único de la transacción original.
+
+Longitud máxima: 15
+Longitud mínima: 15
+id_método_pago (obligatorio): un número entero que representa el identificador del método de pago.
+
+Tipo de datos: entero (32 bits)
+cantidad (obligatorio): una cadena que representa la cantidad de la transacción.
+
+Longitud máxima: 13
+Longitud mínima: 1
+Patrón: la cantidad debe ser un número entero positivo sin ceros a la izquierda.
+moneda (obligatorio): una cadena que representa la moneda utilizada para la transacción.
+
+Longitud mínima: 1
+cuotas (opcional): Una cadena que representa el número de cuotas para la transacción.
+
+Patrón: Las cuotas deben ser un número entero positivo.
+datos_agregados (opcional): un objeto que contiene datos agregados asociados con la transacción.
+
+indicador (opcional): Una cadena que representa un indicador para los datos agregados.
+número_identificación (opcional): una cadena que representa el número de identificación asociado con los datos agregados.
+bill_to_pay (opcional): una cadena que representa la factura a pagar por los datos agregados.
+bill_to_refund (opcional): una cadena que representa la factura a reembolsar para los datos agregados.
+nombre_comerciante (opcional): una cadena que representa el nombre del comerciante para los datos agregados.
+street (opcional): una cadena que representa la dirección de la calle para los datos agregados.
+número (opcional): una cadena que representa el número de casa para los datos agregados.
+postal_code (opcional): una cadena que representa el código postal para los datos agregados.
+categoría (opcional): una cadena que representa la categoría de los datos agregados.
+canal (opcional): una cadena que representa el canal para los datos agregados.
+código_geográfico (opcional): una cadena que representa el código geográfico para los datos agregados.
+ciudad (opcional): una cadena que representa la ciudad para los datos agregados.
+id_comerciante (opcional): una cadena que representa la identificación del comerciante para los datos agregados.
+provincia (opcional): una cadena que representa la provincia para los datos agregados.
+país (opcional): una cadena que representa el país para los datos agregados.
+mercant_email (opcional): una cadena que representa el correo electrónico del comerciante para los datos agregados.
+mercantil_phone (opcional): una cadena que representa el número de teléfono del comerciante para los datos agregados.
+tipo_pago (obligatorio): una cadena que representa el tipo de pago.
+
+Longitud mínima: 1
+Patrón: el tipo de pago debe ser uno de los siguientes: "único", "dividido" o "recurrente".
+sub_pagos (obligatorio): una matriz de objetos de subpago que representan pagos individuales dentro de la transacción.
+
+Cada objeto de subpago tiene los siguientes campos:
+site_id (obligatorio): una cadena que representa el ID del sitio para el subpago.
+Longitud mínima: 1
+cuotas (obligatorio): un número entero que representa el número de cuotas para el subpago.
+Tipo de datos: entero (32 bits)
+cantidad (obligatorio): una cadena que representa la cantidad del subpago.
+Longitud máxima: 13
+Longitud mínima: 1
+
+Patrón: la cantidad debe ser un número entero positivo sin ceros a la izquierda.
+
+ticket (opcional): una cadena que representa el ticket asociado con el subpago.
+card_authorization_code (opcional): una cadena que representa el código de autorización de la tarjeta para el subpago.
+sub_payment_id (opcional): un número entero que representa el ID del subpago.
+Tipo de datos: entero (32 bits)
+estado (opcional): una cadena que representa el estado del subpago.
+descripción (obligatorio): una cadena que representa la descripción de la transacción.
+
+Longitud mínima: 1
+factura (opcional): un objeto que contiene datos de factura asociados con la transacción.
+
+número (obligatorio): una cadena que representa el número de factura.
+Longitud máxima: 12
+Longitud mínima: 1
+Patrón: el número de factura debe ser un número entero positivo sin ceros a la izquierda.
+fecha (obligatorio): una cadena que representa la fecha de la factura.
+Longitud mínima: 1
+Patrón: la fecha debe tener el formato MMDD.
+store_credential (opcional): un indicador booleano que indica si se deben almacenar los tokens para CIT (transacciones iniciadas por el titular de la tarjeta) y MIT (transacciones iniciadas por el comerciante).
+
+### Ejemplo de uso: 
+
+```javascript
+
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+
+args = {
+    merchant_id: "11223344",
+    transaction_data: {
+        merchant_transaction_id: "TokenInt{{$randomInt}}",
+        payment_method_id: "1",
+        amount: "100",
+        currency: "ARS",
+        installments: "1",
+        payment_type: "single",
+        sub_payments: [],
+        description: "tx-tokenizada"
+    },
+    customer_data: {
+        token_id: "{{token4Crypto}}",
+        identification_type: "dni",
+        identification_number: "12312312"
+    }
+}
+
+sdk.cryptogramPayment(args, function(result, err) {
     resolve(result.user_id);
     console.log("")
     console.log("")
