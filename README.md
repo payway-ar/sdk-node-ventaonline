@@ -427,7 +427,7 @@ console.log(err);
 ```
 
 ### Pago con 3DS Auth
-La autenticación 3D Secure (3DS) es un protocolo de seguridad que protege las transacciones en línea y reduce el fraude en pagos con tarjeta de crédito. Cuando el parámetro **cardholder_auth_required** está establecido en **true** en la solicitud de pago, significa que se **requiere la autenticación del titular de la tarjeta**, en este caso el comercio deberá presentar un desafío de autenticación.
+La autenticación 3D Secure (3DS) es un protocólo de seguridad que ofrece un mayor nivel de confianza en las transacciones digitales. Cuando el parámetro **cardholder_auth_required** está establecido en **true** en la solicitud de pago, significa que se **requiere la autenticación del titular de la tarjeta**, en este caso el comercio deberá presentar un desafío de autenticación.
 
 #### Para realizar un pago con 3DS, se deben seguir estos pasos adicionales:
 
@@ -463,7 +463,7 @@ var paymentData = {
   user_id: 'juan',
   payment_method_id: 1,
   bin: "450799",
-  amount: 25.50,
+  amount: 2550,
   currency: "ARS",
   installments: 1,
   description: "Description of product",
@@ -513,7 +513,7 @@ var response = sdk.payment({
 
 ```
 
-### Challengeable 3DS (Autenticación del Titular de la Tarjeta)
+### Tipo de Autenticación Challenge 3DS (Autenticación del Titular de la Tarjeta)
 
 #### La función threeDSinstruction se utiliza específicamente para presentar el desafío de autenticación 3DS al titular de la tarjeta. A continuación, se explica cómo utilizarlo:
 
@@ -526,7 +526,7 @@ Para presentar el desafío de autenticación 3DS, utiliza la función threeDSins
 [![Advertencia](https://img.shields.io/badge/Advertencia-yellow?style=flat&logo=warning)](#) 
 > **Antes de hacer la solicitud, es necesario agregar el header X-Consumer-Username a la llamada HTTP. El valor del header debe ser tu número de site seguido de "_private". Por ejemplo, si tu número de site es "00099991", entonces el valor del header será "00099991_private".**
 
-#### <u>Los argumentos requeridos para la instrucción 3DS Challengeable, deben ser como el siguiente ejemplo:</u>
+#### <u>Los argumentos requeridos para el tipo de Autenticación Challenge 3DS, deben ser como el siguiente ejemplo:</u>
 
 ```json 
 {
@@ -545,7 +545,7 @@ Para presentar el desafío de autenticación 3DS, utiliza la función threeDSins
 
 
 ### Ejemplo de Respuesta del Desafío de Autenticación 3DS:
-A continuación, se muestra cómo se podría presentar la respuesta del desafío de autenticación 3DS challengeable cuando aprueba un pago, podemos notar que en el objeto **auth_3ds_response** el campo **status** viene como **approved**:
+A continuación, se muestra cómo se podría presentar la respuesta del desafío de autenticación cuando aprueba un pago, podemos notar que en el objeto **auth_3ds_response** el campo **status** viene como **approved**:
 
 ```json 
 {
@@ -555,7 +555,7 @@ A continuación, se muestra cómo se podría presentar la respuesta del desafío
     "card_brand": "Visa",
     "amount": 1200,
     "currency": "ars",
-    "*status*": "pre_approved",
+    "*status*": "approved",
     "status_details": {
         "ticket": "764",
         "card_authorization_code": "B22619",
@@ -582,7 +582,7 @@ A continuación, se muestra cómo se podría presentar la respuesta del desafío
     "token": "0632bdb2-a843-48ff-8001-d8073c9658d0",
     "auth_3ds_response": {
         "id": "44628507",
-        "status": "approved",
+        "status": "CHALLENGE SUCCESS",
         "authentication_value": "97VVSWEQZumP5L490zrsyFimZkY=",
         "commerce_indicator": "05",
         "protocol_version": "2.2.0",
@@ -590,7 +590,6 @@ A continuación, se muestra cómo se podría presentar la respuesta del desafío
     }
 }
 ```
-
 <a name="twosteps"></a>
 
 ### Operación en dos pasos
