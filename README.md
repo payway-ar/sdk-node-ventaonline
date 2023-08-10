@@ -15,6 +15,7 @@ Modulo para conexión con gateway de pago Payway
       + [Pagos Offline](#pagos-offline)
       + [Health Check](#healthcheck)
       + [Ejecución del Pago](#payment)
+      + [Ejecución del Pago con 3DS Auth](#pago-con-3ds-auth)
       + [Operación en dos pasos](#twosteps)
       + [Comercios agregadores](#comercios-agregadores)
       + [Respuesta al pago](#respuesta-al-pago)
@@ -425,6 +426,170 @@ console.log(err);
 
 ```
 
+### Pago con 3DS Auth
+La autenticación 3D Secure (3DS) es un protocólo de seguridad que ofrece un mayor nivel de confianza en las transacciones digitales. Cuando el parámetro **cardholder_auth_required** está establecido en **true** en la solicitud de pago, significa que se **requiere la autenticación del titular de la tarjeta**, en este caso el comercio deberá presentar un desafío de autenticación.
+
+#### Para realizar un pago con 3DS, se deben seguir estos pasos adicionales:
+
+* Asegurarse de que el parámetro **cardholder_auth_required** esté establecido en **true**.
+Proporcionar los datos de autenticación 3DS del titular de la tarjeta en el **campo auth_3ds_data** que son atributos y valores que se utilizan para identificar y caracterizar la solicitud de autenticación 3DS.
+
+### <u>auth_3ds_data</u>:
+
+| Atributo          | Descripción                                                                                     | Tipo de dato |
+|-------------------|-------------------------------------------------------------------------------------------------|--------------|
+| device_type       | Indica el tipo de dispositivo desde el cual se realiza la solicitud.                            | String       |
+| accept_header     | Indica el tipo de contenido que el cliente puede recibir.                                      | String       |
+| user_agent        | Proporciona información sobre el agente del usuario del navegador.                              | String       |
+| ip                | Representa la dirección IP desde la cual se realiza la solicitud.                               | String       |
+| java_enabled      | Indica si Java está habilitado en el navegador del cliente.                                     | Boolean      |
+| language          | Representa el idioma del cliente que realiza la solicitud.                                      | String       |
+| color_depth       | Indica la profundidad de color del dispositivo del cliente.                                     | String       |
+| screen_height     | Representa la altura de la pantalla del dispositivo del cliente.                                | Integer      |
+| screen_width      | Representa el ancho de la pantalla del dispositivo del cliente.                                 | Integer      |
+| time_zone_offset  | Indica el desplazamiento de la zona horaria del cliente.                                        | Integer      |
+
+
+#### <u>A continuación, se muestra cómo se podría realizar un pago con 3DS</u>:
+
+```javascript
+
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+
+// Datos del pago con autenticación 3DS
+var paymentData = {
+  site_transaction_id: "id_" + date,
+  token: token,
+  user_id: 'juan',
+  payment_method_id: 1,
+  bin: "450799",
+  amount: 2550,
+  currency: "ARS",
+  installments: 1,
+  description: "Description of product",
+  payment_type: "single",
+  sub_payments: [],
+  cardholder_auth_required: true,
+  auth_3ds_data: {
+     "device_type": "BROWSER",
+        "accept_header": "application/json",
+        "user_agent": {{$randomUserAgent}},
+        "ip": {{$randomIP}},
+        "java_enabled": true,
+        "language": {{$randomLocale}},
+        "color_depth": "32",
+        "screen_height": {{$randomInt}},
+        "screen_width": {{$randomInt}},
+        "time_zone_offset": {{$randomInt}}
+  }
+};
+
+// Realizar el pago con autenticación 3DS
+var response = sdk.payment({
+  get: function () { return 'STATUS_PAYMENT_WITH_CHALLENGEABLE'; },
+  body: paymentData
+}
+
+```
+#### La respuesta del pago que usaremos para luego realizar el challenge será la siguiente: 
+
+```json 
+{
+    "id": "44628507",
+    "status": "CHALLENGE PENDING",
+    "timeout": 600,
+    "target": {
+        "element": "IFRAME",
+        "visible": true,
+        "width": 308,
+        "height": 128
+    },
+    "http": {
+        "method": "POST",
+        "url": "https://bdx-acs-test.payzen.eu/acs/v2/creq",
+        "body": "{\"creq\":\"eyJ0aHJlZURTU2VydmVyVHJhbnNJRCI6IjM5NzU0YWQ5LThlYTctNGUxOS1hMTcwLWQzY2Y4NzRmOWE1OCIsIm1lc3NhZ2VFeHRlbnNpb24iOlThlYTctNGUxOS1hMTcwLWQzY2Y4NzRmOWE1OC9WSVNBIiwicHVyY2hhc2VBbW91bnQiOiIxMjAwIiwicHVyY2hhc2VDdXJyZW5jeSI6IjAzMiIsInB1cmNoYXNlRXhwb25lbnQiOiIyIiwicHVyY2hhc2VEYXRlIjoiMjAyMzA4MDExNTExMDEiLCJ0cmFuc1R5cGUiOiIwMSJ9fSwiaWQiOiJTSU1VTEFUSU9OLUFSRVEiLCJuYW1lIjoiU0lNVUxBVElPTi1BUkVRIn1dLCJtZXNzYWdlVHlwZSI6IkNSZXEiLCJtZXNzYWdlVmVyc2lvbiI6IjIuMi4wIiwiYWNzVHJhbnNJRCI6ImFlZmU0YjAzLTkwMTctNDM4OS04YjkzLWIyNDQ2MDE5OTE2YiIsImNoYWxsZW5nZVdpbmRvd1NpemUiOiIwNSJ9\",\"threeDSSessionData\":\"H4sIAAAAAAAAADVQ27KiMBD8Ik-Fq_IoaI5hCcg9yYvFTUnAC8IehK9fLM8-dE1N90z19FSTLRixQZayB5UhYCHSUWuaseSecUuhz80ORsjXy3LoD5J9sCg1q-MFoPVFXy1JlBImLyKpyq48pQiXCGTbfw_RTTeiAgAA\"}"
+    }
+}
+
+```
+
+### Tipo de Autenticación Challenge 3DS (Autenticación del Titular de la Tarjeta)
+
+#### La función threeDSinstruction se utiliza específicamente para presentar el desafío de autenticación 3DS al titular de la tarjeta. A continuación, se explica cómo utilizarlo:
+
+* Configuración Inicial:
+Primero, asegúrate de haber configurado el SDK con las claves de acceso proporcionadas por el PSP, tal como se mencionó anteriormente en este README.
+
+* Presentar el Desafío de Autenticación 3DS:
+Para presentar el desafío de autenticación 3DS, utiliza la función threeDSinstruction del SDK. Esta función recibe dos parámetros: sdk, que es la instancia del SDK previamente configurada, y args, que son los argumentos necesarios para la instrucción 3DS.
+
+[![Advertencia](https://img.shields.io/badge/Advertencia-yellow?style=flat&logo=warning)](#) 
+> **Antes de hacer la solicitud, es necesario agregar el header X-Consumer-Username a la llamada HTTP. El valor del header debe ser tu número de site seguido de "_private". Por ejemplo, si tu número de site es "00099991", entonces el valor del header será "00099991_private".**
+
+#### <u>Los argumentos requeridos para el tipo de Autenticación Challenge 3DS, deben ser como el siguiente ejemplo:</u>
+
+```json 
+{
+    "id": "44630157",
+    "instruction_value": "eyJjZXJ0aWZpY2F0ZSI6IlBBU1NfMS41OS4wX0pXVCIsInR5cCI6IkpXVCIsImFsZyI6IlJTMjU2In0.eyJwYXNzQ2xhaW0iOiJ7XCJwcm90b2NvbFwiOntcIm5hbWVcIjpcIlRIUkVFRFNcIixcInZlcnNpb25cIjpcIjIuMi4wXCIsXCJuZXR3b3JrXCI6XCJWSVNBXCIsXCJjaGFsbGVuZ2VQcmVmZXJlbmNlXCI6XCJOT19QUkVGRVJFTkNFXCIsXCJzaW11bGF0aW9uXCI6dHJ1ZX0sXCJhdXRoZW50aWNhdGlvblJlc3VsdFwiOntcInJlc3BvbnNlVHlwZVwiOlwiUkVTVUxUXCIsXCJ0eXBlXCI6XCJDSEFMTEVOR0VcIixcImF1dGhlbnRpY2F0aW9uSWRcIjp7XCJ0eXBlXCI6XCJkc1RyYW5zSWRcIixcInZhbHVlXCI6XCI1N2E2MTZlNC1lMDgzLTQwNTEtOTg3OC1iZTYyNjg2NTQzNTdcIn0sXCJhdXRoZW50aWNhdGlvblZhbHVlXCI6e1widHlwZVwiOlwiQ0FWVlwiLFwidmFsdWVcIjpcIkRSVWxOVWV2aXZaeW93MUYrVHBMeFR2bnEwOD1cIn0sXCJzdGF0dXNcIjpcIlNVQ0NFU1NcIixcImNvbW1lcmNlSW5kaWNhdG9yXCI6XCIwNVwiLFwiZXh0ZW5zaW9uXCI6e1widHlwZVwiOlwiVEhSRUVEU19WMlwiLFwidGhyZWVEU1NlcnZlclRyYW5zSURcIjpcIjBmMjkzZmIxLTRmZGEtNDkzNC05YjA2LTEyZWVhNGU5YmFmNVwiLFwiZHNUcmFuc0lEXCI6XCI1N2E2MTZlNC1lMDgzLTQwNTEtOTg3OC1iZTYyNjg2NTQzNTdcIixcImFjc1RyYW5zSURcIjpcIjk0YTZhOWUzLWIwODUtNGUxZi1hZmQ5LTgwZDQzMGJmZDMwOVwiLFwidHJhbnNTdGF0dXNcIjpcIlNVQ0NFU1NGVUxcIixcInN0YW5kSW5UeXBlXCI6XCJOT05FXCJ9LFwicmVhc29uXCI6e319LFwiZXZlbnRzXCI6W10sXCJpZFwiOlwiMGYyOTNmYjEtNGZkYS00OTM0LTliMDYtMTJlZWE0ZTliYWY1XCIsXCJzZXNzaW9uRGF0YVwiOntcImtcIjpcIjNEUzJcIixcInNcIjp0cnVlLFwicFwiOlwiTk9fUFJFRkVSRU5DRVwiLFwidFwiOlwiMGYyOTNmYjEtNGZkYS00OTM0LTliMDYtMTJlZWE0ZTliYWY1XCIsXCJuXCI6XCJWSVNBXCIsXCJ2XCI6XCIyLjIuMFwiLFwiZFwiOlwiMDJcIn19IiwiaXNzIjoiUEFTUyIsImV4cCI6MTY5MDkxMjkwNn0.Q2IXWF8bsrZhmsaXtDcTaXmwczvU9cO0OhCN0fKXul5dHSq-79KEAZ73Db1hyREufNPyQHhAdbjb88ymJfC72N7qdHOoVonqFY_4MoqtSXmtDBaaklQU3orCaOTno1v4gyOM2T9T7ByNKWNhWAXm_p5CvJEZnaElVaoZhKHpFQLPQyODkL0GMlLWP8zZefDvKJallw8En87_kn5JVdjPwlupXFrQYNSjWs4qFUyEaiNtqys6GeiqL-_GEtS7QDqBnnfFrxCdBi4UNb8LMm_kGi3nJ8PwHLcJApPWCGry1Z-CM1WdophCAdGqcRCadlgzX-JutbWJMmXRISDlsBtcjg"
+}
+```
+
+### <u>Donde detallamos:</u>
+
+| Campo               | Descripción                                                                 | Oblig | Ejemplo                              |
+|---------------------|------------------------------------------------------------------------------|-------|--------------------------------------|
+| **id**                 | Identificador único para la operación, corresponde al campo "id" de la respuesta de payment con 3ds.                     | SI    | id: "44628507"                       |
+| **instruction_value**   | Contiene el objeto "http" recuperado de la respuesta de payment con 3ds, codificado como JWT.                           | SI    | instruction_value: "eyJjZXJ0aWZpY2F0ZSI6IlBBU1NfMS41OS4wX0pXVCIsIgSDS" |
+|  |  |  |  |
+
+
+### Ejemplo de Respuesta del Desafío de Autenticación 3DS:
+A continuación, se muestra cómo se podría presentar la respuesta del desafío de autenticación cuando aprueba un pago, podemos notar que en el objeto **auth_3ds_response** el campo **status** viene como **approved**:
+
+```json 
+{
+    "id": 44628507,
+    "site_transaction_id": "TX3DSC1690902660",
+    "payment_method_id": 1,
+    "card_brand": "Visa",
+    "amount": 1200,
+    "currency": "ars",
+    "*status*": "approved",
+    "status_details": {
+        "ticket": "764",
+        "card_authorization_code": "B22619",
+        "address_validation_code": null,
+        "error": null
+    },
+    "date": "2023-08-01T12:11Z",
+    "payment_mode": null,
+    "customer": null,
+    "bin": "450799",
+    "installments": 1,
+    "first_installment_expiration_date": null,
+    "payment_type": "single",
+    "sub_payments": [],
+    "site_id": "00097001",
+    "fraud_detection": null,
+    "aggregate_data": null,
+    "establishment_name": null,
+    "spv": null,
+    "confirmed": null,
+    "pan": null,
+    "customer_token": null,
+    "card_data": "/tokens/44628507",
+    "token": "0632bdb2-a843-48ff-8001-d8073c9658d0",
+    "auth_3ds_response": {
+        "id": "44628507",
+        "status": "CHALLENGE SUCCESS",
+        "authentication_value": "97VVSWEQZumP5L490zrsyFimZkY=",
+        "commerce_indicator": "05",
+        "protocol_version": "2.2.0",
+        "directory_server_transaction_id": "577d6521-2fc0-4724-b6a7-381bd1412d55"
+    }
+}
+```
 <a name="twosteps"></a>
 
 ### Operación en dos pasos
@@ -566,7 +731,6 @@ La respuesta de ante cualquier pago exitoso es:
     "customer_token": "13e550af28e73b3b00af465d5d64c15ee1f34826744a4ddf68dc6b469dc604f5",
     "card_data": "/tokens/971344"
 }
-
 ```
 
 [<sub>Volver a inicio</sub>](#payway-sdk-nodejs)
