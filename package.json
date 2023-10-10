@@ -1,6 +1,6 @@
 {
-  "name": "sdk-node-ventaonline",
-  "version": "1.0.0",
+  "name": "teamv-sdk-node",
+  "version": "1.0.8",
   "keywords": [
     "sdk",
     "Payway",
@@ -13,7 +13,7 @@
     "promise": "^8.0.1"
   },
   "description": "",
-  "main": "index.js",
+  "main": "./lib/sdk.js",
   "scripts": {
     "run": "node index.js"
   },
