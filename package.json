@@ -1,6 +1,6 @@
 {
   "name": "teamv-sdk-node",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "keywords": [
     "sdk",
     "Payway",
@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/payway-ar/sdk-node-ventaonline/issues"
   },
-  "homepage": "https://github.com/payway-ar/sdk-node-ventaonline#readme"
+  "homepage": "https://github.com/payway-ar/sdk-node-ventaonline#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }
