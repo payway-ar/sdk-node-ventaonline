@@ -2,52 +2,55 @@ Decidir SDK NODEJS
 ===============
 
 Modulo para conexión con gateway de pago DECIDIR2
-  + [Introducción](#introduccion)
-    + [Alcance](#alcance)
-    + [Diagrama de secuencia](#diagrama-secuencia)			
-  + [Instalación](#instalacion)
-    + [Versiones de NODEJS soportadas](#versiones)
-    + [Manual de Integración](#manualintegracion)
-    + [Ambiente](#ambiente)
-  + [Uso](#uso)
-    + [Inicializar la clase correspondiente al conector](#initconector)
-    + [Operatoria del Gateway](#operatoria)
-      + [Pagos Offline](#pagos-offline)
-      + [Health Check](#healthcheck)
-      + [Ejecución del Pago](#payment)
-      + [Operación en dos pasos](#twosteps)
-      + [Comercios agregadores](#comercios-agregadores)
-      + [Respuesta al pago](#respuesta-al-pago)
-      + [Listado de Pagos](#getallpayments)
-      + [Información de un Pago](#getpaymentinfo)
-      + [Devoluciones de pagos](#refunds)
-        + [Anulación / Devolución Total de Pago](#refund)
-        + [Anulación de Devolución Total](#deleterefund)
-        + [Devolución Parcial de un Pago](#partialrefund)
-        + [Anulación de Devolución Parcial](#deletepartialrefund)
-    + [Tokenizacion de tarjetas de crédito](#tokenizaciontarjeta)
-      + [Listado de tarjetas tokenizadas](#listadotarjetastokenizadas)
-      + [Solicitud de token de pago](#solicitudpagotokenizado)
-      + [Ejecucion de pago tokenizado](#pagotokenizado)
-      + [Solicitud de token de pago con tokenización interna](#solicitud-de-token-de-pago-con-tokenización-interna)
-      + [Ejecución de pago con tokenización interna](#ejecución-de-pago-con-tokenización-interna)
-      + [Eliminacion de tarjeta tokenizada](#eliminartarjetatokenizada)
-    + [Formulario de pago](#formpago)
-      
-    + [Integración con Cybersource](#cybersource)
-      + [Parámetros Comunes](#parámetros-comunes)
-      + [Retail](#retail)
-      + [Ticketing](#ticketing)
-      + [Digital Goods](#digital-goods)
-      + [Servies](#services)
-      + [Travel](#travel)      
-  + [Tablas de referencia](#tablasreferencia)
-    + [Códigos de Medios de Pago](#códigos-de-medios-de-pago)
-	  + [Divisas Aceptadas](#divisasa)
-    + [Provincias](#provincias)
+
++ [Introducción](#introduccion)
+  + [Alcance](#alcance)
+  + [Diagrama de secuencia](#diagrama-secuencia)   
++ [Instalación](#instalacion)
+  + [Versiones de NODEJS soportadas](#versiones)
+  + [Manual de Integración](#manualintegracion)
+  + [Ambiente](#ambiente)
++ [Uso](#uso)
+  + [Inicializar la clase correspondiente al conector](#initconector)
+  + [Operatoria del Gateway](#operatoria)
+    + [Pagos Offline](#pagos-offline)
+    + [Health Check](#healthcheck)
+    + [Ejecución del Pago](#payment)
+    + [Operación en dos pasos](#twosteps)
+    + [Comercios agregadores](#comercios-agregadores)
+    + [Respuesta al pago](#respuesta-al-pago)
+    + [Listado de Pagos](#getallpayments)
+    + [Información de un Pago](#getpaymentinfo)
+    + [Devoluciones de pagos](#refunds)
+      + [Anulación / Devolución Total de Pago](#refund)
+      + [Anulación de Devolución Total](#deleterefund)
+      + [Devolución Parcial de un Pago](#partialrefund)
+      + [Anulación de Devolución Parcial](#deletepartialrefund)
+  + [Tokenizacion de tarjetas de crédito](#tokenizaciontarjeta)
+    + [Listado de tarjetas tokenizadas](#listadotarjetastokenizadas)
+    + [Solicitud de token de pago](#solicitudpagotokenizado)
+    + [Ejecucion de pago tokenizado](#pagotokenizado)
+    + [Solicitud de token de pago con tokenización interna](#solicitud-de-token-de-pago-con-tokenización-interna)
+    + [Ejecución de pago con tokenización interna](#ejecución-de-pago-con-tokenización-interna)
+    + [Eliminacion de tarjeta tokenizada](#eliminartarjetatokenizada)
+  + [Formulario de pago](#formpago)
+
+  + [Integración con Cybersource](#cybersource)
+    + [Parámetros Comunes](#parámetros-comunes)
+    + [Retail](#retail)
+    + [Ticketing](#ticketing)
+    + [Digital Goods](#digital-goods)
+    + [Servies](#services)
+    + [Travel](#travel)
++ [Tablas de referencia](#tablasreferencia)
+  + [Códigos de Medios de Pago](#códigos-de-medios-de-pago)
+ 	  + [Divisas Aceptadas](#divisasa)
+  + [Provincias](#provincias)
 
 <a name="introduccion"></a>
+
 ## Introducción
+
 El flujo de una transacción a través de las **sdks** consta de dos pasos, la **generaci&oacute;n de un token de pago** por parte del cliente y el **procesamiento de pago** por parte del comercio. Existen sdks espec&iacute;ficas para realizar estas funciones en distintos lenguajes que se detallan a continuaci&oacute;n:
 
 + **Generaci&oacute;n de un token de pago.**  Se utiliza alguna de las siguentes **sdks front-end** :
@@ -61,19 +64,19 @@ El flujo de una transacción a través de las **sdks** consta de dos pasos, la *
   + [sdk Node](https://github.com/decidir/SDK-.NODE.v2)
 
 <a name="alcance"></a>
+
 ## Alcance
+
 La **sdk NODEJS** provee soporte para su **aplicación back-end**, encargándose de la comunicación del comercio con la **API Decidir** utilizando su **API Key privada**<sup>1</sup> y el **token de pago** generado por el cliente.
 
-Para generar el token de pago, la aplicación cliente realizará con **Decidir** a través de alguna de las siguentes **sdks front-end**:
-+ [sdk IOS](https://github.com/decidir/SDK-IOS.v2)
-+ [sdk Android](https://github.com/decidir/SDK-Android.v2)
-+ [sdk Javascript](https://github.com/decidir/sdk-javascript-v2)
+Para generar el token de pago, la aplicación cliente realizará con **Decidir** a través de de la siguente
 
-![imagen de sdks](./docs/img/DiagramaSDKs.png)</br>
++ [sdk Javascript](https://github.com/decidir/sdk-javascript-v2)
 
 [Volver al inicio](#alcance)
 
 <a name="diagrama-secuencia"></a>
+
 ## Diagrama de secuencia
 
 El flujo de una transacción a través de las sdks consta de dos pasos, a saber:
@@ -89,61 +92,97 @@ A continuación, se presenta un diagrama con el Flujo de un Pago.
 [Volver al inicio](#diagramasecuencia)
 
 <a name="instalacion"></a>
-## Instalación
-Descargar la última versión del SDK desde el botón Download ZIP.		
-Se debe incluirse la carpeta del SDK dentro del proyecto.		
-<br />		
 
+# Instalación del SDK
+
+## Opción 1: Descarga directa
+
+1. **Descargar la última versión del SDK**  
+   Haz clic en el botón **Download ZIP** para obtener el SDK.  
+
+   <br />  
+
+2. **Incluir en el proyecto**  
+   Descomprime el archivo descargado e incluye la carpeta del SDK en tu proyecto.
+
+## Opción 2: Instalación mediante npm
+
+Si prefieres trabajar con la versión para Node.js del SDK, puedes instalarla fácilmente utilizando npm.  
+
+```bash
+npm install teamv-sdk-node
+```
+
+Asegúrate de que las dependencias estén definidas en tu archivo package.json:
+
+```javascript
+"dependencies": {
+  "teamv-sdk-node": "^1.0.35"
+}
+```
+
+# ⚠️ **Requisitos del entorno**  ⚠️
+
+> **El SDK solo es compatible con Node.js versión 18 o superior.**
+
+<br />  
 
 [Volver al inicio](#decidir-sdk-node)
 
 <a name="versiones"></a>
+
 ## Versiones de NODEJS soportadas
 
-La versión implementada de la SDK, está testeada para las versiones NODEJS desde la version 6.0.
+> **La versión implementada del SDK está probada y es compatible con Node.js a partir de la versión 18.0.0 inclusive.**
 
 [Volver al inicio](#versiones)
 
-
 <a name="manualintegracion"></a>
+
 ## Manual de Integración
 
 Se encuentra disponible la documentación **[Manual de Integración Decidir2](https://decidir.api-docs.io/1.0/guia-de-inicio/)** para su consulta online, en este detalla el proceso de integración. En el mismo se explican los servicios y operaciones disponibles, con ejemplos de requerimientos y respuestas, aquí sólo se ejemplificará la forma de llamar a los distintos servicios utilizando la presente SDK.
 
 <a name="ambiente"></a>
+
 ## Ambientes
 
 El sdk NODEJS permite trabajar con los ambientes de Sandbox y Producción de Decidir. El ambiente se debe definir al instanciar el SDK.
 
 ```javascript
 
-var ambient = "developer";//valores posibles: "developer" o "production";
-var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const ambient = "developer";//valores posibles: "developer" o "production";
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 ```
 
 [Volver al inicio](#ambiente)
 
 <a name="uso"></a>
+
 ## Uso
 
 <a name="initconector"></a>
-### Inicializar la clase correspondiente al conector.
+
+### Inicializar la clase correspondiente al conector
 
 El Sdk para NODEJS permite trabajar con los ambientes de desarrollo y de producción de Decidir.
 El ambiente se debe instanciar como se indica a continuación.
-Instanciación de la clase `Decidir\Connector`
+Instanciación de la clase `sdk`
+
 La misma recibe como parámetros la public key o private key provisto por Decidir para el comercio y el ambiente en que se trabajará.
+
 ```javascript
 
 var publicKey = "b192e4cb99564b84bf5db5550112adea";
 var privateKey = "566f2c897b5e4bfaa0ec2452f5d67f13";
-var ambient = "test";//valores posibles: "test" o "prod";
+var company = "Tienda-Margarita";
+var user = "Cristian Arellano";
+var ambient = "developer";//valores posibles: "developer" o "prod";
 
-var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 ```
-*Nota:* La sdk incluye un completo al cual se debe acceder desde el navegador y allí te permitirá configurar las distintas opciones.
 
 [<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
 <a name="operatoria"></a>
@@ -158,7 +197,6 @@ Una vez generado y almacenado el token de Pago Offline, se deberá ejecutar la s
 
 *Aclaracion*: amount es un campo double el cual debería tener solo dos dígitos decimales.
 
-
 #### Pago Fácil
 
 ![imagen de sdks](./docs/img/me-rapipago-pagofacil.jpg)</br>
@@ -171,7 +209,7 @@ Una vez generado y almacenado el token de Pago Offline, se deberá ejecutar la s
 |amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
 |currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
-|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
+|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "<user@mail.com>",  |
 |invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
 |cod_p3  | Son los dias que existen entre el 1º y 2º vencimiento de la factura. |  SI|  2,fijo ("00" si la factura tiene no tiene 2° vencimientos)|  invoice_expiration: "191123"|
 |cod_p4  | Días después del 1º vencimiento y hasta que el cliente pueda abonar  |  SI|  3,fijo |  cod_p4: "123"|
@@ -179,8 +217,8 @@ Una vez generado y almacenado el token de Pago Offline, se deberá ejecutar la s
 |surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: "10.01"|
 |payment_mode  | Tipo de metodo de pago  |  SI|  Strin "offline" |  payment_mode: "offline"|
 
-
 ##### Ejemplo
+
 ```javascript
 data = {
   site_transaction_id : "230518_41",
@@ -215,7 +253,7 @@ data = {
 |amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
 |currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
-|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
+|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "<user@mail.com>",  |
 |invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
 |cod_p3  | Son los dias que existen entre el 1º y 2º vencimiento de la factura. |  SI|  2,fijo ("00" si la factura tiene no tiene 2° vencimientos)|  invoice_expiration: "191123"|
 |cod_p4  | Días después del 1º vencimiento y hasta que el cliente pueda abonar  |  SI|  3,fijo |  cod_p4: "123"|
@@ -223,8 +261,8 @@ data = {
 |surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: "10.01"|
 |payment_mode  | Tipo de metodo de pago  |  SI|  Strin "offline" |  payment_mode: "offline"|
 
-
 ##### Ejemplo
+
 ```javascript
 
 const data = {
@@ -257,12 +295,12 @@ const data = {
 |amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
 |currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
-|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
+|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "<user@mail.com>",  |
 |invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
 |bank_id  | Id de banco de la operacion  |  SI|  String "offline" |  bank_id: 1 ([refencia](https://decidirv2.api-docs.io/1.0/transacciones-simples/flujo-de-pago-offline))|
 
-
 ##### Ejemplo
+
 ```javascript
 
 const data = {
@@ -281,7 +319,6 @@ const data = {
 
 [<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
 
-
 #### Cobro Express
 
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
@@ -292,7 +329,7 @@ const data = {
 |amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
 |currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
-|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
+|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "<user@mail.com>",  |
 |invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
 |second_invoice_expiration  | Segunda fecha de vencimiento del cupón  |  SI|  Formato AAMMDD |  second_invoice_expiration: "191123"|
 |cod_p3  | Son los dias que existen entre el 1º y 2º vencimiento de la factura. |  SI|  2,fijo ("00" si la factura tiene no tiene 2° vencimientos)|  invoice_expiration: "191123"|
@@ -300,8 +337,8 @@ const data = {
 |surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: "10.01"|
 |payment_mode  | Tipo de metodo de pago  |  SI|  Strin "offline" |  payment_mode: "offline"|
 
-
 ##### Ejemplo
+
 ```javascript 1.8
 
 const data = {
@@ -322,6 +359,7 @@ const data = {
 };
 
 ```
+
 [<sub>Volver a inicio</sub>](#decidir-sdk-php)
 
 #### Cobro Express
@@ -334,7 +372,7 @@ const data = {
 |amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
 |currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
-|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
+|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "<user@mail.com>",  |
 |invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
 |second_invoice_expiration  | Segunda fecha de vencimiento del cupón  |  SI|  Formato AAMMDD |  second_invoice_expiration: "191123"|
 |cod_p3  | Son los dias que existen entre el 1º y 2º vencimiento de la factura. |  SI|  2,fijo ("00" si la factura tiene no tiene 2° vencimientos)|  invoice_expiration: "191123"|
@@ -343,8 +381,8 @@ const data = {
 |surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: "10.01"|
 |payment_mode  | Tipo de metodo de pago  |  SI|  Strin "offline" |  payment_mode: "offline"|
 
-
 ##### Ejemplo
+
 ```javascript
 
 const data = {
@@ -367,12 +405,14 @@ const data = {
 ```
 
 <a name="healthcheck"></a>
+
 ### Health Check
+
 Este recurso permite conocer el estado actual de la API RESTful de DECIDIR.
 
 ```javascript
 
-const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 sdk.healthcheck(args, function(result, err) {
     console.log("-----------------------------------------");
@@ -385,12 +425,13 @@ sdk.healthcheck(args, function(result, err) {
 });
 
 ```
-[<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
 
+[<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
 
 <a name="payment"></a>
 
 ### Ejecución del Pago
+
 Una vez generado y almacenado el token de pago, se deberá ejecutar la solicitud de pago más el token previamente generado.
 Además del token de pago y los parámetros propios de la transacción, el comercio deberá identificar la compra con el site_transaction_id.
 
@@ -398,7 +439,7 @@ Además del token de pago y los parámetros propios de la transacción, el comer
 
 ```javascript
 
-const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 args = {
     site_transaction_id: "id_" + date,
@@ -434,12 +475,13 @@ console.log(err);
 <a name="twosteps"></a>
 
 ### Operación en dos pasos
+
 Una vez generado y almacenado el token de pago, se deberá ejecutar la solicitud de pago más el token previamente generado.
 Si el pago es preaprobado `Status.PRE_APPROVED`, se procederá a realizar la confirmaci&oacute;n del pago enviando **ID de pago, monto y usario aprobador**.
 A continuaci&oacute;n se muestra un ejemplo con una transacci&oacute;n simple sin Cybersource.
 
 ```javascript
-const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 args = {
     amount: 25.50,
@@ -473,7 +515,7 @@ let args = {
     "customer": {
         "id": "{{user}}",
         "email": "{{email}}",
-	"ip_address": "{{ip_address}}"
+ "ip_address": "{{ip_address}}"
     },
     "site_transaction_id": "AGREGADOR_{{$timestamp}}",
     "token": "{{token}}",
@@ -510,8 +552,7 @@ let args = {
 
 ```
 
-
-### Respuesta al pago:
+### Respuesta al pago
 
 La respuesta de ante cualquier pago exitoso es:
 
@@ -535,7 +576,7 @@ La respuesta de ante cualquier pago exitoso es:
     "customer": {
         "id": "juan",
         "email": "jmejia@prismamp.com",
-	"ip_address": "192.168.0.1"
+ "ip_address": "192.168.0.1"
     },
     "bin": "373953",
     "installments": 1,
@@ -577,7 +618,6 @@ La respuesta de ante cualquier pago exitoso es:
 
 [<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
 
-
 <a name="getallpayments"></a>
 
 ### Listado de Pagos
@@ -585,14 +625,14 @@ La respuesta de ante cualquier pago exitoso es:
 Mediante este recurso, se genera una solicitud de listado de pagos.
 Este recurso admite la posibilidad de agregar los filtros adicionales:
 
-- (opcional) offset: desplazamiento en los resultados devueltos. Valor por defecto = 0.
-- (opcional) pageSize: cantidad máxima de resultados retornados. Valor por defecto = 50.
-- (opcional) siteOperationId: ID único de la transacción a nivel comercio (equivalente al site_transaction_id).
-- (opcional) merchantId: ID Site del comercio.
++ (opcional) offset: desplazamiento en los resultados devueltos. Valor por defecto = 0.
++ (opcional) pageSize: cantidad máxima de resultados retornados. Valor por defecto = 50.
++ (opcional) siteOperationId: ID único de la transacción a nivel comercio (equivalente al site_transaction_id).
++ (opcional) merchantId: ID Site del comercio.
 
 ```javascript
 
-var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 var args = {
     data: {
@@ -629,7 +669,7 @@ Mediante este recurso, se genera una solicitud de información de un pago previa
 
 ```javascript
 
-const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 id = result.id;
 const args = {
@@ -665,7 +705,7 @@ Mediante este recurso, se genera una solicitud de anulación / devolución total
 
 ```javascript
 
-const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 id = result.id;
 const args = {
@@ -691,7 +731,6 @@ console.log(err);
 
 [<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
 
-
 <a name="deleterefund"></a>
 
 ### Anulación de Devolución Total
@@ -700,7 +739,7 @@ Mediante este recurso, se genera una solicitud de anulación de devolución tota
 
 ```javascript
 
-const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 paymentId = result.id;
 const args = {
@@ -734,7 +773,7 @@ Mediante este recurso, se genera una solicitud de devolución parcial de un pago
 
 ```javascript
 
-const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 paymentId = result.id;
 amount = 10.50;
@@ -763,7 +802,6 @@ console.log(err);
 
 [<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
 
-
 <a name="deletepartialrefund"></a>
 
 ### Anulación de Devolución Parcial
@@ -772,7 +810,7 @@ Mediante este recurso, se genera una solicitud de anulación de devolución parc
 
 ```javascript
 
-const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 paymentId = result.id;
 amount = 10.50;
@@ -804,80 +842,74 @@ console.log(err);
 
 ### Formulario de pago
 
-Este servicio permite integrar en el comercio un formulario de pago. Utiliza el recurso "validate" para obtener un hash a partir de los datos de la operacion, luego este hash sera utilizado al momento de llamar al recurso "form" el cual devolvera el formulario renderizado propio para cada comercio listo para ser utilizado y completar el flujo de pago.
+Este servicio permite integrar un formulario de pago en el comercio. Primero, utiliza el recurso **checkoutHash** para generar un hash basado en los datos de la operación. Luego, este hash se emplea al invocar el recurso payments/link, el cual devuelve un enlace personalizado para el formulario de pago del comercio, listo para ser utilizado y completar el flujo de pago.
 
-![Caso2](https://raw.githubusercontent.com/decidir/sdk-nodejs-v2/master/docs/img/flujo-formulario-renderizado.png)</br>
+| Campo                 | Descripción                                                                                  | Obligatorio       | Restricciones                                       | Ejemplo                          |
+|-----------------------|----------------------------------------------------------------------------------------------|-------------------|----------------------------------------------------|----------------------------------|
+| origin_platform       | Plataforma de origen desde la cual se realiza la operación                                   | Sí                | Alfanumérico                                       | "SDK-Node"                      |
+| payment_description   | Descripción del pago                                                                         | No                | Alfanumérico                                       | "TEST"                          |
+| currency              | Tipo de moneda                                                                               | Sí                | Letras                                            | "ars" / "usd"                          |
+| products              | Detalle de los productos incluidos en la operación                                           | No                | Array de objetos con id, value, description y quantity | [{"id": 4444, "value": 19.99, "description": "Remera", "quantity": 2}] |
+| total_price           | Precio total de la operación                                                                 | Sí                | Numérico                                           | 39.98                           |
+| site                  | Identificador único del comercio                                                             | Sí                | Numérico                                           | "00097002"                      |
+| success_url           | URL a la que se redirige cuando se completa la operación con éxito                           | Sí                | URL válida                                        | "<https://www.lanacion.com/>"     |
+| redirect_url          | URL a la que se redirige con los datos de la operación finalizada                            | No                | URL válida                                        | "<https://www.infobae.com/>"      |
+| cancel_url            | URL a la que se redirige si el cliente cancela el formulario                                 | Sí                | URL válida                                        | "<https://www.clarin.com/>"       |
+| notifications_url     | URL donde se enviarán notificaciones relacionadas con la operación                           | Sí                | URL válida                                        | "<https://twitter.com/>"          |
+| template_id           | Identificador de la plantilla del formulario de pago                                         | Sí                | Numérico                                           | 1                                |
+| installments          | Cantidad de cuotas posibles                                                                  | Sí                | Array de números                                   | [1]                             |
+| id_payment_method     | Identificador del método de pago a utilizar (opcional; por defecto incluye todos los métodos) | No                | Numérico                                           | 31                               |
+| plan_gobierno         | Indica si se utiliza un plan gubernamental                                                   | Sí                | Valores posibles: true, false                     | false                           |
+| public_apikey         | Clave pública de autenticación                                                               | Sí                | Alfanumérico                                       | "YKcWXjI2aoSnp60urwLd6TbLYNuybcWC" |
+| auth_3ds              | Indica si se requiere autenticación 3DS                                                      | Sí                | Valores posibles: true, false                     | false                           |
+| life_time             | Tiempo de vida en segundos del formulario                                                    | Sí                | Numérico                                           | 999999999                       |
 
+#### Ejemplo:
 
-|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-|site.id  | Merchant  | Condicional | Numérico de 20 digitos   | id: "12365436"  |
-|site.template.id  | Id de formulario de pago, el id es unico para cada comercio y es generado previamente por Decidir | SI | Numérico de 20 digitos  |   |
-|site.transaction_id  | Numero de operación  | SI | Alfanumérico  de 40 digitos |   |
-|customer.id  | d que identifica al usuario  | NO | Alfanumérico  de 40 digitos |   |
-|customer.email | Email del cliente. Se envía información del pago  | Es requerido si se desea realizar el envío de mails | Alfanumérico  de 40 digitos | email:"user@mail.com"  |
-|payment.amount  | Monto de la compra  | SI | Numérico |   |
-|payment.currency  | Tipo de moneda  | NO | Letras |   |
-|payment.payment_method_id  | Id del medio de pago  | SI | Númerico |   |
-|payment.bin  | Primeros 6 dígitos de la tarjeta  | NO | Númerico |   |
-|payment.installments  | Cantidad de cuotas  | SI | Númerico |   |
-|payment.payment_type  | Indica si es simple o distribuida  | SI | Valores posibles: "single", "distributed" |   |
-|payment.sub_payments  | Se utiliza para pagos distribuidos. Informa los subpayments  | Es requerido si el
-pago es distribuido por monto, ya que si es por porcentaje toma los configurados desde Adm Sites (SAC) | NA |   |
-|success_url  | Url a donde se rediccionará una vez que el usuario finalice la operación desde la página de feedback  | SI | Númerico |   |
-|cancel_url  | Url donde se rediccionará si el cliente quiere cancelar el formulario  | SI | NA |   |
-|redirect_url  | Url en la cual se enviaran los datos de la operación una vez finalizada la misma para que el comercio pueda capturarlos y mostrarlos como lo desee  | Es requerido en los casos donde no informe el campo "success_url" | NA |   |
-
-#### Ejemplo
 ```javascript
-            var date = new Date().getTime();
-            
             args = {
-                site_transaction_id: "id_" + date,
-                user_id: 'juanpepito',
-                payment_method_id: 1,
-                bin: "450799",
-                amount: 25.50,
-                currency: "ARS",
-                installments: 1,
-                description: "Description of product",
-                payment_type: "single",
-                sub_payments: [],
-                apiKey: "5cde7e72ea1e430db94d436543523744",
-                formSite: '0002031',
-                'Content-Type': "application/json",
-                success_url: "https://shop.swatch.com/es_ar/", //si no se informa el "redirect_url" es requerido
-                cancel_url: "https://swatch.com/api/result",
-                redirect_url: "", //si no se informa el success_url es requerido
-                fraud_detection: [], //si no esta activado cybersource no enviar este atributo
-                success_ur": "https://shop.swatch.com/es_ar/", //si no se informa el "redirect_url" es requerido
-                cancel_url: "https://swatch.com/api/result",
-                redirect_url: "", //si no se informa el "success_url" es requerido
-                fraud_detection: array() //si no esta activado cybersource no enviar este atributo
-
+                "origin_platform": "SDK-Node",
+                "payment_description": "Compra de productos electrónicos",
+                "currency": "ars",
+                "products": [
+                    {
+                    "id": 1001,
+                    "value": 1500.50,
+                    "description": "Auriculares Bluetooth",
+                    "quantity": 1
+                    },
+                    {
+                    "id": 1002,
+                    "value": 999.99,
+                    "description": "Teclado Mecánico",
+                    "quantity": 1
+                    }
+                ],
+                "total_price": 2500.49,
+                "site": "12345678",
+                "success_url": "https://www.mitienda.com/compra-exitosa",
+                "redirect_url": "https://www.mitienda.com/datos-operacion",
+                "cancel_url": "https://www.mitienda.com/cancelacion",
+                "notifications_url": "https://www.mitienda.com/notificaciones",
+                "template_id": 1,
+                "installments": [3],
+                "id_payment_method": 10,
+                "plan_gobierno": true,
+                "public_apikey": "abcd1234efgh5678ijkl9012mnop3456",
+                "auth_3ds": true,
+                "life_time": 3600
             };
 
+            const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
-      
-
-        var customer = {
-            id: "juanpepito",
-            email: "juan.pepito@hotmail.com"
-        };
-            var validateData = new validateMod.validate(args);
-
-            // send_to_cs = TRUE O FALSE PARA ENVIAR PARAMETROS CS
-
-            //Se envian sdk y parametros al modulos de payment que realizará el pago
-            var instPayment = new validateMod.validate(sdk, args).then(function(result) {
+            var checkout = new sdk.checkoutHash(sdk, args).then(function(result) {
                 console.log("-----------------------------------------")
-                console.log("Validate")
+                console.log("Link Hash")
                 console.log("-------------------***-------------------");
             })
     })
 
 ```
-
 
 <a name="tokenizaciontarjeta"></a>
 
@@ -894,7 +926,7 @@ Este metodo permite conocer el listado de tarjetas tokenizadas que posee un usua
 
 ```javascript
 
-const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 user_id = result.user_id;
 const args = {
@@ -925,7 +957,6 @@ console.log(err);
 
 [<sub>Volver a inicio</sub>](#listadotarjetastokenizadas)
 
-
 <a name="solicitudpagotokenizado"></a>
 
 ### Solicitud de token de pago
@@ -933,7 +964,6 @@ console.log(err);
 Al cargar el formulario de pago este mostrara las tarjetas tokenizadas que posee el usuario.
 
 [<sub>Volver a inicio</sub>](#solicitudpagotokenizado)
-
 
 <a name="pagotokenizado"></a>
 
@@ -943,7 +973,7 @@ Una vez que se obtiene el token a partir de la tarjeta tokenizada, se deberá ej
 
 ```javascript
 
-const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 args = {
     site_transaction_id: "id_" + date,
@@ -988,6 +1018,7 @@ sdk.payment(args, function(result, err) {
 <br>
 
 ### Estructura de solicitud de token
+
 La estructura TokenRequest representa una solicitud para generar un token asociado a una transacción con tarjeta. Contiene los siguientes campos:
 
 card_data (obligatorio): un objeto que contiene la información de la tarjeta.
@@ -1015,6 +1046,7 @@ Uso
 Para usar la estructura TokenRequest, cree una instancia con los campos obligatorios (card_data y establecimiento_number) y complete los detalles de la tarjeta dentro del objeto card_data. Asegúrese de que todos los campos obligatorios tengan valores válidos de acuerdo con las restricciones especificadas.
 
 ### Validación
+
 Cuando utilice la estructura TokenRequest, asegúrese de que los datos proporcionados cumplan con las restricciones especificadas. Valide los campos antes de usarlos para evitar problemas durante el procesamiento.
 
 Verifique que card_number siga el patrón especificado y los requisitos de longitud.
@@ -1025,11 +1057,11 @@ Valide que el número_cuenta no esté vacío o sea nulo.
 Verifique que email_holder no esté vacío o sea nulo.
 Asegúrese de que el número_establecimiento no esté vacío ni sea nulo.
 
-### Ejemplo de uso:
+### Ejemplo de uso
 
 ```javascript
 
-const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 args = {
     card_data: {
@@ -1063,17 +1095,13 @@ sdk.internaltokens(args, function(result, err) {
 
 ```
 
-
-
 [<sub>Volver a inicio</sub>](#solicitudpagotokenizado)
-
 
 ## Ejecución de pago con tokenización interna
 
 Una vez que se obtiene el token a partir de la tarjeta tokenizada, se deberá ejecutar la solicitud de pago. Además del token de pago y los parámetros propios de la transacción, el comercio deberá identificar la compra con el "merchant_id" y "merchant_transaction_id".
 
-
-### La estructura TransactionData representa los datos asociados con una transacción. Contiene los siguientes campos:
+### La estructura TransactionData representa los datos asociados con una transacción. Contiene los siguientes campos
 
 <br>
 
@@ -1153,11 +1181,11 @@ Longitud mínima: 1
 Patrón: la fecha debe tener el formato MMDD.
 store_credential (opcional): un indicador booleano que indica si se deben almacenar los tokens para CIT (transacciones iniciadas por el titular de la tarjeta) y MIT (transacciones iniciadas por el comerciante).
 
-### Ejemplo de uso: 
+### Ejemplo de uso
 
 ```javascript
 
-const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 args = {
     merchant_id: "11223344",
@@ -1200,7 +1228,6 @@ sdk.cryptogramPayment(args, function(result, err) {
 
 [<sub>Volver a inicio</sub>](#pagotokenizado)
 
-
 <a name="eliminartarjetatokenizada"></a>
 
 ### Eliminacion de tarjeta tokenizada
@@ -1209,7 +1236,7 @@ El servicio da la posibilidad de eliminar un token de tarjeta generadas, esto se
 
 ```javascript
 
-var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 
 args = {
@@ -1236,7 +1263,6 @@ sdk.deleteCardToken(args, '4507990000004905', function(result, err) {
 
 [<sub>Volver a inicio</sub>](#eliminartarjetatokenizada)
 
-
 <a name="cybersource"></a>
 
 ### Integración con Cybersource
@@ -1246,15 +1272,13 @@ Se han definido cinco verticales de negocio que requieren parámetros específic
 
 [Volver al inicio](#cybersource)
 
-
 #### Parámetros Comunes
 
 Los parámetros comunes a todas las verticales deben enviarse junto con los datos específicos de cada uno. A continuación, describiremos los párametros comúnes que se deberan agregar a los datos de cada vertical al momento de instanciar la clase correspondiente.
 
-
 ```javascript
 
-var sdk = new sdkModulo.sdk(ambient, publicKey, privateKey);
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 var datos_cs = {
     send_to_cs : 'true',
@@ -1279,20 +1303,18 @@ var datos_cs = {
 
 [Volver al inicio](#parámetros-comunes)
 
-
 #### Retail
 
 Los siguientes parámetros se deben enviar específicamente para la vertical Retail. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
 
-
 ```javascript
 
 var datos_cs = {
-	device_unique_id : "devicefingerprintid",
-	days_to_delivery: "55",
-	tax_voucher_required: true,
-	customer_loyality_number: "123232",
-	coupon_code: "cupon22",
+ device_unique_id : "devicefingerprintid",
+ days_to_delivery: "55",
+ tax_voucher_required: true,
+ customer_loyality_number: "123232",
+ coupon_code: "cupon22",
 };
 
 
@@ -1302,38 +1324,57 @@ Para incorporar estos datos en el requerimiento inicial, se debe instanciar un o
 
 ```javascript
 
-
-var date = new Date().getTime();
-
-args = {
-    site_transaction_id: "id_" + date,
-    token: token,
-    user_id: 'juanpepito',
-    payment_method_id: 1,
-    bin: "450799",
-    amount: 25.50,
-    currency: "ARS",
-    installments: 1,
-    description: "Description of product",
-    payment_type: "single",
-    sub_payments: [],
-    apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
-    'Content-Type': "application/json"
+const retailArgs = {
+  send_to_cs: true,
+  channel: 'web',
+  bill_to: {
+    city: 'Buenos Aires',
+    country: 'AR',
+    customer_id: '12345',
+    email: 'cliente@correo.com',
+    first_name: 'Juan',
+    last_name: 'Pérez',
+    phone_number: '1112345678',
+    postal_code: 'C1001',
+    state: 'CABA',
+    street1: 'Calle Falsa 123',
+    street2: 'Piso 1',
+  },
+  purchase_totals: {
+    currency: 'ARS',
+    amount: 2500.50,
+  },
+  customer_in_site: {
+    days_in_site: 120,
+    is_guest: false,
+    num_of_transactions: 5,
+  },
+  retail_transaction_data: {
+    dispatch_method: 'homeDelivery',
+    days_to_delivery: 3,
+    items: [
+      {
+        id: 'PROD001',
+        value: 1500.50,
+        description: 'Auriculares Bluetooth',
+        quantity: 1,
+      },
+      {
+        id: 'PROD002',
+        value: 1000.00,
+        description: 'Teclado Mecánico',
+        quantity: 1,
+      },
+    ],
+  },
 };
-var paymentData = new PaymentDataModulo.paymentData(args);
 
-var datos_cs = array(
-  device_unique_id : "devicefingerprintid",
-  days_to_delivery: "55",
-  dispatch_method: "storepickup",
-  tax_voucher_required: true,
-  customer_loyality_number: "123232",
-  coupon_code: "cupon22",
-}
+const fraudDetectionData = sdk.cybersourceRetail(retailArgs);
 
-var retail = new retailModulo.retailData(datos_cs);
+console.log('Datos para detección de fraude generados:', fraudDetectionData);
 
-args.data.fraud_detection = retail;
+args.data.fraud_detection = fraudDetectionData;
+
 sdk.payment(args, function(result, err) {
 
 resolve(result);
@@ -1357,7 +1398,6 @@ console.log("-------------------***-------------------");
 ```
 
 [Volver al inicio](#decidir-sdk-nodejs)
-
 
 #### Ticketing
 
@@ -1398,64 +1438,83 @@ Para incorporar estos datos en el requerimiento inicial, se debe instanciar un o
 
 ```javascript
 
-var date = new Date().getTime();
-
-args = {
-    site_transaction_id: "id_" + date,
-    token: token,
-    user_id: 'juanpepito',
-    payment_method_id: 1,
-    bin: "450799",
-    amount: 25.50,
-    currency: "ARS",
-    installments: 1,
-    description: "Description of product",
-    payment_type: "single",
-    sub_payments: [],
-    apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
-    'Content-Type': "application/json"
+const ticketingArgs = {
+  send_to_cs: true,
+  channel: 'web',
+  bill_to: {
+    city: 'Buenos Aires',
+    country: 'AR',
+    customer_id: '12345',
+    email: 'cliente@correo.com',
+    first_name: 'Juan',
+    last_name: 'Pérez',
+    phone_number: '1112345678',
+    postal_code: 'C1001',
+    state: 'CABA',
+    street1: 'Calle Falsa 123',
+    street2: 'Piso 1',
+  },
+  purchase_totals: {
+    currency: 'ARS',
+    amount: 2500.50,
+  },
+  customer_in_site: {
+    days_in_site: 120,
+    is_guest: false,
+    num_of_transactions: 5,
+  },
+  ticketing_transaction_data: {
+    dispatch_method: 'homeDelivery',
+    days_to_delivery: 3,
+    items: [
+      {
+        id: 'PROD001',
+        value: 1500.50,
+        description: 'Auriculares Bluetooth',
+        quantity: 1,
+      },
+      {
+        id: 'PROD002',
+        value: 1000.00,
+        description: 'Teclado Mecánico',
+        quantity: 1,
+      },
+    ],
+  },
 };
-const paymentData = new PaymentDataModulo.paymentData(args);
 
-const datos_cs = {
-  device_unique_id : "devicefingerprintid",
-  days_to_delivery: "55",
-  dispatch_method: "storepickup",
-  tax_voucher_required: true,
-  customer_loyality_number: "123232",
-  coupon_code: "cupon22",
-}
+const fraudDetectionData = sdk.cybersourceTicketing(ticketingArgs);
 
-var ticketing = new ticketingModulo.ticketingData(datos_cs);
+console.log('Datos para detección de fraude generados:', fraudDetectionData);
 
-args.data.fraud_detection = ticketing;
+args.data.fraud_detection = fraudDetectionData;
+
 sdk.payment(args, function(result, err) {
-    resolve(result);
-    console.log("")
-    console.log("")
-    console.log("Se realiza una petición de pago enviando el payload y el token de pago ")
-    console.log("generado anteriormente")
-    console.log("")
-    console.log("")
-    console.log("             PAYMENT REQUEST             ");
-    console.log("-----------------------------------------");
-    console.log("sendPaymentRequest result:");
-    console.log(result);
-    console.log("-----------------------------------------");
-    console.log("sendPaymentRequest error:");
-    console.log(err);
-    console.log("-------------------***-------------------");
+  resolve(result);
+
+  console.log("");
+  console.log("");
+  console.log("Se realiza una petición de pago enviando el payload y el token de pago ");
+  console.log("generado anteriormente");
+  console.log("");
+  console.log("");
+  console.log("             PAYMENT REQUEST             ");
+  console.log("-----------------------------------------");
+  console.log("sendPaymentRequest result:");
+  console.log(result);
+  console.log("-----------------------------------------");
+  console.log("sendPaymentRequest error:");
+  console.log(err);
+  console.log("-------------------***-------------------");
 });
 
 ```
 
 [Volver al inicio](#decidir-sdk-nodejs)
 
-
 #### Digital Goods
 
 Los siguientes parámetros se deben enviar específicamente para la vertical Digital Goods. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
-
 
 ```javascript
 
@@ -1492,11 +1551,9 @@ const cs_productos = [
 
 ```
 
-
 #### Services
 
 Los siguientes parámetros se deben enviar específicamente para la vertical Services. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
-
 
 ```javascript
 
@@ -1594,11 +1651,9 @@ sdk.payment(args, function(result, err) {
 
 [Volver al inicio](#decidir-sdk-nodejs)
 
-
 #### Travel
 
 Los siguientes parámetros se deben enviar específicamente para la vertical Travel.
-
 
 ```javascript
 
@@ -1723,9 +1778,8 @@ sdk.payment(args, function(result, err) {
 });
 
 ```
+
 [Volver al inicio](#decidir-sdk-nodejs)
-
-
 
 <a name="tablasreferencia"></a>
 
@@ -1733,14 +1787,14 @@ sdk.payment(args, function(result, err) {
 
 ### Códigos de Medios de pago
 
-https://decidirv2.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-implementador/medios-de-pago-disponibles
+<https://decidirv2.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-implementador/medios-de-pago-disponibles>
 
 1. Visa Debito no acepta devoluciones parciales en ecommerce.
-
 
 [Volver al inicio](#decidir-sdk-nodejs)
 
 <a name="divisasa"></a>
+
 ### Divisas Aceptadas
 
 | Divisa | Descripción | Código API
@@ -1781,6 +1835,6 @@ https://decidirv2.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-imp
 | Santa Fe | S |
 | Santiago del Estero | G |
 | Tierra del Fuego | V |
-| Tucumán | T | 	
+| Tucumán | T |  
 
 [Volver al inicio](#decidir-sdk-nodejs)
