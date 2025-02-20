@@ -1,6 +1,6 @@
 {
-  "name": "teamv-sdk-node",
-  "version": "1.0.39",
+  "name": "sdk-node-payway",
+  "version": "1.0.0",
   "keywords": [
     "sdk",
     "Payway",
@@ -12,7 +12,7 @@
     "node-rest-client": "3.1.1",
     "promise": "^8.0.1"
   },
-  "description": "",
+  "description": "Modulo para conexión con gateway de pago DECIDIR2",
   "main": "./lib/sdk.js",
   "scripts": {
     "run": "node index.js"
@@ -21,7 +21,7 @@
     "type": "git",
     "url": "git+https://github.com/payway-ar/sdk-node-ventaonline.git"
   },
-  "author": "",
+  "author": "Payway",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/payway-ar/sdk-node-ventaonline/issues"
