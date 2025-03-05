@@ -3,89 +3,108 @@ Decidir SDK NODEJS
 
 Modulo para conexión con gateway de pago DECIDIR2
 
-+ [Introducción](#introduccion)
-  + [Alcance](#alcance)
-  + [Diagrama de secuencia](#diagrama-secuencia)   
-+ [Instalación](#instalacion)
-  + [Versiones de NODEJS soportadas](#versiones)
-  + [Manual de Integración](#manualintegracion)
-  + [Ambiente](#ambiente)
-+ [Uso](#uso)
-  + [Inicializar la clase correspondiente al conector](#initconector)
-  + [Operatoria del Gateway](#operatoria)
-    + [Pagos Offline](#pagos-offline)
-    + [Health Check](#healthcheck)
-    + [Ejecución del Pago](#payment)
-    + [Operación en dos pasos](#twosteps)
-    + [Comercios agregadores](#comercios-agregadores)
-    + [Respuesta al pago](#respuesta-al-pago)
-    + [Listado de Pagos](#getallpayments)
-    + [Información de un Pago](#getpaymentinfo)
-    + [Devoluciones de pagos](#refunds)
-      + [Anulación / Devolución Total de Pago](#refund)
-      + [Anulación de Devolución Total](#deleterefund)
-      + [Devolución Parcial de un Pago](#partialrefund)
-      + [Anulación de Devolución Parcial](#deletepartialrefund)
-  + [Tokenizacion de tarjetas de crédito](#tokenizaciontarjeta)
-    + [Listado de tarjetas tokenizadas](#listadotarjetastokenizadas)
-    + [Solicitud de token de pago](#solicitudpagotokenizado)
-    + [Ejecucion de pago tokenizado](#pagotokenizado)
-    + [Solicitud de token de pago con tokenización interna](#solicitud-de-token-de-pago-con-tokenización-interna)
-    + [Ejecución de pago con tokenización interna](#ejecución-de-pago-con-tokenización-interna)
-    + [Eliminacion de tarjeta tokenizada](#eliminartarjetatokenizada)
-  + [Formulario de pago](#formpago)
-
-  + [Integración con Cybersource](#cybersource)
-    + [Parámetros Comunes](#parámetros-comunes)
-    + [Retail](#retail)
-    + [Ticketing](#ticketing)
-    + [Digital Goods](#digital-goods)
-    + [Servies](#services)
-    + [Travel](#travel)
-+ [Tablas de referencia](#tablasreferencia)
-  + [Códigos de Medios de Pago](#códigos-de-medios-de-pago)
- 	  + [Divisas Aceptadas](#divisasa)
-  + [Provincias](#provincias)
+## Índice
+- [Introducción](#introduccion)
+  - [Alcance](#Alcance)
+  - [Diagrama de secuencia](#diagrama-de-secuencia)
+- [Instalación](#instalacion)
+  - [Versiones de NODEJS soportadas](#versiones)
+  - [Manual de Integración](#manualintegracion)
+  - [Ambiente](#ambiente)
+- [Uso](#uso)
+  - [Inicializar la clase correspondiente al conector](#initconector)
+  - [Operatoria del Gateway](#operatoria)
+    - [Pagos Offline](#pagos-offline)
+    - [Health Check](#healthcheck)
+    - [Ejecución del Pago](#payment)
+    - [Operación en dos pasos](#twosteps)
+    - [Comercios agregadores](#comercios-agregadores)
+    - [Respuesta al pago](#respuesta-al-pago)
+    - [Listado de Pagos](#getallpayments)
+    - [Información de un Pago](#getpaymentinfo)
+    - [Devoluciones de pagos](#refunds)
+      - [Anulación / Devolución Total de Pago](#refund)
+      - [Anulación de Devolución Total](#deleterefund)
+      - [Devolución Parcial de un Pago](#partialrefund)
+      - [Anulación de Devolución Parcial](#deletepartialrefund)
+  - [Tokenización de tarjetas de crédito](#tokenizaciontarjeta)
+    - [Listado de tarjetas tokenizadas](#listadotarjetastokenizadas)
+    - [Solicitud de token de pago](#solicitudpagotokenizado)
+    - [Ejecución de pago tokenizado](#pagotokenizado)
+    - [Solicitud de token de pago con tokenización interna](#solicitud-de-token-de-pago-con-tokenizacion-interna)
+    - [Ejecución de pago con tokenización interna](#ejecucion-de-pago-con-tokenizacion-interna)
+    - [Eliminación de tarjeta tokenizada](#eliminartarjetatokenizada)
+  - [Formulario de pago](#formpago)
+  - [Integración con Cybersource](#cybersource)
+    - [Parámetros Comunes](#parametros-comunes)
+    - [Retail](#retail)
+    - [Ticketing](#ticketing)
+    - [Digital Goods](#digital-goods)
+    - [Servicios](#services)
+    - [Travel](#travel)
+- [Tablas de referencia](#tablasreferencia)
+  - [Códigos de Medios de Pago](#codigos-de-medios-de-pago)
+    - [Divisas Aceptadas](#divisasa)
+  - [Provincias](#provincias)
 
 <a name="introduccion"></a>
 
 ## Introducción
 
-El flujo de una transacción a través de las **sdks** consta de dos pasos, la **generaci&oacute;n de un token de pago** por parte del cliente y el **procesamiento de pago** por parte del comercio. Existen sdks espec&iacute;ficas para realizar estas funciones en distintos lenguajes que se detallan a continuaci&oacute;n:
+### 🚀 Flujo de una Transacción con las SDKs
 
-+ **Generaci&oacute;n de un token de pago.**  Se utiliza alguna de las siguentes **sdks front-end** :
-  + [sdk IOS](https://github.com/decidir/SDK-IOS.v2)
-  + [sdk Android](https://github.com/decidir/SDK-Android.v2)
-  + [sdk Javascript](https://github.com/decidir/sdk-javascript-v2)
-+ **Procesamiento de pago.**  Se utiliza alguna de las siguentes **sdks back-end** :
-  + [sdk Java](https://github.com/decidir/SDK-JAVA.v2)
-  + [sdk PHP](https://github.com/decidir/SDK-PHP.v2)
-  + [sdk .Net](https://github.com/decidir/SDK-.NET.v2)
-  + [sdk Node](https://github.com/decidir/SDK-.NODE.v2)
+El flujo de una transacción a través de las **SDKs** consta de dos pasos clave:
 
-<a name="alcance"></a>
+1. **Generación de un Token de Pago** (por parte del cliente)
+2. **Procesamiento del Pago** (por parte del comercio)
 
-## Alcance
+### 🌟 Funcionalidades Principales
 
-La **sdk NODEJS** provee soporte para su **aplicación back-end**, encargándose de la comunicación del comercio con la **API Decidir** utilizando su **API Key privada**<sup>1</sup> y el **token de pago** generado por el cliente.
+Nuestras **SDKs** no solo facilitan la integración del proceso de pago, sino que también ofrecen un conjunto completo de herramientas para:
 
-Para generar el token de pago, la aplicación cliente realizará con **Decidir** a través de de la siguente
++ 🔗 **Crear links de pago** para ventas fáciles y rápidas.
++ 🔒 **Implementar 3D Secure (3DS)** para una autenticación más robusta.
++ 💳 **Realizar pagos con tarjetas tokenizadas** evitando almacenar datos sensibles.
++ 🔁 **Procesar devoluciones** de forma segura y eficiente.
++ 🛡️ **Aprovechar Cybersource** para garantizar la máxima seguridad en cada transacción.
 
-+ [sdk Javascript](https://github.com/decidir/sdk-javascript-v2)
+### 📚 SDKs Disponibles
+
+Ofrecemos SDKs específicas para diversos lenguajes de programación, permitiendo una integración sencilla y adaptable según tus necesidades.
+
+---
+
++ [Sdk Java](https://github.com/decidir/SDK-JAVA.v2)
++ [Sdk PHP](https://github.com/decidir/SDK-PHP.v2)
++ [Sdk .Net](https://github.com/decidir/SDK-.NET.v2)
++ [Sdk Node](https://github.com/decidir/SDK-.NODE.v2)
+---
+
+### 🎯 Alcance
+
+La **SDKs de Node** está diseñada para integrarse en aplicaciones móviles y web, permitiendo a los comercios:
+
++ ✅ **Realizar cobros** mediante múltiples métodos de pago, incluyendo tarjetas de crédito y débito, con soporte para transacciones en distintas monedas, como ARS y USD.
++ ✅ **Automatizar devoluciones** y cancelaciones de transacciones.
++ ✅ **Generar y gestionar links de pago** para ventas sin necesidad de integrar formularios complejos.
++ ✅ **Soportar autenticación reforzada** mediante 3D Secure (3DS).
++ ✅ **Implementar pagos con tarjetas tokenizadas**, protegiendo los datos sensibles de los clientes.
+
+Este alcance cubre tanto soluciones para comercios que desean un proceso de pago simple como para aquellos que requieren flujos personalizados y mayor control sobre cada transacción.
 
 [Volver al inicio](#alcance)
 
 <a name="diagrama-secuencia"></a>
 
-## Diagrama de secuencia
+### 📈 Diagrama de Secuencia
 
-El flujo de una transacción a través de las sdks consta de dos pasos, a saber:
+El flujo de una transacción a través de las **SDKs** involucra dos pasos esenciales:
 
-sdk front-end: Se realiza una solicitud de token de pago con la Llave de Acceso pública (public API Key), enviando los datos sensibles de la tarjeta (PAN, mes y año de expiración, código de seguridad, titular, y tipo y número de documento) y obteniéndose como resultado un token que permitirá realizar la transacción posterior.
+1. **Generar Token de Pago**: Se realiza una solicitud utilizando la **Llave de Acceso pública** (*public API Key*), enviando los datos sensibles de la tarjeta — como el PAN, mes y año de expiración, código de seguridad, titular, y tipo y número de documento —. A cambio, se recibe un **token de pago** que permitirá ejecutar la transacción.
 
-sdk back-end: Se ejecuta el pago con la Llave de Acceso privada (private API Key), enviando el token generado en el Paso 1 más el identificador de la transacción a nivel comercio, el monto total, la moneda y la cantidad de cuotas.
+2. **Pagar usando el Token de Pago**: Con la **Llave de Acceso privada** (*private API Key*), se procesa el pago enviando el **token generado** en el Paso 1, junto con el identificador de la transacción a nivel comercio, el monto total, la moneda y la cantidad de cuotas.
 
-A continuación, se presenta un diagrama con el Flujo de un Pago.
+A continuación, se presenta un diagrama que ilustra el **Flujo de un Pago**.
 
 ![imagen de configuracion](./docs/img/FlujoPago.png)</br>
 
@@ -105,26 +124,25 @@ A continuación, se presenta un diagrama con el Flujo de un Pago.
 2. **Incluir en el proyecto**  
    Descomprime el archivo descargado e incluye la carpeta del SDK en tu proyecto.
 
-## Opción 2: Instalación mediante npm
+## Opción 2: Instalación mediante npm (Recomendada)
 
-Si prefieres trabajar con la versión para Node.js del SDK, puedes instalarla fácilmente utilizando npm.  
+La instalación a través de npm es el método que recomendamos y hemos testeado exhaustivamente, asegurando una integración rápida y segura:
 
 ```bash
-npm install teamv-sdk-node
+npm install sdk-node-payway
 ```
 
-Asegúrate de que las dependencias estén definidas en tu archivo package.json:
+Asegúrate de que las dependencias estén definidas en tu archivo package.json, utilizando la versión más actual disponible:
 
 ```javascript
 "dependencies": {
-  "teamv-sdk-node": "^1.0.35"
+  "sdk-node-payway": "^1.0.0"
 }
 ```
 
-# ⚠️ **Requisitos del entorno**  ⚠️
+# ⚠️ **Requisitos del entorno**
 
-> **El SDK solo es compatible con Node.js versión 18 o superior.**
-
+> ⚠️ **El SDK solo es compatible con Node.js versión 18 o superior.**  ⚠️
 <br />  
 
 [Volver al inicio](#decidir-sdk-node)
@@ -147,7 +165,7 @@ Se encuentra disponible la documentación **[Manual de Integración Decidir2](ht
 
 ## Ambientes
 
-El sdk NODEJS permite trabajar con los ambientes de Sandbox y Producción de Decidir. El ambiente se debe definir al instanciar el SDK.
+ ⚠️ El sdk NODEJS permite trabajar con los ambientes de Sandbox y Producción de Decidir. El ambiente se debe definir al instanciar el SDK.
 
 ```javascript
 
@@ -178,7 +196,7 @@ var publicKey = "b192e4cb99564b84bf5db5550112adea";
 var privateKey = "566f2c897b5e4bfaa0ec2452f5d67f13";
 var company = "Tienda-Margarita";
 var user = "Cristian Arellano";
-var ambient = "developer";//valores posibles: "developer" o "prod";
+var ambient = "developer";//valores posibles: "developer" o "production";
 
 const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
@@ -251,7 +269,7 @@ data = {
 |token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
 |payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
 |amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
-|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS" o "USD"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
 |email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "<user@mail.com>",  |
 |invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
@@ -293,7 +311,7 @@ const data = {
 |token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
 |payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
 |amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
-|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS" o "USD"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
 |email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "<user@mail.com>",  |
 |invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
@@ -327,7 +345,7 @@ const data = {
 |token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
 |payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
 |amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
-|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS" o "USD"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
 |email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "<user@mail.com>",  |
 |invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
@@ -370,7 +388,7 @@ const data = {
 |token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
 |payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
 |amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
-|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS" o "USD"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
 |email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "<user@mail.com>",  |
 |invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
@@ -650,7 +668,7 @@ pageSize = '20';
 siteOperationId = '450799';
 merchantId = 'Id001';
 
-sdk.getAllPayments(args, offset, pageSize, merchantId, merchantId, function(result, err) {
+sdk.getAllPayments(offset, pageSize, siteOperationId, merchantId, function(result, err) {
     console.log("infoPayments:");
     console.log(result);
     console.log("infoPayments error:");
@@ -683,7 +701,7 @@ const args = {
     }
 };
 
-sdk.paymentInfo(args, id, function(result, err) {
+sdk.paymentInfo(paymentId, function(result, err) {
 console.log("");
 console.log("información de pago previamente realizado");
 console.log("");
@@ -718,7 +736,7 @@ const args = {
         "Cache-Control": ""
     }
 };
-sdk.refund(args, id, function(result, err) {
+sdk.refund(id, function(result, err) {
 console.log("Reintegro monto total de la transacción")
 console.log("                  REFUND                 ");
 console.log("refund result:");
@@ -752,7 +770,7 @@ const args = {
         "Cache-Control": ""
     }
 };
-sdk.deleteRefund(args, paymentId, function(result, err) {
+sdk.deleteRefund(args, paymentId, refundId, function(result, err) {
 console.log("")
 console.log("Reintegro monto total de la transacción")
 console.log("                  REFUND                 ");
@@ -848,7 +866,7 @@ Este servicio permite integrar un formulario de pago en el comercio. Primero, ut
 |-----------------------|----------------------------------------------------------------------------------------------|-------------------|----------------------------------------------------|----------------------------------|
 | origin_platform       | Plataforma de origen desde la cual se realiza la operación                                   | Sí                | Alfanumérico                                       | "SDK-Node"                      |
 | payment_description   | Descripción del pago                                                                         | No                | Alfanumérico                                       | "TEST"                          |
-| currency              | Tipo de moneda                                                                               | Sí                | Letras                                            | "ars" / "usd"                          |
+| currency              | Tipo de moneda                                                                               | Sí                | Letras                                            | "ARS" / "USD"                          |
 | products              | Detalle de los productos incluidos en la operación                                           | No                | Array de objetos con id, value, description y quantity | [{"id": 4444, "value": 19.99, "description": "Remera", "quantity": 2}] |
 | total_price           | Precio total de la operación                                                                 | Sí                | Numérico                                           | 39.98                           |
 | site                  | Identificador único del comercio                                                             | Sí                | Numérico                                           | "00097002"                      |
@@ -864,13 +882,13 @@ Este servicio permite integrar un formulario de pago en el comercio. Primero, ut
 | auth_3ds              | Indica si se requiere autenticación 3DS                                                      | Sí                | Valores posibles: true, false                     | false                           |
 | life_time             | Tiempo de vida en segundos del formulario                                                    | Sí                | Numérico                                           | 999999999                       |
 
-#### Ejemplo:
+#### Ejemplo
 
 ```javascript
             args = {
                 "origin_platform": "SDK-Node",
                 "payment_description": "Compra de productos electrónicos",
-                "currency": "ars",
+                "currency": "ARS",
                 "products": [
                     {
                     "id": 1001,
@@ -940,7 +958,7 @@ const args = {
     }
 };
 setTimeout(function() {
-sdk.cardTokens(args, user_id, function(result, err) {
+sdk.cardTokens(user_id, function(result, err) {
 resolve(result);
 console.log("");
 console.log("");
@@ -1249,7 +1267,7 @@ args = {
         'Cache-Control': "no-cache"
     }
 }
-sdk.deleteCardToken(args, '4507990000004905', function(result, err) {
+sdk.deleteCardToken(args, tokenizedCard, function(result, err) {
     console.log("------------   -----------------------------");
     console.log("deleteCardToken result:");
     console.log(result);
@@ -1270,8 +1288,6 @@ sdk.deleteCardToken(args, '4507990000004905', function(result, err) {
 Para utilizar el Servicio de Control de Fraude Cybersource, en la operación SendAuthorizeRequest, deben enviarse datos adicionales sobre la operación de compra que se quiere realizar.
 Se han definido cinco verticales de negocio que requieren parámetros específicos, así como también parámetros comunes a todas las verticales.
 
-[Volver al inicio](#cybersource)
-
 #### Parámetros Comunes
 
 Los parámetros comunes a todas las verticales deben enviarse junto con los datos específicos de cada uno. A continuación, describiremos los párametros comúnes que se deberan agregar a los datos de cada vertical al momento de instanciar la clase correspondiente.
@@ -1280,30 +1296,11 @@ Los parámetros comunes a todas las verticales deben enviarse junto con los dato
 
 const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
-var datos_cs = {
-    send_to_cs : 'true',
-    channel : 'Web/Mobile/Telefonica' //una de las tres opciones son validas
-    city : 'Villa General Belgrano', //Ciudad de facturación, MANDATORIO.
-    country : 'AR', //País de facturación. MANDATORIO. Código ISO. (http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf)
-    customerid : '453458', //Identificador del usuario al que se le emite la factura. MANDATORIO. No puede contener un correo electrónico.
-    email : 'decidir@hotmail.com', //Mail del usuario al que se le emite la factura. MANDATORIO.
-    firstname : 'Juan' ,//Nombre del usuario al que se le emite la factura. MANDATORIO.
-    lastname : 'Perez', //Apellido del usuario al que se le emite la factura. MANDATORIO.
-    phone_number' : '541160913988', //Teléfono del usuario al que se le emite la factura. No utilizar guiones, puntos o espacios. Incluir código de país. MANDATORIO.
-    postalcode' : ' C1010AAP', //Código Postal de la dirección de facturación. MANDATORIO.
-    state : 'B', //Provincia de la dirección de facturación. MANDATORIO. Ver tabla anexa de provincias.
-    street1 : 'Cerrito 740', //Domicilio de facturación (calle y nro). MANDATORIO.
-    street2 : 'Piso 8', //Complemento del domicilio. (piso, departamento). NO MANDATORIO.
-    currency : 'ARS', //Moneda. MANDATORIO.
-    dispatch_method: 'storepickup', //Retiro del producto
-    amount : '5.00', //Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO. (Ejemplos:$125,38-> 125.38 $12-> 12 o 12.00)
-};
-
 ```
 
 [Volver al inicio](#parámetros-comunes)
 
-#### Retail
+## Retail
 
 Los siguientes parámetros se deben enviar específicamente para la vertical Retail. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
 
@@ -1317,14 +1314,42 @@ var datos_cs = {
  coupon_code: "cupon22",
 };
 
-
 ```
 
-Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase Retail de la siguiente manera.
+### Definición y mapeo de los campos de la vertical
+
+A continuación se detallan los campos REST utilizados en la detección de fraudes, junto con su definición, si son requeridos, su formato y longitud.
+
+| Nombre del campo en REST | Definición | Requerido (SI/NO) | Formato | Longitud |
+|--------------------------|------------|-------------------|---------|----------|
+| fraud_detection.retail_transaction_data.ship_to.city | Ciudad de envío de la orden | NO (ver condiciones) | String | 50 |
+| fraud_detection.retail_transaction_data.ship_to.country | País de envío de la orden. Código ISO | Formato mayúsculas, string | 2 |
+| fraud_detection.retail_transaction_data.ship_to.email | Correo electrónico del comprador | Formato mail, string | 100 |
+| fraud_detection.retail_transaction_data.ship_to.first_name | Nombre de la persona que recibe el producto | String | 60 |
+| fraud_detection.retail_transaction_data.ship_to.last_name | Apellido de la persona que recibe el producto | String | 60 |
+| fraud_detection.retail_transaction_data.ship_to.postal_code | Código postal del domicilio de envío | String | 10 |
+| fraud_detection.retail_transaction_data.ship_to.state | Provincia de envío | String | 2 |
+| fraud_detection.retail_transaction_data.ship_to.street1 | Domicilio de envío | String | 100 |
+| fraud_detection.retail_transaction_data.ship_to.phone_number | Número de teléfono del destinatario | NO | String | 15 |
+| fraud_detection.retail_transaction_data.ship_to.street2 | Localidad de envío | NO | String | 100 |
+| fraud_detection.retail_transaction_data.days_to_delivery | Número de días que tiene el comercio para hacer la entrega | NO | String | 255 |
+| fraud_detection.retail_transaction_data.dispatch_method | Valores ejemplo: (domicilio, click and collect, carrier) | NO | String | 255 |
+| fraud_detection.retail_transaction_data.tax_voucher_required | Valor booleano para identificar si el cliente requiere un comprobante fiscal o no | NO | Valores posibles: S/N | 1 |
+| fraud_detection.retail_transaction_data.customer_loyality_number | Incluir numero de cliente frecuente | NO | String | 255 |
+| fraud_detection.retail_transaction_data.coupon_code | Incluir numero de cupón de descuento | NO | String | 255 |
+| fraud_detection.retail_transaction_data.items.code | Cantidad productos del mismo tipo agregados al carrito | NO | String | 255 |
+| fraud_detection.retail_transaction_data.items.description | Descripción general del producto | NO | String | 255 |
+| fraud_detection.retail_transaction_data.items.name | Nombre en catalogo del producto | NO | String | 255 |
+| fraud_detection.retail_transaction_data.items.sku | SKU en catalogo | NO | String | 255 |
+| fraud_detection.retail_transaction_data.items.total_amount | Cantidad productos del mismo tipo agregados al carrito | NO | String | 10 |
+| fraud_detection.retail_transaction_data.items.quantity | Cantidad del producto | NO | Integer | 10 |
+| fraud_detection.retail_transaction_data.items.unit_price | Precio Unitario del producto | SI | String | 15 |
+
+Para incorporar estos datos en el requerimiento inicial, es necesario instanciar un objeto diseñado para realizar pagos en la vertical retail de la siguiente manera, utilizando el método de pago tradicional:
 
 ```javascript
 
-const retailArgs = {
+const paymentWithRetailArgs = {
   send_to_cs: true,
   channel: 'web',
   bill_to: {
@@ -1369,13 +1394,7 @@ const retailArgs = {
   },
 };
 
-const fraudDetectionData = sdk.cybersourceRetail(retailArgs);
-
-console.log('Datos para detección de fraude generados:', fraudDetectionData);
-
-args.data.fraud_detection = fraudDetectionData;
-
-sdk.payment(args, function(result, err) {
+sdk.payment(paymentWithRetailArgs, function(result, err) {
 
 resolve(result);
 
@@ -1399,46 +1418,33 @@ console.log("-------------------***-------------------");
 
 [Volver al inicio](#decidir-sdk-nodejs)
 
-#### Ticketing
+## Ticketing
 
 Los siguientes parámetros se deben enviar específicamente para la vertical Ticketing. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
 
-```javascript
-const datos_cs = {
-days_to_event: 55, //Número de días en los que se desarrollara el evento. MANDATORIO
-delivery_type:'Pick up', //Tipo de envío. MANDATORIO. Valores posibles: Pick up, Email, Smartphone, Other
-};
+### Definición y mapeo de los campos de la vertical
 
-  //Datos de productos, un array con los diferentes productos involucrados.
-const cs_productos = [
-    {  // Producto 1
-      productcode:'electronic_good', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
-      productdescription:'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Descripción del producto. MANDATORIO.
-      productname:'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Nombre del producto. MANDATORIO.
-      productsku:'LEVJNSL36GN', //Código identificador del producto. MANDATORIO.
-      totalamount:'1254.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
-      quantity:'1', //Cantidad del producto. MANDATORIO.
-      unitprice:'1254.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO    
-    },
-    {  // Producto 2
-      productcode: 'default', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
-      productdescription:'PENDRIVE 2GB KINGSTON', //Descripción del producto. MANDATORIO.
-      productname: 'PENDRIVE 2GB', //Nombre del producto. MANDATORIO.
-      productsku: 'KSPDRV2g', //Código identificador del producto. MANDATORIO.
-      totalamount: '248.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
-      quantity: '1', //Cantidad del producto. MANDATORIO.
-      unitprice: '248.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO     
-    },
-    // Otros productos
-    ];
-    
-```
+A continuación se detallan los campos REST utilizados en la detección de fraudes para transacciones de ticketing, junto con su definición, si son requeridos, su formato y longitud.
 
-Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase Ticketing de la siguiente manera.
+| Nombre del campo en REST | Definición | Requerido (SI/NO) | Formato | Longitud |
+|--------------------------|------------|-------------------|---------|----------|
+| fraud_detection.ticketing_transaction_data.days_to_event | Incluir número de días en los que se desarrollará el evento | SI | String | 255 |
+| fraud_detection.ticketing_transaction_data.delivery_type | Valores ejemplo: (Pick up / Email / Smartphone / Other) | SI | String | 255 |
+| fraud_detection.ticketing_transaction_data.items.code | Código del producto | SI | String | 255 |
+| fraud_detection.ticketing_transaction_data.items.description | Descripción general del producto | SI | String | 255 |
+| fraud_detection.ticketing_transaction_data.items.name | Nombre en catálogo del producto | SI | String | 255 |
+| fraud_detection.ticketing_transaction_data.items.sku | SKU en catálogo | SI | String | 255 |
+| fraud_detection.ticketing_transaction_data.items.total_amount | Precio total | SI | String | 10 |
+| fraud_detection.ticketing_transaction_data.items.quantity | Cantidad de productos del mismo tipo agregados al carrito | - | - | - |
+| fraud_detection.ticketing_transaction_data.items.unit_price | Precio unitario del producto | SI | Integer | 15 |
+
+---
+
+Para incorporar estos datos en el requerimiento inicial, es necesario instanciar un objeto diseñado para realizar pagos en la vertical ticketing de la siguiente manera, utilizando el método de pago tradicional:
 
 ```javascript
 
-const ticketingArgs = {
+const paymentWithTicketingArgs = {
   send_to_cs: true,
   channel: 'web',
   bill_to: {
@@ -1453,43 +1459,43 @@ const ticketingArgs = {
     state: 'CABA',
     street1: 'Calle Falsa 123',
     street2: 'Piso 1',
-  },
+    },
   purchase_totals: {
     currency: 'ARS',
     amount: 2500.50,
-  },
+    },
   customer_in_site: {
     days_in_site: 120,
     is_guest: false,
     num_of_transactions: 5,
-  },
+    },
   ticketing_transaction_data: {
-    dispatch_method: 'homeDelivery',
-    days_to_delivery: 3,
-    items: [
-      {
-        id: 'PROD001',
-        value: 1500.50,
-        description: 'Auriculares Bluetooth',
-        quantity: 1,
-      },
-      {
-        id: 'PROD002',
-        value: 1000.00,
-        description: 'Teclado Mecánico',
-        quantity: 1,
-      },
-    ],
-  },
+    days_to_event: 55,
+    delivery_type: "Pick up",
+   items: [
+            {
+                    code: "popblacksabbat2016",
+                    description: "Popular Black Sabbath 2016",
+                    name: "popblacksabbat2016ss",
+                    sku: "1234",
+                    total_amount: "242424",
+                    quantity: 2,
+                    unit_price: 121212
+            },
+            {
+                    code: "popblacksdssabbat2016",
+                    description: "Popular Blasdsck Sabbath 2016",
+                    name: "Popular Black Sabbath 2018",
+                    sku: "12345",
+                    total_amount: "111212",
+                    quantity: 1,
+                    unit_price: 111212
+            }
+        ]
+    }
 };
 
-const fraudDetectionData = sdk.cybersourceTicketing(ticketingArgs);
-
-console.log('Datos para detección de fraude generados:', fraudDetectionData);
-
-args.data.fraud_detection = fraudDetectionData;
-
-sdk.payment(args, function(result, err) {
+sdk.payment(paymentWithTicketingArgs, function(result, err) {
   resolve(result);
 
   console.log("");
@@ -1512,148 +1518,222 @@ sdk.payment(args, function(result, err) {
 
 [Volver al inicio](#decidir-sdk-nodejs)
 
-#### Digital Goods
+## Digital Goods
 
 Los siguientes parámetros se deben enviar específicamente para la vertical Digital Goods. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
 
+### Definición y mapeo de los campos de la vertical
+
+A continuación se detallan los campos REST utilizados en la detección de fraudes para transacciones de bienes digitales, junto con su definición, si son requeridos, su formato y longitud.
+
+| Nombre del campo en REST | Definición | Requerido (SI/NO) | Formato | Longitud |
+|--------------------------|------------|-------------------|---------|----------|
+| fraud_detection.digital_goods_transaction_data.delivery_type | Valores ejemplo: (Pick up / Email / Smartphone / Other) | SI | String | 255 |
+| fraud_detection.digital_goods_transaction_data.items.code | Valores posibles: electronic_good, electronic_software | SI | String | 255 |
+| fraud_detection.digital_goods_transaction_data.items.description | Descripción general del producto | SI | String | 255 |
+| fraud_detection.digital_goods_transaction_data.items.name | Nombre en catálogo del producto | SI | String | 255 |
+| fraud_detection.digital_goods_transaction_data.items.sku | SKU en catálogo | SI | String | 255 |
+| fraud_detection.digital_goods_transaction_data.items.total_amount | Precio total | SI | String | 10 |
+| fraud_detection.digital_goods_transaction_data.items.quantity | Cantidad de productos del mismo tipo agregados al carrito | SI | - | - |
+| fraud_detection.digital_goods_transaction_data.items.unit_price | Precio unitario del producto | SI | Integer | 15 |
+
+
+Para incorporar estos datos en el requerimiento inicial, es necesario instanciar un objeto diseñado para realizar pagos en la vertical Digital Goods de la siguiente manera, utilizando el método de pago tradicional:
+
 ```javascript
 
-const datos_digitalgoods = {
-  device_unique_id: 'devicefingerprintid',
+const paymentWithDigitalGoodsArgs = {
+  send_to_cs: true,
+  channel: 'web',
+  bill_to: {
+    city: 'Buenos Aires',
+    country: 'AR',
+    customer_id: '12345',
+    email: 'cliente@correo.com',
+    first_name: 'Juan',
+    last_name: 'Pérez',
+    phone_number: '1112345678',
+    postal_code: 'C1001',
+    state: 'CABA',
+    street1: 'Calle Falsa 123',
+    street2: 'Piso 1',
+    },
+  purchase_totals: {
+    currency: 'ARS',
+    amount: 2500.50,
+    },
+  customer_in_site: {
+    days_in_site: 120,
+    is_guest: false,
+    num_of_transactions: 5,
+    },
   digital_goods_transaction_data: {
-        delivery_type: 'Pick up',
+   delivery_type: "Pick up",
+   items: [
+            {
+                    code: "popblacksabbat2016",
+                    description: "Popular Black Sabbath 2016",
+                    name: "popblacksabbat2016ss",
+                    sku: "1234",
+                    total_amount: "242424",
+                    quantity: 2,
+                    unit_price: 121212
+            },
+            {
+                    code: "popblacksdssabbat2016",
+                    description: "Popular Blasdsck Sabbath 2016",
+                    name: "Popular Black Sabbath 2018",
+                    sku: "12345",
+                    total_amount: "111212",
+                    quantity: 1,
+                    unit_price: 111212
+            }
+        ]
     }
 };
 
-//Datos de productos, un array con los diferentes productos involucrados.
-const cs_productos = [
-  {  // Producto 1
-    productcode : 'electronic_good', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
-    productdescription : 'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Descripción del producto. MANDATORIO.
-    productname : 'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Nombre del producto. MANDATORIO.
-    productsku : 'LEVJNSL36GN', //Código identificador del producto. MANDATORIO.
-    totalamount : '1254.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
-    quantity : '1', //Cantidad del producto. MANDATORIO.
-    unitprice : '1254.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO    
-  },
-  {  // Producto 2
-    productcode: 'default', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
-    productdescription: 'PENDRIVE 2GB KINGSTON', //Descripción del producto. MANDATORIO.
-    productname: 'PENDRIVE 2GB', //Nombre del producto. MANDATORIO.
-    productsku: 'KSPDRV2g', //Código identificador del producto. MANDATORIO.
-    totalamount: '248.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
-    quantity: '1', //Cantidad del producto. MANDATORIO.
-    unitprice: '248.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO     
-  },
-    // Otros productos
-];  
+sdk.payment(paymentWithDigitalGoodsArgs, function(result, err) {
+  resolve(result);
 
-
+  console.log("");
+  console.log("");
+  console.log("Se realiza una petición de pago enviando el payload y el token de pago ");
+  console.log("generado anteriormente");
+  console.log("");
+  console.log("");
+  console.log("             PAYMENT REQUEST             ");
+  console.log("-----------------------------------------");
+  console.log("sendPaymentRequest result:");
+  console.log(result);
+  console.log("-----------------------------------------");
+  console.log("sendPaymentRequest error:");
+  console.log(err);
+  console.log("-------------------***-------------------");
+});
 ```
 
-#### Services
+[Volver al inicio](#decidir-sdk-nodejs)
+
+## Services
 
 Los siguientes parámetros se deben enviar específicamente para la vertical Services. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
 
 ```javascript
 
-const datos_services = {
+const services_data = {
   services_transaction_data: {
         service_type: 'tiposervicio',
         reference_payment_service1: "reference1",
         reference_payment_service2: "reference2",
-        reference_payment_service3: "reference3"     
+        reference_payment_service3: "reference3"
     }
 };
 
-//Datos de productos, un array con los diferentes productos involucrados.
-const cs_productos = [
-  {  // Producto 1
-    productcode : 'electronic_good', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
-    productdescription : 'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Descripción del producto. MANDATORIO.
-    productname : 'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Nombre del producto. MANDATORIO.
-    productsku : 'LEVJNSL36GN', //Código identificador del producto. MANDATORIO.
-    totalamount : '1254.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
-    quantity : '1', //Cantidad del producto. MANDATORIO.
-    unitprice : '1254.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO    
-  },
-  {  // Producto 2
-    productcode: 'default', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
-    productdescription: 'PENDRIVE 2GB KINGSTON', //Descripción del producto. MANDATORIO.
-    productname: 'PENDRIVE 2GB', //Nombre del producto. MANDATORIO.
-    productsku: 'KSPDRV2g', //Código identificador del producto. MANDATORIO.
-    totalamount: '248.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
-    quantity: '1', //Cantidad del producto. MANDATORIO.
-    unitprice: '248.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO     
-  },
-    // Otros productos
-];  
-
-
 ```
 
-Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase services de la siguiente manera.
+### Definición y mapeo de los campos de la vertical
+
+A continuación se detallan los campos REST utilizados en la detección de fraudes para transacciones de servicios, junto con su definición, si son requeridos, su formato y longitud.
+
+| Nombre del campo en REST | Definición | Requerido (SI/NO) | Formato | Longitud |
+|--------------------------|------------|-------------------|---------|----------|
+| fraud_detection.services_transaction_data.service_type | Valores ejemplo: (Electricidad, agua, predio, telefonía móvil, etc) | NO | String | 255 |
+| fraud_detection.services_transaction_data.reference_payment_service1 | Dato provisto por el comercio, número de factura o referencia | NO | String | 255 |
+| fraud_detection.services_transaction_data.reference_payment_service2 | Dato provisto por el comercio, número de factura o referencia | NO | String | 255 |
+| fraud_detection.services_transaction_data.reference_payment_service3 | Dato provisto por el comercio, número de factura o referencia | NO | String | 255 |
+| fraud_detection.services_transaction_data.items.code | Código del producto | SI | String | 255 |
+| fraud_detection.services_transaction_data.items.description | Descripción general del producto | SI | String | 255 |
+| fraud_detection.services_transaction_data.items.name | Nombre en catálogo del producto | SI | String | 255 |
+| fraud_detection.services_transaction_data.items.sku | SKU en catálogo | SI | String | 255 |
+| fraud_detection.services_transaction_data.items.total_amount | Precio total | SI | String | 10 |
+| fraud_detection.services_transaction_data.items.quantity | Cantidad de productos del mismo tipo agregados al carrito | - | - | - |
+| fraud_detection.services_transaction_data.items.unit_price | Precio unitario del producto | SI | Integer | 15 |
+---
+
+#### - Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase services de la siguiente manera.
 
 ```javascript
 
-var date = new Date().getTime();
-
-args = {
-    site_transaction_id: "id_" + date,
-    token: token,
-    user_id: 'juanpepito',
-    payment_method_id: 1,
-    bin: "450799",
-    amount: 25.50,
-    currency: "ARS",
-    installments: 1,
-    description: "Description of product",
-    payment_type: "single",
-    sub_payments: [],
-    apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
-    'Content-Type': "application/json"
+const paymentWithServicesArgs = {
+  send_to_cs: true,
+  channel: 'web',
+  bill_to: {
+    city: 'Buenos Aires',
+    country: 'AR',
+    customer_id: '12345',
+    email: 'cliente@correo.com',
+    first_name: 'Juan',
+    last_name: 'Pérez',
+    phone_number: '1112345678',
+    postal_code: 'C1001',
+    state: 'CABA',
+    street1: 'Calle Falsa 123',
+    street2: 'Piso 1',
+    },
+  purchase_totals: {
+    currency: 'ARS',
+    amount: 2500.50,
+    },
+  customer_in_site: {
+    days_in_site: 120,
+    is_guest: false,
+    num_of_transactions: 5,
+    },
+  services_transaction_data: {
+     reference_payment_service1: "reference1",
+     reference_payment_service2: "reference2",
+     reference_payment_service3: "reference3",
+     service_type: "Electricidad",
+   items: [
+            {
+                    code: "popblacksabbat2016",
+                    description: "Popular Black Sabbath 2016",
+                    name: "popblacksabbat2016ss",
+                    sku: "1234",
+                    total_amount: "242424",
+                    quantity: 2,
+                    unit_price: 121212
+            },
+            {
+                    code: "popblacksdssabbat2016",
+                    description: "Popular Blasdsck Sabbath 2016",
+                    name: "Popular Black Sabbath 2018",
+                    sku: "12345",
+                    total_amount: "111212",
+                    quantity: 1,
+                    unit_price: 111212
+            }
+        ]
+    }
 };
-var paymentData = new PaymentDataModulo.paymentData(args);
 
-var datos_cs = {
-  device_unique_id : "devicefingerprintid",
-  days_to_delivery: "55",
-  dispatch_method: "storepickup",
-  tax_voucher_required: true,
-  customer_loyality_number: "123232",
-  coupon_code: "cupon22",
-}
+sdk.payment(paymentWithServicesArgs, function(result, err) {
+  resolve(result);
 
-var services = new services.servicesData(datos_cs);
-
-args.data.fraud_detection = services;
-sdk.payment(args, function(result, err) {
-
-    resolve(result);
-
-    console.log("")
-    console.log("")
-    console.log("Se realiza una petición de pago enviando el payload y el token de pago ")
-    console.log("generado anteriormente")
-    console.log("")
-    console.log("")
-    console.log("             PAYMENT REQUEST             ");
-    console.log("-----------------------------------------");
-    console.log("sendPaymentRequest result:");
-    console.log(result);
-    console.log("-----------------------------------------");
-    console.log("sendPaymentRequest error:");
-    console.log(err);
-    console.log("-------------------***-------------------");
+  console.log("");
+  console.log("");
+  console.log("Se realiza una petición de pago enviando el payload y el token de pago ");
+  console.log("generado anteriormente");
+  console.log("");
+  console.log("");
+  console.log("             PAYMENT REQUEST             ");
+  console.log("-----------------------------------------");
+  console.log("sendPaymentRequest result:");
+  console.log(result);
+  console.log("-----------------------------------------");
+  console.log("sendPaymentRequest error:");
+  console.log(err);
+  console.log("-------------------***-------------------");
 });
-
 ```
+
+---
 
 [Volver al inicio](#decidir-sdk-nodejs)
 
-#### Travel
+## Travel
 
-Los siguientes parámetros se deben enviar específicamente para la vertical Travel.
+Las siguientes propiedades se deben enviar específicamente para la vertical Travel.
 
 ```javascript
 
@@ -1690,37 +1770,70 @@ const datos_travel = {
             }
          ,
          airline_number_of_passengers: 1
-
 }
 
 ```
 
-Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase travel de la siguiente manera.
+## Definición y mapeo de los campos:
+
+A continuación se detallan los campos REST utilizados en la detección de fraudes para transacciones de viajes, junto con su definición, si son requeridos, su formato y longitud.
+
+| Nombre del campo en REST | Definición | Requerido (SI/NO) | Formato | Longitud |
+|--------------------------|------------|-------------------|---------|----------|
+| fraud_detection.travel_transaction_data.reservation_code | Código de Reserva | SI | String | 255 |
+| fraud_detection.travel_transaction_data.third_party_booking | Identifica si el tarjetahabiente viaja o no | SI | String | 255 |
+| fraud_detection.travel_transaction_data.departure_city | Ciudad de salida | NO | String | 255 |
+| fraud_detection.travel_transaction_data.final_destination_city | Destino final | NO | String | 255 |
+| fraud_detection.travel_transaction_data.international_flight | Identifica si el viaje es internacional o no | NA | - | - |
+| fraud_detection.travel_transaction_data.frequent_flier_number | Número de viajero frecuente | NO | String | 255 |
+| fraud_detection.travel_transaction_data.class_of_service | Clase de servicio | NO | String | 255 |
+| fraud_detection.travel_transaction_data.day_of_week_of_flight | Número de día de la semana en que parte el vuelo | NA | - | - |
+| fraud_detection.travel_transaction_data.week_of_year_of_flight | Número de la semana del año en que se viaja | NA | - | - |
+| fraud_detection.travel_transaction_data.airline_code | Código de la Aerolínea | NO | String | 255 |
+| fraud_detection.travel_transaction_data.code_share | Número de código compartido para SKYTEAM, STAR ALLIANCE, ETC | NO | String | 255 |
+| fraud_detection.travel_transaction_data.decision_manager_travel.complete_route | Ruta completa del viaje, ORIG1- DEST1 | SI | String | 255 |
+| fraud_detection.travel_transaction_data.decision_manager_travel.journey_type | Tipo de viaje | SI | String | 255 |
+| fraud_detection.travel_transaction_data.decision_manager_travel.departure_date.departure_time | Fecha y hora del primer tramo del viaje | SI | - | - |
+| fraud_detection.travel_transaction_data.decision_manager_travel.departure_date.departure_zone | Zona de salida | SI | - | - |
+| fraud_detection.travel_transaction_data.passengers.email | Email del pasajero | - | - | - |
+| fraud_detection.travel_transaction_data.passengers.first_name | Nombre del pasajero | - | - | - |
+| fraud_detection.travel_transaction_data.passengers.last_name | Apellido del pasajero | - | - | - |
+| fraud_detection.travel_transaction_data.passengers.passport_id | Número de pasaporte | - | - | - |
+| fraud_detection.travel_transaction_data.passengers.phone | Número de teléfono del pasajero | - | - | - |
+| fraud_detection.travel_transaction_data.passengers.passenger_status | Valores posibles: standard, gold, or platinum | - | - | - |
+| fraud_detection.travel_transaction_data.passengers.passenger_type | Valores posibles: ADT (Adult), CNN (Child), INF (Infant), YTH (Youth), STU (Student), SCR (Senior Citizen), MIL (Military) | - | - | - |
+| fraud_detection.travel_transaction_data.passengers.airline_number_of_passengers | Cantidad total de pasajeros | SI | String | 255 |
+
+#### Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase travel de la siguiente manera.
 
 ```javascript
 
-var date = new Date().getTime();
-
-args = {
-    site_transaction_id: "id_" + date,
-    token: token,
-    user_id: 'juanpepito',
-    payment_method_id: 1,
-    bin: "450799",
-    amount: 25.50,
-    currency: "ARS",
-    installments: 1,
-    description: "Description of product",
-    payment_type: "single",
-    sub_payments: [],
-    apiKey: "566f2c897b5e4bfaa0ec2452f5d67f13",
-    'Content-Type': "application/json"
-};
-var paymentData = new PaymentDataModulo.paymentData(args);
-
-var datos_cs = {
-      device_unique_id: "devicefingerprintid",
-      travel_transaction_dat: {
+const paymentWithTravelArgs = {
+  send_to_cs: true,
+  channel: 'web',
+  bill_to: {
+    city: 'Buenos Aires',
+    country: 'AR',
+    customer_id: '12345',
+    email: 'cliente@correo.com',
+    first_name: 'Juan',
+    last_name: 'Pérez',
+    phone_number: '1112345678',
+    postal_code: 'C1001',
+    state: 'CABA',
+    street1: 'Calle Falsa 123',
+    street2: 'Piso 1',
+    },
+  purchase_totals: {
+    currency: 'ARS',
+    amount: 2500.50,
+    },
+  customer_in_site: {
+    days_in_site: 120,
+    is_guest: false,
+    num_of_transactions: 5,
+    },
+  travel_transaction_data: {
         reservation_code: "GJH784",
         third_party_booking: false,
         departure_city: "EZE",
@@ -1751,32 +1864,27 @@ var datos_cs = {
             }
          ,
          airline_number_of_passengers: 1
+    }
+};
 
-}
+sdk.payment(paymentWithTravelArgs, function(result, err) {
+  resolve(result);
 
-var travel = new travel.travel(datos_cs);
-
-args.data.fraud_detection = travel;
-sdk.payment(args, function(result, err) {
-
-    resolve(result);
-
-    console.log("")
-    console.log("")
-    console.log("Se realiza una petición de pago enviando el payload y el token de pago ")
-    console.log("generado anteriormente")
-    console.log("")
-    console.log("")
-    console.log("             PAYMENT REQUEST             ");
-    console.log("-----------------------------------------");
-    console.log("sendPaymentRequest result:");
-    console.log(result);
-    console.log("-----------------------------------------");
-    console.log("sendPaymentRequest error:");
-    console.log(err);
-    console.log("-------------------***-------------------");
+  console.log("");
+  console.log("");
+  console.log("Se realiza una petición de pago enviando el payload y el token de pago ");
+  console.log("generado anteriormente");
+  console.log("");
+  console.log("");
+  console.log("             PAYMENT REQUEST             ");
+  console.log("-----------------------------------------");
+  console.log("sendPaymentRequest result:");
+  console.log(result);
+  console.log("-----------------------------------------");
+  console.log("sendPaymentRequest error:");
+  console.log(err);
+  console.log("-------------------***-------------------");
 });
-
 ```
 
 [Volver al inicio](#decidir-sdk-nodejs)
