@@ -15,6 +15,7 @@ Modulo para conexión con gateway de pago DECIDIR2
   - [Inicializar la clase correspondiente al conector](#initconector)
   - [Operatoria del Gateway](#operatoria)
     - [Pagos Offline](#pagos-offline)
+    - [Cierre de lotes](#batchclosure)
     - [Health Check](#healthcheck)
     - [Ejecución del Pago](#payment)
     - [Operación en dos pasos](#twosteps)
@@ -422,6 +423,36 @@ const data = {
 
 ```
 
+
+<a name="batchclosure"></a>
+
+### Cierre de lote
+Permite realizar el cierre de lote, indicando nombre de usuario, id de site y el id de metodo de pago
+
+```javascript
+
+const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
+
+const args = {
+      "username": username,
+      "site_id": site_id,
+      "payment_method_id": payment_method_id,
+    };
+
+sdk.batchclosure(args, function(result, err) {
+    console.log("-----------------------------------------");
+    console.log("batchclosure result:");
+    console.log(result);
+    console.log("-----------------------------------------");
+    console.log("batchclosure error:");
+    console.log(err);
+    console.log("-------------------***-------------------");
+});
+
+```
+[<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
+
+
 <a name="healthcheck"></a>
 
 ### Health Check
@@ -432,7 +463,7 @@ Este recurso permite conocer el estado actual de la API RESTful de DECIDIR.
 
 const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
-sdk.healthcheck(args, function(result, err) {
+sdk.healthcheck(function(result, err) {
     console.log("-----------------------------------------");
     console.log("healthcheck result:");
     console.log(result);
@@ -1349,7 +1380,7 @@ Para incorporar estos datos en el requerimiento inicial, es necesario instanciar
 
 ```javascript
 
-const paymentWithRetailArgs = {
+const retailArgs = {
   send_to_cs: true,
   channel: 'web',
   bill_to: {
@@ -1393,6 +1424,20 @@ const paymentWithRetailArgs = {
     ],
   },
 };
+const paymentWithRetailArgs = {
+  site_transaction_id: "id_" + date,
+    token: token,
+    user_id: 'juanpepito',
+    payment_method_id: 1,
+    bin: "450799",
+    amount: 25.50,
+    currency: "ARS",
+    installments: 1,
+    description: "Description of product",
+    payment_type: "single",
+    sub_payments: [],
+    fraud_detection : retailArgs
+}
 
 sdk.payment(paymentWithRetailArgs, function(result, err) {
 
@@ -1444,7 +1489,7 @@ Para incorporar estos datos en el requerimiento inicial, es necesario instanciar
 
 ```javascript
 
-const paymentWithTicketingArgs = {
+const ticketingArgs = {
   send_to_cs: true,
   channel: 'web',
   bill_to: {
@@ -1495,6 +1540,21 @@ const paymentWithTicketingArgs = {
     }
 };
 
+const paymentWithTicketingArgs = {
+  site_transaction_id: "id_" + date,
+    token: token,
+    user_id: 'juanpepito',
+    payment_method_id: 1,
+    bin: "450799",
+    amount: 25.50,
+    currency: "ARS",
+    installments: 1,
+    description: "Description of product",
+    payment_type: "single",
+    sub_payments: [],
+    fraud_detection : ticketingArgs
+}
+
 sdk.payment(paymentWithTicketingArgs, function(result, err) {
   resolve(result);
 
@@ -1542,7 +1602,7 @@ Para incorporar estos datos en el requerimiento inicial, es necesario instanciar
 
 ```javascript
 
-const paymentWithDigitalGoodsArgs = {
+const digitalGoodsArgs = {
   send_to_cs: true,
   channel: 'web',
   bill_to: {
@@ -1591,8 +1651,22 @@ const paymentWithDigitalGoodsArgs = {
         ]
     }
 };
+const paymentWithDGArgs = {
+  site_transaction_id: "id_" + date,
+    token: token,
+    user_id: 'juanpepito',
+    payment_method_id: 1,
+    bin: "450799",
+    amount: 25.50,
+    currency: "ARS",
+    installments: 1,
+    description: "Description of product",
+    payment_type: "single",
+    sub_payments: [],
+    fraud_detection : digitalGoodsArgs
+}
 
-sdk.payment(paymentWithDigitalGoodsArgs, function(result, err) {
+sdk.payment(paymentWithDGArgs, function(result, err) {
   resolve(result);
 
   console.log("");
@@ -1654,7 +1728,7 @@ A continuación se detallan los campos REST utilizados en la detección de fraud
 
 ```javascript
 
-const paymentWithServicesArgs = {
+const servicesArgs = {
   send_to_cs: true,
   channel: 'web',
   bill_to: {
@@ -1706,6 +1780,21 @@ const paymentWithServicesArgs = {
         ]
     }
 };
+
+const paymentWithServicesArgs = {
+  site_transaction_id: "id_" + date,
+    token: token,
+    user_id: 'juanpepito',
+    payment_method_id: 1,
+    bin: "450799",
+    amount: 25.50,
+    currency: "ARS",
+    installments: 1,
+    description: "Description of product",
+    payment_type: "single",
+    sub_payments: [],
+    fraud_detection : servicesArgs
+}
 
 sdk.payment(paymentWithServicesArgs, function(result, err) {
   resolve(result);
@@ -1808,7 +1897,7 @@ A continuación se detallan los campos REST utilizados en la detección de fraud
 
 ```javascript
 
-const paymentWithTravelArgs = {
+const travelArgs = {
   send_to_cs: true,
   channel: 'web',
   bill_to: {
@@ -1866,6 +1955,20 @@ const paymentWithTravelArgs = {
          airline_number_of_passengers: 1
     }
 };
+const paymentWithTravelArgs = {
+  site_transaction_id: "id_" + date,
+    token: token,
+    user_id: 'juanpepito',
+    payment_method_id: 1,
+    bin: "450799",
+    amount: 25.50,
+    currency: "ARS",
+    installments: 1,
+    description: "Description of product",
+    payment_type: "single",
+    sub_payments: [],
+    fraud_detection : travelArgs
+}
 
 sdk.payment(paymentWithTravelArgs, function(result, err) {
   resolve(result);
