@@ -861,6 +861,9 @@ console.log(err);
 ### Formulario de pago
 
 Este servicio permite integrar un formulario de pago en el comercio. Primero, utiliza el recurso **checkoutHash** para generar un hash basado en los datos de la operación. Luego, este hash se emplea al invocar el recurso payments/link, el cual devuelve un enlace personalizado para el formulario de pago del comercio, listo para ser utilizado y completar el flujo de pago.
+## Aclaraciones
+En el campo installments solo debe viajar un unico valor, indicando la cantidad de cuotas.
+El template_id se refiere al template del formulario de pago, no al temaplate del site. El unico valor admitido por el momento es 1.
 
 | Campo                 | Descripción                                                                                  | Obligatorio       | Restricciones                                       | Ejemplo                          |
 |-----------------------|----------------------------------------------------------------------------------------------|-------------------|----------------------------------------------------|----------------------------------|
