@@ -904,8 +904,8 @@ El template_id se refiere al template del formulario de pago. El unico valor adm
 | products              | Detalle de los productos incluidos en la operación                                           | No                | Array de objetos con id, value, description y quantity | [{"id": 4444, "value": 19.99, "description": "Remera", "quantity": 2}] |
 | total_price           | Precio total de la operación                                                                 | Sí                | Numérico                                           | 39.98                           |
 | site                  | Identificador único del comercio                                                             | Sí                | Numérico                                           | "00097002"                      |
-| success_url           | URL a la que se redirige cuando se completa la operación con éxito. Requerida si no se manda redirect_url                           | Sí                | URL válida                                        | "<https://www.lanacion.com/>"     |
-| redirect_url          | URL a la que se redirige con los datos de la operación finalizada. Requerida si no se manda success_url                            | No                | URL válida                                        | "<https://www.infobae.com/>"      |
+| success_url           | URL a la que se redirige cuando se completa la operación con éxito. Es requerida, si no se envia redirect_url                           | Sí                | URL válida                                        | "<https://www.lanacion.com/>"     |
+| redirect_url          | URL a la que se redirige con los datos de la operación finalizada. Es requerida, si no se envia success_url                            | No                | URL válida                                        | "<https://www.infobae.com/>"      |
 | cancel_url            | URL a la que se redirige si el cliente cancela el formulario                                 | Sí                | URL válida                                        | "<https://www.clarin.com/>"       |
 | notifications_url     | URL donde se enviarán notificaciones relacionadas con la operación                           | Sí                | URL válida                                        | "<https://twitter.com/>"          |
 | template_id           | Identificador de la plantilla del formulario de pago                                         | Sí                | Numérico                                           | 1                                |
@@ -914,7 +914,7 @@ El template_id se refiere al template del formulario de pago. El unico valor adm
 | plan_gobierno         | Indica si se utiliza un plan gubernamental                                                   | Sí                | Valores posibles: true, false                     | false                           |
 | public_apikey         | Clave pública de autenticación                                                               | Sí                | Alfanumérico                                       | "YKcWXjI2aoSnp60urwLd6TbLYNuybcWC" |
 | auth_3ds              | Indica si se requiere autenticación 3DS                                                      | Sí                | Valores posibles: true, false                     | false                           |
-| installment_type             | En caso de que plan_gobierno sea false, el valor esperado es de la cantidad de la cuota + "Cuotas". En caso contrario,  “Cuotas MiPyME 3" o "Cuotas MiPyME 6"                                                    | Sí                | Alfanumérico                                           | Cuotas MiPyME 3                       |
+| installment_type             | En caso de que plan_gobierno sea false, el valor esperado es de la cantidad de la cuota + "Cuotas", Ej: "12 Cuotas". En caso contrario,  “Cuotas MiPyME 3" o "Cuotas MiPyME 6"                                                    | Sí                | Alfanumérico                                           | Cuotas MiPyME 3                       |
 
 #### Ejemplo
 ##### Aclaración
@@ -946,11 +946,11 @@ Los campos payment_description y products son mutuamente excluyentes. No deben e
                 "notifications_url": "https://www.mitienda.com/notificaciones",
                 "template_id": 1,
                 "installments": [3],
-                "id_payment_method": 10,
-                "plan_gobierno": true,
+                "id_payment_method": 1,
+                "plan_gobierno": false,
+                "installment_type": "3 Cuotas",
                 "public_apikey": "abcd1234efgh5678ijkl9012mnop3456",
-                "auth_3ds": true,
-                "life_time": 3600
+                "auth_3ds": true
             };
 
             const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
