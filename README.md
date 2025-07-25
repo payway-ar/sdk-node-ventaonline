@@ -224,8 +224,8 @@ Una vez generado y almacenado el token de Pago Offline, se deberá ejecutar la s
 | ------------ | ------------ | ------------ | ------------ | ------------ |
 |site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
 |token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
-|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
-|amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
+|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: 25|
+|amount  | Monto de la operación  |  SI|  12 dígitos,variable (10 números enteros y 2 decimales) |  amount: 1100|
 |currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
 |email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "<user@mail.com>",  |
@@ -233,8 +233,8 @@ Una vez generado y almacenado el token de Pago Offline, se deberá ejecutar la s
 |cod_p3  | Son los dias que existen entre el 1º y 2º vencimiento de la factura. |  SI|  2,fijo ("00" si la factura tiene no tiene 2° vencimientos)|  invoice_expiration: "191123"|
 |cod_p4  | Días después del 1º vencimiento y hasta que el cliente pueda abonar  |  SI|  3,fijo |  cod_p4: "123"|
 |client  | Codigo Cliente  |  SI|   8,fijo |  client: "12345678"|
-|surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: "10.01"|
-|payment_mode  | Tipo de metodo de pago  |  SI|  Strin "offline" |  payment_mode: "offline"|
+|surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: 1001|
+|payment_mode  | Tipo de metodo de pago  |  SI|  String "offline" |  payment_mode: "offline"|
 
 ##### Ejemplo
 
@@ -243,7 +243,7 @@ data = {
   site_transaction_id : "230518_41",
   token: '92a95793-3321-447c-8795-8aeb8a8ac067',
   payment_method_id: 25,
-  amount: 10.00,
+  amount: 1000,
   currency: 'ARS',
   payment_type: 'single',
   email: 'user@mail.com',
@@ -251,7 +251,7 @@ data = {
   cod_p3: 12,
   cod_p4: 134,
   client: 12345678,
-  surcharge: 10.01,
+  surcharge: 1001,
   payment_mode: 'offline'
 };
 
@@ -268,8 +268,8 @@ data = {
 | ------------ | ------------ | ------------ | ------------ | ------------ |
 |site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
 |token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
-|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
-|amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
+|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  2 dígitos |  payment_method_id: 26|
+|amount  | Monto de la operación  |  SI| 12 dígitos,variable (10 números enteros y 2 decimales) |  amount: 1100|
 |currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS" o "USD"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
 |email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "<user@mail.com>",  |
@@ -277,8 +277,8 @@ data = {
 |cod_p3  | Son los dias que existen entre el 1º y 2º vencimiento de la factura. |  SI|  2,fijo ("00" si la factura tiene no tiene 2° vencimientos)|  invoice_expiration: "191123"|
 |cod_p4  | Días después del 1º vencimiento y hasta que el cliente pueda abonar  |  SI|  3,fijo |  cod_p4: "123"|
 |client  | Codigo Cliente  |  SI|   8,fijo |  client: "12345678"|
-|surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: "10.01"|
-|payment_mode  | Tipo de metodo de pago  |  SI|  Strin "offline" |  payment_mode: "offline"|
+|surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: 1001|
+|payment_mode  | Tipo de metodo de pago  |  SI|  String "offline" |  payment_mode: "offline"|
 
 ##### Ejemplo
 
@@ -288,7 +288,7 @@ const data = {
   site_transaction_id: "230518_38",
   token: "8e190c82-6a63-467e-8a09-9e8fa2ab6215",
   payment_method_id: 26,
-  amount: 10.00,
+  amount: 1000,
   currency: "ARS",
   payment_type: "single",
   email: "user@mail.com",
@@ -296,7 +296,7 @@ const data = {
   cod_p3: "12",
   cod_p4: "134",
   client: "12345678",
-  surcharge: 10.01,
+  surcharge: 1001,
   payment_mode: "offline"
 };
 
@@ -310,13 +310,13 @@ const data = {
 | ------------ | ------------ | ------------ | ------------ | ------------ |
 |site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
 |token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
-|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
-|amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
+|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  2 dígitos |  payment_method_id: 41|
+|amount  | Monto de la operación  |  SI| 12 dígitos,variable (10 números enteros y 2 decimales) |  amount: 1100|
 |currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS" o "USD"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
 |email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "<user@mail.com>",  |
 |invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
-|bank_id  | Id de banco de la operacion  |  SI|  String "offline" |  bank_id: 1 ([refencia](https://decidirv2.api-docs.io/1.0/transacciones-simples/flujo-de-pago-offline))|
+|bank_id  | Id de banco de la operacion  |  SI|  String "offline" |  bank_id: 1 |
 
 ##### Ejemplo
 
@@ -326,7 +326,7 @@ const data = {
   site_transaction_id : "220518_39",
   token : "9ae1d130-8c89-4c3b-a267-0e97b88fedd0",
   payment_method_id : 41,
-  amount : 10.00,
+  amount : 1000,
   currency : "ARS",
   payment_type : "single",
   email : "user@mail.com",
@@ -344,8 +344,8 @@ const data = {
 | ------------ | ------------ | ------------ | ------------ | ------------ |
 |site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
 |token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
-|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
-|amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
+|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: 51|
+|amount  | Monto de la operación |  SI|  12 dígitos,variable (10 números enteros y 2 decimales) |  amount: 1100|
 |currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS" o "USD"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
 |email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "<user@mail.com>",  |
@@ -353,8 +353,8 @@ const data = {
 |second_invoice_expiration  | Segunda fecha de vencimiento del cupón  |  SI|  Formato AAMMDD |  second_invoice_expiration: "191123"|
 |cod_p3  | Son los dias que existen entre el 1º y 2º vencimiento de la factura. |  SI|  2,fijo ("00" si la factura tiene no tiene 2° vencimientos)|  invoice_expiration: "191123"|
 |client  | Codigo Cliente  |  SI|   8,fijo |  client: "12345678"|
-|surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: "10.01"|
-|payment_mode  | Tipo de metodo de pago  |  SI|  Strin "offline" |  payment_mode: "offline"|
+|surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: 1001|
+|payment_mode  | Tipo de metodo de pago  |  SI|  String "offline" |  payment_mode: "offline"|
 
 ##### Ejemplo
 
@@ -364,7 +364,7 @@ const data = {
   site_transaction_id : "160518_42",
   token : "3df26771-67ab-4a8e-91e2-f1e0b0c559f7",
   payment_method_id : 51,
-  amount : 10.00,
+  amount : 1000,
   currency : "ARS",
   payment_type : "single",
   email : "user@mail.com",
@@ -373,7 +373,7 @@ const data = {
   cod_p3 : "1",
   cod_p4 : "134",
   client : "12345678",
-  surcharge : 10.01,
+  surcharge : 1001,
   payment_mode : "offline"
 };
 
@@ -387,8 +387,8 @@ const data = {
 | ------------ | ------------ | ------------ | ------------ | ------------ |
 |site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
 |token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
-|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
-|amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
+|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: 51|
+|amount  | Monto de la operación  |  SI|  12 dígitos,variable (10 números enteros y 2 decimales) |  amount: 1100|
 |currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS" o "USD"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
 |email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "<user@mail.com>",  |
@@ -397,7 +397,7 @@ const data = {
 |cod_p3  | Son los dias que existen entre el 1º y 2º vencimiento de la factura. |  SI|  2,fijo ("00" si la factura tiene no tiene 2° vencimientos)|  invoice_expiration: "191123"|
 |cod_p4  | Días después del 1º vencimiento y hasta que el cliente pueda abonar  |  SI|  3,fijo |  cod_p4: "123"|
 |client  | Codigo Cliente  |  SI|   8,fijo |  client: "12345678"|
-|surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: "10.01"|
+|surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: 1001|
 |payment_mode  | Tipo de metodo de pago  |  SI|  Strin "offline" |  payment_mode: "offline"|
 
 ##### Ejemplo
@@ -408,7 +408,7 @@ const data = {
   site_transaction_id: "160518_42",
   token: "3df26771-67ab-4a8e-91e2-f1e0b0c559f7",
   payment_method_id: 51,
-  amount: 10.00,
+  amount: 1000,
   currency: "ARS",
   payment_type: "single",
   email: "user@mail.com",
@@ -417,7 +417,7 @@ const data = {
   cod_p3: "1",
   cod_p4: "134",
   client: "12345678",
-  surcharge: 10.01,
+  surcharge: 1001,
   payment_mode: "offline"
 }
 
@@ -496,7 +496,7 @@ args = {
     user_id: 'juanpepito',
     payment_method_id: 1,
     bin: "450799",
-    amount: 25.50,
+    amount: 2550,
     currency: "ARS",
     installments: 1,
     description: "Description of product",
@@ -533,7 +533,7 @@ A continuaci&oacute;n se muestra un ejemplo con una transacci&oacute;n simple si
 const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 args = {
-    amount: 25.50,
+    amount: 2550,
 };
 
 sdk.confirmPayment(args, function(result, err) {
@@ -825,7 +825,7 @@ Mediante este recurso, se genera una solicitud de devolución parcial de un pago
 const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 paymentId = result.id;
-amount = 10.50;
+amount = 1050;
 const args = {
     data: {
         "amount": amount
@@ -862,7 +862,7 @@ Mediante este recurso, se genera una solicitud de anulación de devolución parc
 const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
 
 paymentId = result.id;
-amount = 10.50;
+amount = 1050;
 const args = {
     data: {
         "amount": amount
@@ -892,6 +892,9 @@ console.log(err);
 ### Formulario de pago
 
 Este servicio permite integrar un formulario de pago en el comercio. Primero, utiliza el recurso **checkoutHash** para generar un hash basado en los datos de la operación. Luego, este hash se emplea al invocar el recurso payments/link, el cual devuelve un enlace personalizado para el formulario de pago del comercio, listo para ser utilizado y completar el flujo de pago.
+## Aclaraciones
+En el campo installments solo debe viajar un unico valor, indicando la cantidad de cuotas.
+El template_id se refiere al template del formulario de pago. El unico valor admitido por el momento es 1.
 
 | Campo                 | Descripción                                                                                  | Obligatorio       | Restricciones                                       | Ejemplo                          |
 |-----------------------|----------------------------------------------------------------------------------------------|-------------------|----------------------------------------------------|----------------------------------|
@@ -901,8 +904,8 @@ Este servicio permite integrar un formulario de pago en el comercio. Primero, ut
 | products              | Detalle de los productos incluidos en la operación                                           | No                | Array de objetos con id, value, description y quantity | [{"id": 4444, "value": 19.99, "description": "Remera", "quantity": 2}] |
 | total_price           | Precio total de la operación                                                                 | Sí                | Numérico                                           | 39.98                           |
 | site                  | Identificador único del comercio                                                             | Sí                | Numérico                                           | "00097002"                      |
-| success_url           | URL a la que se redirige cuando se completa la operación con éxito                           | Sí                | URL válida                                        | "<https://www.lanacion.com/>"     |
-| redirect_url          | URL a la que se redirige con los datos de la operación finalizada                            | No                | URL válida                                        | "<https://www.infobae.com/>"      |
+| success_url           | URL a la que se redirige cuando se completa la operación con éxito. Requerida si no se manda redirect_url                           | Sí                | URL válida                                        | "<https://www.lanacion.com/>"     |
+| redirect_url          | URL a la que se redirige con los datos de la operación finalizada. Requerida si no se manda success_url                            | No                | URL válida                                        | "<https://www.infobae.com/>"      |
 | cancel_url            | URL a la que se redirige si el cliente cancela el formulario                                 | Sí                | URL válida                                        | "<https://www.clarin.com/>"       |
 | notifications_url     | URL donde se enviarán notificaciones relacionadas con la operación                           | Sí                | URL válida                                        | "<https://twitter.com/>"          |
 | template_id           | Identificador de la plantilla del formulario de pago                                         | Sí                | Numérico                                           | 1                                |
@@ -911,10 +914,11 @@ Este servicio permite integrar un formulario de pago en el comercio. Primero, ut
 | plan_gobierno         | Indica si se utiliza un plan gubernamental                                                   | Sí                | Valores posibles: true, false                     | false                           |
 | public_apikey         | Clave pública de autenticación                                                               | Sí                | Alfanumérico                                       | "YKcWXjI2aoSnp60urwLd6TbLYNuybcWC" |
 | auth_3ds              | Indica si se requiere autenticación 3DS                                                      | Sí                | Valores posibles: true, false                     | false                           |
-| life_time             | Tiempo de vida en segundos del formulario                                                    | Sí                | Numérico                                           | 999999999                       |
+| installment_type             | En caso de que plan_gobierno sea false, el valor esperado es de la cantidad de la cuota + "Cuotas". En caso contrario,  “Cuotas MiPyME 3" o "Cuotas MiPyME 6"                                                    | Sí                | Alfanumérico                                           | Cuotas MiPyME 3                       |
 
 #### Ejemplo
-
+##### Aclaración
+Los campos payment_description y products son mutuamente excluyentes. No deben enviarse juntos en la misma request. Si ambos son enviados, la solicitud será rechazada.
 ```javascript
             args = {
                 "origin_platform": "SDK-Node",
@@ -1372,9 +1376,9 @@ A continuación se detallan los campos REST utilizados en la detección de fraud
 | fraud_detection.retail_transaction_data.items.description | Descripción general del producto | NO | String | 255 |
 | fraud_detection.retail_transaction_data.items.name | Nombre en catalogo del producto | NO | String | 255 |
 | fraud_detection.retail_transaction_data.items.sku | SKU en catalogo | NO | String | 255 |
-| fraud_detection.retail_transaction_data.items.total_amount | Cantidad productos del mismo tipo agregados al carrito | NO | String | 10 |
-| fraud_detection.retail_transaction_data.items.quantity | Cantidad del producto | NO | Integer | 10 |
-| fraud_detection.retail_transaction_data.items.unit_price | Precio Unitario del producto | SI | String | 15 |
+| fraud_detection.retail_transaction_data.items.total_amount | Precio total | SI | Integer | 12 |
+| fraud_detection.retail_transaction_data.items.quantity | Cantidad del producto | SI | Integer | 10 |
+| fraud_detection.retail_transaction_data.items.unit_price | Precio Unitario del producto | SI | Integer | 12 |
 
 Para incorporar estos datos en el requerimiento inicial, es necesario instanciar un objeto diseñado para realizar pagos en la vertical retail de la siguiente manera, utilizando el método de pago tradicional:
 
@@ -1398,7 +1402,7 @@ const retailArgs = {
   },
   purchase_totals: {
     currency: 'ARS',
-    amount: 2500.50,
+    amount: 250050,
   },
   customer_in_site: {
     days_in_site: 120,
@@ -1411,13 +1415,13 @@ const retailArgs = {
     items: [
       {
         id: 'PROD001',
-        value: 1500.50,
+        value: 150050,
         description: 'Auriculares Bluetooth',
         quantity: 1,
       },
       {
         id: 'PROD002',
-        value: 1000.00,
+        value: 100000,
         description: 'Teclado Mecánico',
         quantity: 1,
       },
@@ -1430,7 +1434,7 @@ const paymentWithRetailArgs = {
     user_id: 'juanpepito',
     payment_method_id: 1,
     bin: "450799",
-    amount: 25.50,
+    amount: 2550,
     currency: "ARS",
     installments: 1,
     description: "Description of product",
@@ -1479,9 +1483,9 @@ A continuación se detallan los campos REST utilizados en la detección de fraud
 | fraud_detection.ticketing_transaction_data.items.description | Descripción general del producto | SI | String | 255 |
 | fraud_detection.ticketing_transaction_data.items.name | Nombre en catálogo del producto | SI | String | 255 |
 | fraud_detection.ticketing_transaction_data.items.sku | SKU en catálogo | SI | String | 255 |
-| fraud_detection.ticketing_transaction_data.items.total_amount | Precio total | SI | String | 10 |
-| fraud_detection.ticketing_transaction_data.items.quantity | Cantidad de productos del mismo tipo agregados al carrito | - | - | - |
-| fraud_detection.ticketing_transaction_data.items.unit_price | Precio unitario del producto | SI | Integer | 15 |
+| fraud_detection.ticketing_transaction_data.items.total_amount | Precio total | SI | Integer | 12 |
+| fraud_detection.ticketing_transaction_data.items.quantity | Cantidad de productos del mismo tipo agregados al carrito | SI | Integer | 10 |
+| fraud_detection.ticketing_transaction_data.items.unit_price | Precio unitario del producto | SI | Integer | 12 |
 
 ---
 
@@ -1507,7 +1511,7 @@ const ticketingArgs = {
     },
   purchase_totals: {
     currency: 'ARS',
-    amount: 2500.50,
+    amount: 250050,
     },
   customer_in_site: {
     days_in_site: 120,
@@ -1523,7 +1527,7 @@ const ticketingArgs = {
                     description: "Popular Black Sabbath 2016",
                     name: "popblacksabbat2016ss",
                     sku: "1234",
-                    total_amount: "242424",
+                    total_amount: 242424,
                     quantity: 2,
                     unit_price: 121212
             },
@@ -1532,7 +1536,7 @@ const ticketingArgs = {
                     description: "Popular Blasdsck Sabbath 2016",
                     name: "Popular Black Sabbath 2018",
                     sku: "12345",
-                    total_amount: "111212",
+                    total_amount: 111212,
                     quantity: 1,
                     unit_price: 111212
             }
@@ -1546,7 +1550,7 @@ const paymentWithTicketingArgs = {
     user_id: 'juanpepito',
     payment_method_id: 1,
     bin: "450799",
-    amount: 25.50,
+    amount: 2550,
     currency: "ARS",
     installments: 1,
     description: "Description of product",
@@ -1593,9 +1597,9 @@ A continuación se detallan los campos REST utilizados en la detección de fraud
 | fraud_detection.digital_goods_transaction_data.items.description | Descripción general del producto | SI | String | 255 |
 | fraud_detection.digital_goods_transaction_data.items.name | Nombre en catálogo del producto | SI | String | 255 |
 | fraud_detection.digital_goods_transaction_data.items.sku | SKU en catálogo | SI | String | 255 |
-| fraud_detection.digital_goods_transaction_data.items.total_amount | Precio total | SI | String | 10 |
-| fraud_detection.digital_goods_transaction_data.items.quantity | Cantidad de productos del mismo tipo agregados al carrito | SI | - | - |
-| fraud_detection.digital_goods_transaction_data.items.unit_price | Precio unitario del producto | SI | Integer | 15 |
+| fraud_detection.digital_goods_transaction_data.items.total_amount | Precio total | SI | Integer | 12 |
+| fraud_detection.digital_goods_transaction_data.items.quantity | Cantidad de productos del mismo tipo agregados al carrito | SI | Integer | 10 |
+| fraud_detection.digital_goods_transaction_data.items.unit_price | Precio unitario del producto | SI | Integer | 12 |
 
 
 Para incorporar estos datos en el requerimiento inicial, es necesario instanciar un objeto diseñado para realizar pagos en la vertical Digital Goods de la siguiente manera, utilizando el método de pago tradicional:
@@ -1620,7 +1624,7 @@ const digitalGoodsArgs = {
     },
   purchase_totals: {
     currency: 'ARS',
-    amount: 2500.50,
+    amount: 250050,
     },
   customer_in_site: {
     days_in_site: 120,
@@ -1635,7 +1639,7 @@ const digitalGoodsArgs = {
                     description: "Popular Black Sabbath 2016",
                     name: "popblacksabbat2016ss",
                     sku: "1234",
-                    total_amount: "242424",
+                    total_amount: 242424,
                     quantity: 2,
                     unit_price: 121212
             },
@@ -1644,7 +1648,7 @@ const digitalGoodsArgs = {
                     description: "Popular Blasdsck Sabbath 2016",
                     name: "Popular Black Sabbath 2018",
                     sku: "12345",
-                    total_amount: "111212",
+                    total_amount: 111212,
                     quantity: 1,
                     unit_price: 111212
             }
@@ -1657,7 +1661,7 @@ const paymentWithDGArgs = {
     user_id: 'juanpepito',
     payment_method_id: 1,
     bin: "450799",
-    amount: 25.50,
+    amount: 2550,
     currency: "ARS",
     installments: 1,
     description: "Description of product",
@@ -1719,9 +1723,9 @@ A continuación se detallan los campos REST utilizados en la detección de fraud
 | fraud_detection.services_transaction_data.items.description | Descripción general del producto | SI | String | 255 |
 | fraud_detection.services_transaction_data.items.name | Nombre en catálogo del producto | SI | String | 255 |
 | fraud_detection.services_transaction_data.items.sku | SKU en catálogo | SI | String | 255 |
-| fraud_detection.services_transaction_data.items.total_amount | Precio total | SI | String | 10 |
-| fraud_detection.services_transaction_data.items.quantity | Cantidad de productos del mismo tipo agregados al carrito | - | - | - |
-| fraud_detection.services_transaction_data.items.unit_price | Precio unitario del producto | SI | Integer | 15 |
+| fraud_detection.services_transaction_data.items.total_amount | Precio total | SI | Integer | 12 |
+| fraud_detection.services_transaction_data.items.quantity | Cantidad de productos del mismo tipo agregados al carrito | SI | Integer | 10 |
+| fraud_detection.services_transaction_data.items.unit_price | Precio unitario del producto | SI | Integer | 12 |
 ---
 
 #### - Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase services de la siguiente manera.
@@ -1746,7 +1750,7 @@ const servicesArgs = {
     },
   purchase_totals: {
     currency: 'ARS',
-    amount: 2500.50,
+    amount: 250050,
     },
   customer_in_site: {
     days_in_site: 120,
@@ -1764,7 +1768,7 @@ const servicesArgs = {
                     description: "Popular Black Sabbath 2016",
                     name: "popblacksabbat2016ss",
                     sku: "1234",
-                    total_amount: "242424",
+                    total_amount: 242424,
                     quantity: 2,
                     unit_price: 121212
             },
@@ -1773,7 +1777,7 @@ const servicesArgs = {
                     description: "Popular Blasdsck Sabbath 2016",
                     name: "Popular Black Sabbath 2018",
                     sku: "12345",
-                    total_amount: "111212",
+                    total_amount: 111212,
                     quantity: 1,
                     unit_price: 111212
             }
@@ -1787,7 +1791,7 @@ const paymentWithServicesArgs = {
     user_id: 'juanpepito',
     payment_method_id: 1,
     bin: "450799",
-    amount: 25.50,
+    amount: 2550,
     currency: "ARS",
     installments: 1,
     description: "Description of product",
@@ -1915,7 +1919,7 @@ const travelArgs = {
     },
   purchase_totals: {
     currency: 'ARS',
-    amount: 2500.50,
+    amount: 250050,
     },
   customer_in_site: {
     days_in_site: 120,
@@ -1961,7 +1965,7 @@ const paymentWithTravelArgs = {
     user_id: 'juanpepito',
     payment_method_id: 1,
     bin: "450799",
-    amount: 25.50,
+    amount: 2550,
     currency: "ARS",
     installments: 1,
     description: "Description of product",
