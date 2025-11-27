@@ -487,7 +487,7 @@ sdk.healthcheck(function(result, err) {
 Una vez generado y almacenado el token de pago, se deberá ejecutar la solicitud de pago más el token previamente generado.
 Además del token de pago y los parámetros propios de la transacción, el comercio deberá identificar la compra con el site_transaction_id.
 
-*Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos.
+*Aclaración* : amount es un número entero en centavos (tipo long).
 
 ```javascript
 
@@ -529,7 +529,7 @@ console.log(err);
 ### Operación en dos pasos
 
 Una vez generado y almacenado el token de pago, se deberá ejecutar la solicitud de pago más el token previamente generado.
-Si el pago es preaprobado `Status.PRE_APPROVED`, se procederá a realizar la confirmaci&oacute;n del pago enviando **ID de pago, monto y usario aprobador**.
+Si el pago es preaprobado `Status.PRE_APPROVED`, se procederá a realizar la confirmaci&oacute;n del pago enviando **ID de pago, monto y usuario aprobador**.
 A continuaci&oacute;n se muestra un ejemplo con una transacci&oacute;n simple sin Cybersource.
 
 ```javascript
@@ -580,7 +580,6 @@ let args = {
   payment_type: "single",
   sub_payments: [],
   aggregate_data: {
-    enabled: true,
     product: "producto_x",
     origin_country: "032",
     merchant_id: "decidir_Agregador",
@@ -780,7 +779,9 @@ sdk.payment(args, (result, err) => {
 
 ### Ejemplo respuesta: transacción distribuida
 
-En pagos **distributed**, puede devolverse un `tid` a nivel raíz y también un `tid` por cada elemento de `sub_payments` para la conciliación por subcomercio.
+En pagos **distributed**, se devuelve un `tid` **por cada elemento de `sub_payments`**, el cual debe utilizarse para la conciliación por subcomercio.
+El `tid` a **nivel raíz** solo se devuelve en el caso de **pagos simples (no distributed)**.
+
 
 ```json
 {
@@ -862,8 +863,7 @@ En pagos **distributed**, puede devolverse un `tid` a nivel raíz y también un 
   "confirmed": null,
   "pan": null,
   "customer_token": "23e560a3b3c001f465d5d55ee1f3542c468712744a4ddf68dc6b469dc604f5",
-  "card_data": "/tokens/971255",
-  "tid": "123456789123456"
+  "card_data": "/tokens/971255"
 }
 ```
 
@@ -1117,8 +1117,7 @@ Este servicio permite integrar un formulario de pago en el comercio. Primero, ut
 | plan_gobierno         | Indica si se utiliza un plan de financiamiento de cuotas (por ejemplo: Plan Ahora, MiPyME, etc.) | Sí            | Valores posibles: `true`, `false`                      | false                            |
 | public_apikey         | Clave pública de autenticación                                                               | Sí                | Alfanumérico                                            | "YKcWXjI2aoSnp60urwLd6TbLYNuybcWC" |
 | auth_3ds              | Indica si se requiere autenticación 3DS                                                      | Sí                | Valores posibles: `true`, `false`                      | false                            |
-| installment_type      | Si `plan_gobierno` es `false`, el valor esperado es `<n> Cuotas` (ej.: `"12 Cuotas"`). Si `plan_gobierno` es `true`, usar el nombre del plan (ej.: `"Cuotas MiPyME 3"`, `"Cuotas MiPyME 6"`) | Sí | Alfanumérico | "Cuotas MiPyME 3"               |
-
+|
 
 ### CONSIDERACIONES: 
 
@@ -1127,8 +1126,6 @@ Este servicio permite integrar un formulario de pago en el comercio. Primero, ut
 > - `template_id = 2` → Checkout **con Cybersource habilitado** (misma operatoria, pero con evaluación antifraude).
 >
 > Asegúrate de seleccionar el `template_id` correcto según el flujo configurado para tu comercio.
-
-
 
 #### Ejemplo
 Los campos payment_description y products son mutuamente excluyentes. No deben enviarse juntos en la misma request. Si ambos son enviados, la solicitud será rechazada.
@@ -2215,7 +2212,7 @@ sdk.payment(paymentWithTravelArgs, function(result, err) {
 
 ### Códigos de Medios de pago
 
-<https://decidirv2.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-implementador/medios-de-pago-disponibles>
+<https://documentacion-ventasonline.payway.com.ar/docs/gateway/3jw3eiapx1jwu-medios-de-pago>
 
 1. Visa Debito no acepta devoluciones parciales en ecommerce.
 
