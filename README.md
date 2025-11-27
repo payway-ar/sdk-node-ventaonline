@@ -4,6 +4,7 @@ Decidir SDK NODEJS
 Modulo para conexión con gateway de pago DECIDIR2
 
 ## Índice
+
 - [Introducción](#introduccion)
   - [Alcance](#Alcance)
   - [Diagrama de secuencia](#diagrama-de-secuencia)
@@ -17,10 +18,12 @@ Modulo para conexión con gateway de pago DECIDIR2
     - [Pagos Offline](#pagos-offline)
     - [Cierre de lotes](#batchclosure)
     - [Health Check](#healthcheck)
-    - [Ejecución del Pago](#payment)
+    - [Ejecución del Pago](#ejecución-del-pago)
+      - [Pagos distribuidos](#pagos-distribuidos)
     - [Operación en dos pasos](#twosteps)
     - [Comercios agregadores](#comercios-agregadores)
     - [Respuesta al pago](#respuesta-al-pago)
+      - [Ejemplo: transacción distribuida](#transaccion-distribuida)
     - [Listado de Pagos](#getallpayments)
     - [Información de un Pago](#getpaymentinfo)
     - [Devoluciones de pagos](#refunds)
@@ -49,6 +52,8 @@ Modulo para conexión con gateway de pago DECIDIR2
   - [Provincias](#provincias)
 
 <a name="introduccion"></a>
+
+- [CHANGELOG](#changelog)
 
 ## Introducción
 
@@ -137,7 +142,7 @@ Asegúrate de que las dependencias estén definidas en tu archivo package.json, 
 
 ```javascript
 "dependencies": {
-  "sdk-node-payway": "^1.0.0"
+  "sdk-node-payway": "^1.0.7"
 }
 ```
 
@@ -477,8 +482,6 @@ sdk.healthcheck(function(result, err) {
 
 [<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
 
-<a name="payment"></a>
-
 ### Ejecución del Pago
 
 Una vez generado y almacenado el token de pago, se deberá ejecutar la solicitud de pago más el token previamente generado.
@@ -561,45 +564,83 @@ El set de datos a enviar a la sdk son otros:
 ```javascript
 
 let args = {
-    "customer": {
-        "id": "{{user}}",
-        "email": "{{email}}",
- "ip_address": "{{ip_address}}"
-    },
-    "site_transaction_id": "AGREGADOR_{{$timestamp}}",
-    "token": "{{token}}",
-    "payment_method_id": 65,
-    "bin": "{{bin}}",
-    "amount": 2000,
-    "currency": "ARS",
-    "installments": 1,
-    "description": "",
-    "payment_type": "single",
-    "sub_payments": [],
-    "aggregate_data": {
-        "indicator": "1",
-        "identification_number": "30598910045",
-        "bill_to_pay": "Decidir_Test",
-        "bill_to_refund": "Decidir_Test",
-        "merchant_name": "DECIDIR",
-        "street": "Lavarden",
-        "number": "247",
-        "postal_code": "C1437FBE",
-        "category": "05044",
-        "channel": "005",
-        "geographic_code": "C1437",
-        "city": "Ciudad de Buenos Aires",
-        "merchant_id": "decidir_Agregador",
-        "province": "Buenos Aires",
-        "country": "Argentina",
-        "merchant_email": "merchant@mail.com[13]",
-        "merchant_phone": "+541135211111"
-    }
-}
-
-
+  customer: {
+    id: "{{user}}",
+    email: "{{email}}",
+    ip_address: "{{ip_address}}"
+  },
+  site_transaction_id: "AGREGADOR_{{$timestamp}}",
+  token: "{{token}}",
+  payment_method_id: 65,
+  bin: "{{bin}}",
+  amount: 2000,
+  currency: "ARS",
+  installments: 1,
+  description: "",
+  payment_type: "single",
+  sub_payments: [],
+  aggregate_data: {
+    enabled: true,
+    product: "producto_x",
+    origin_country: "032",
+    merchant_id: "decidir_Agregador",
+    seller_id: "seller_123",
+    merchant_url: "http://merchant-url",
+    aggregator_name: "payfact",
+    gateway_id: "payway",
+    indicator: "1",
+    identification_number: "30598910045",
+    bill_to_pay: "Decidir_Test",
+    bill_to_refund: "Decidir_Test",
+    merchant_name: "DECIDIR",
+    street: "Lavarden",
+    number: "247",
+    postal_code: "C1437FBE",
+    category: "05044",
+    channel: "005",
+    geographic_code: "C1437",
+    city: "Ciudad de Buenos Aires",
+    province: "Buenos Aires",
+    country: "Argentina",
+    merchant_email: "merchant@mail.com",
+    merchant_phone: "+541135211111"
+  }
+};
 
 ```
+
+### Campos de `aggregate_data` (Comercios Agregadores)
+
+El objeto `aggregate_data` se utiliza para informar los datos del sub-comercio dentro de una operación realizada por un **comercio agregador**.
+
+| Campo                   | Tipo    | Obligatorio | Descripción                                                                 | Observaciones |
+|-------------------------|---------|-------------|------------------------------------------------------------------------------|---------------|
+| product                 | string  | Condicional | Producto asociado a la transacción                                          | — |
+| origin_country          | string  | Condicional | País de origen del comercio (código numérico)                               | Ej: `"032"` |
+| merchant_id             | string  | Condicional | Identificador del comercio                                                  | — |
+| merchant_url            | string  | Condicional | URL del comercio                                                             | — |
+| aggregator_name         | string  | Condicional | Nombre del agregador                                                         | Ej: `"payfact"` |
+| gateway_id              | string  | Condicional | Identificador del gateway asociado                                          | Ej: `"payway"` |
+| indicator               | string  | Condicional | Indicador del tipo de operación                                             | — |
+| identification_number  | string  | Condicional | Número de identificación fiscal del comercio                                | Cuit / RUT |
+| bill_to_pay             | string  | Condicional | Referencia de la factura a pagar                                             | — |
+| bill_to_refund          | string  | Condicional | Referencia de la factura a devolver                                          | — |
+| merchant_name           | string  | Condicional | Nombre comercial del sub-comercio                                           | — |
+| street                  | string  | Condicional | Calle del comercio                                                           | — |
+| number                  | string  | Condicional | Número de dirección                                                         | — |
+| postal_code             | string  | Condicional | Código postal                                                                | — |
+| category                | string  | Condicional | Categoría del comercio                                                      | Código MCC |
+| channel                 | string  | Condicional | Canal de venta                                                               | Ej: `"005"` ecommerce |
+| geographic_code         | string  | Condicional | Código geográfico                                                            | — |
+| city                    | string  | Condicional | Ciudad                                                                       | — |
+| province                | string  | Condicional | Provincia                                                                    | — |
+| country                 | string  | Condicional | País                                                                         | Ej: `"Argentina"` |
+| merchant_email          | string  | Condicional | Email del comercio                                                           | — |
+| merchant_phone          | string  | Condicional | Teléfono del comercio                                                        | — |
+| seller_id               | string  | **Solo Amex** | **Identificador del vendedor asignado por American Express**                | **Se envía únicamente cuando `payment_method_id` es Amex** |
+
+
+
 
 ### Respuesta al pago
 
@@ -636,7 +677,135 @@ La respuesta de ante cualquier pago exitoso es:
     "fraud_detection": {
         "status": null
     },
-    "aggregate_data": {
+   "aggregate_data": {
+    "enabled": true,
+    "product": "producto_x",
+    "origin_country": "032",
+    "merchant_id": "decidir_Agregador",
+    "seller_id": "seller_123",
+    "merchant_url": "http://merchant-url",
+    "aggregator_name": "payfact",
+    "gateway_id": "payway",
+    "indicator": "1",
+    "identification_number": "30598910045",
+    "bill_to_pay": "Decidir_Test",
+    "bill_to_refund": "Decidir_Test",
+    "merchant_name": "DECIDIR",
+    "street": "Lavarden",
+    "number": "247",
+    "postal_code": "C1437FBE",
+    "category": "05044",
+    "channel": "005",
+    "geographic_code": "C1437",
+    "city": "Ciudad de Buenos Aires",
+    "province": "Buenos Aires",
+    "country": "Argentina",
+    "merchant_email": "merchant@mail.com",
+    "merchant_phone": "+541135211111"
+  },
+    "establishment_name": null,
+    "spv": null,
+    "confirmed": null,
+    "pan": null,
+    "customer_token": "13e550af28e73b3b00af465d5d64c15ee1f34826744a4ddf68dc6b469dc604f5",
+    "card_data": "/tokens/971344",
+    "tid": "364656548412345"
+}
+```
+
+<a id="transaccion-distribuida"></a>
+
+## Pagos distribuidos
+
+Existen transacciones distribuidas definidas por monto o por porcentaje.
+
+- Por monto: se debe enviar el arreglo `sub_payments` con cada sub-sitio a acreditar.  
+- Por porcentaje: no debe completarse `sub_payments` (la distribución estática se configura en el SAC).
+
+**Aclaración:** `amount` es un número entero en centavos (tipo long).  
+**Nota técnica:** Usar `payment_type: "distributed"`.  
+En transacciones distribuidas por monto, la sumatoria de los `sub_payments[].amount` debe ser exactamente igual al `amount` total de la operación padre.  
+En distribuidas por porcentaje, no se completa `sub_payments`.
+
+### Ejemplo — Distribuida por monto (Node.js)
+
+```js
+// SDK instanciado previamente
+// const sdk = new sdkModulo.sdk(ambient, publicKey, privateKey, company, user);
+
+const installments = 2;
+
+// MONTOS EN CENTAVOS
+const amount1 = 10000;  // $100,00
+const amount2 = 25990;  // $259,90
+const totalAmount = amount1 + amount2; // $359,90 => 35990
+
+const subPayments = [
+  { site_id: "00111115", amount: amount1, installments },
+  { site_id: "00111116", amount: amount2, installments }
+];
+
+// Validación opcional
+const sumSub = subPayments.reduce((acc, sp) => acc + Number(sp.amount), 0);
+if (sumSub !== totalAmount) {
+  throw new Error(`La suma de sub_payments (${sumSub}) debe ser igual al amount total (${totalAmount}).`);
+}
+
+const args = {
+  site_transaction_id: "TX0000000001",
+  token: "a6f05789-10df-4464-a318-887a1520204b",
+  customer: {
+    id: "test",
+    email: "test@payway.com"
+  },
+  payment_method_id: 1,
+  bin: "450979",
+  amount: totalAmount,
+  currency: "ARS",
+  installments,
+  payment_type: "distributed",
+  sub_payments: subPayments
+};
+
+sdk.payment(args, (result, err) => {
+  if (err) {
+    console.error("Error en pago distribuido:", err);
+    return;
+  }
+  console.log("Pago distribuido OK:", result);
+});
+```
+
+<a id="ejemplo-transaccion-distribuida"></a>
+
+### Ejemplo respuesta: transacción distribuida
+
+En pagos **distributed**, puede devolverse un `tid` a nivel raíz y también un `tid` por cada elemento de `sub_payments` para la conciliación por subcomercio.
+
+```json
+{
+  "id": 971255,
+  "site_transaction_id": "DISTRIBUTED_1527712473",
+  "payment_method_id": 65,
+  "card_brand": "Amex",
+  "amount": 2000,
+  "currency": "ars",
+  "status": "approved",
+  "status_details": {
+    "ticket": "4",
+    "card_authorization_code": "203430",
+    "address_validation_code": "VTE0011",
+    "error": null
+  }, 
+  "aggregate_data": {
+        "enabled": true,
+        "seller_id": "123456",
+        "product": "producto_x",
+        "origin_country": "032",
+        "merchant_id": "decidir_Agregador",
+        "merchant_url": "http://merchant-url",
+        "aggregator_name": "payfact",
+        "gateway_id": "payway",
         "indicator": "1",
         "identification_number": "30598910045",
         "bill_to_pay": "Decidir_Test",
@@ -649,20 +818,53 @@ La respuesta de ante cualquier pago exitoso es:
         "channel": "005",
         "geographic_code": "C1437",
         "city": "Ciudad de Buenos Aires",
-        "merchant_id": "decidir_Agregador",
         "province": "Buenos Aires",
         "country": "Argentina",
         "merchant_email": "merchant@mail.com",
-        "merchant_phone": "+541135211111"
+        "merchant_phone": "+541135211111",
     },
-    "establishment_name": null,
-    "spv": null,
-    "confirmed": null,
-    "pan": null,
-    "customer_token": "13e550af28e73b3b00af465d5d64c15ee1f34826744a4ddf68dc6b469dc604f5",
-    "card_data": "/tokens/971344"
+  "date": "2025-03-30T00:00Z",
+  "customer": {
+    "id": "juan",
+    "email": "jmejia@prismamp.com",
+    "ip_address": "192.168.0.1"
+  },
+  "bin": "373953",
+  "installments": 1,
+  "first_installment_expiration_date": null,
+  "payment_type": "distributed",
+  "sub_payments": [
+    {
+      "site_id": "04052023",
+      "installments": 1,
+      "amount": 1000,
+      "ticket": "211",
+      "card_authorization_code": "058205",
+      "subpayment_id": 1265395,
+      "tid": "234567891234567"
+    },
+    {
+      "site_id": "00009007",
+      "installments": 1,
+      "amount": 1000,
+      "ticket": "626",
+      "card_authorization_code": "048246",
+      "subpayment_id": 1265394,
+      "tid": "345678912345678"
+    }
+  ],
+  "site_id": "00020220",
+  "fraud_detection": {
+    "status": null
+  },
+  "establishment_name": null,
+  "spv": null,
+  "confirmed": null,
+  "pan": null,
+  "customer_token": "23e560a3b3c001f465d5d55ee1f3542c468712744a4ddf68dc6b469dc604f5",
+  "card_data": "/tokens/971255",
+  "tid": "123456789123456"
 }
-
 ```
 
 [<sub>Volver a inicio</sub>](#decidir-sdk-nodejs)
@@ -893,31 +1095,42 @@ console.log(err);
 
 Este servicio permite integrar un formulario de pago en el comercio. Primero, utiliza el recurso **checkoutHash** para generar un hash basado en los datos de la operación. Luego, este hash se emplea al invocar el recurso payments/link, el cual devuelve un enlace personalizado para el formulario de pago del comercio, listo para ser utilizado y completar el flujo de pago.
 ## Aclaraciones
-En el campo installments solo debe viajar un unico valor, indicando la cantidad de cuotas.
-El template_id se refiere al template del formulario de pago. El unico valor admitido por el momento es 1.
 
-| Campo                 | Descripción                                                                                  | Obligatorio       | Restricciones                                       | Ejemplo                          |
-|-----------------------|----------------------------------------------------------------------------------------------|-------------------|----------------------------------------------------|----------------------------------|
-| origin_platform       | Plataforma de origen desde la cual se realiza la operación                                   | Sí                | Alfanumérico                                       | "SDK-Node"                      |
-| payment_description   | Descripción del pago                                                                         | No                | Alfanumérico                                       | "TEST"                          |
-| currency              | Tipo de moneda                                                                               | Sí                | Letras                                            | "ARS" / "USD"                          |
-| products              | Detalle de los productos incluidos en la operación                                           | No                | Array de objetos con id, value, description y quantity | [{"id": 4444, "value": 19.99, "description": "Remera", "quantity": 2}] |
-| total_price           | Precio total de la operación                                                                 | Sí                | Numérico                                           | 39.98                           |
-| site                  | Identificador único del comercio                                                             | Sí                | Numérico                                           | "00097002"                      |
-| success_url           | URL a la que se redirige cuando se completa la operación con éxito. Es requerida, si no se envia redirect_url                           | Sí                | URL válida                                        | "<https://www.lanacion.com/>"     |
-| redirect_url          | URL a la que se redirige con los datos de la operación finalizada. Es requerida, si no se envia success_url                            | No                | URL válida                                        | "<https://www.infobae.com/>"      |
-| cancel_url            | URL a la que se redirige si el cliente cancela el formulario                                 | Sí                | URL válida                                        | "<https://www.clarin.com/>"       |
-| notifications_url     | URL donde se enviarán notificaciones relacionadas con la operación                           | Sí                | URL válida                                        | "<https://twitter.com/>"          |
-| template_id           | Identificador de la plantilla del formulario de pago                                         | Sí                | Numérico                                           | 1                                |
-| installments          | Cantidad de cuotas posibles                                                                  | Sí                | Array de números                                   | [1]                             |
-| id_payment_method     | Identificador del método de pago a utilizar (opcional; por defecto incluye todos los métodos) | No                | Numérico                                           | 31                               |
-| plan_gobierno         | Indica si se utiliza un plan gubernamental                                                   | Sí                | Valores posibles: true, false                     | false                           |
-| public_apikey         | Clave pública de autenticación                                                               | Sí                | Alfanumérico                                       | "YKcWXjI2aoSnp60urwLd6TbLYNuybcWC" |
-| auth_3ds              | Indica si se requiere autenticación 3DS                                                      | Sí                | Valores posibles: true, false                     | false                           |
-| installment_type             | En caso de que plan_gobierno sea false, el valor esperado es de la cantidad de la cuota + "Cuotas", Ej: "12 Cuotas". En caso contrario,  “Cuotas MiPyME 3" o "Cuotas MiPyME 6"                                                    | Sí                | Alfanumérico                                           | Cuotas MiPyME 3                       |
+> ⚠️  Los siguientes campos aplican **exclusivamente para comercios del rubro RETAIL**.   ⚠️ 
+
+
+| Campo                 | Descripción                                                                                  | Obligatorio       | Restricciones                                            | Ejemplo                          |
+|-----------------------|----------------------------------------------------------------------------------------------|-------------------|---------------------------------------------------------|----------------------------------|
+| origin_platform       | Plataforma de origen desde la cual se realiza la operación                                   | Sí                | Alfanumérico                                            | "SDK-Node"                       |
+| payment_description   | Descripción del pago                                                                         | No                | Alfanumérico                                            | "TEST"                           |
+| currency              | Tipo de moneda                                                                               | Sí                | Letras                                                  | "ARS" / "USD"                    |
+| products              | Detalle de los productos incluidos en la operación                                           | No                | Array de objetos con `id`, `value`, `description`, `quantity` | [{"id": 4444, "value": 19.99, "description": "Remera", "quantity": 2}] |
+| total_price           | Precio total de la operación                                                                 | Sí                | Numérico                                                | 39.98                            |
+| site                  | Identificador único del comercio                                                             | Sí                | Numérico                                                | "00097002"                       |
+| success_url           | URL a la que se redirige cuando se completa la operación con éxito. Es requerida si **no** se envía `redirect_url` | Sí | URL válida                                   | "https://www.lanacion.com/"      |
+| redirect_url          | URL a la que se redirige con los datos de la operación finalizada. Es requerida si **no** se envía `success_url` | No | URL válida                                   | "https://www.infobae.com/"       |
+| cancel_url            | URL a la que se redirige si el cliente cancela el formulario                                 | Sí                | URL válida                                              | "https://www.clarin.com/"        |
+| notifications_url     | URL donde se enviarán notificaciones relacionadas con la operación                           | Sí                | URL válida                                              | "https://www.mitienda.com/notificaciones" |
+| template_id           | Identificador de la plantilla del formulario de pago                                         | Sí                | Numérico (**1 = sin Cybersource**, **2 = con Cybersource**) | 1                                |
+| installments          | Cantidad de cuotas posibles                                                                  | Sí                | Array de números                                        | [1]                              |
+| id_payment_method     | Identificador del método de pago a utilizar (opcional; por defecto incluye todos los métodos) | No               | Numérico                                                | 31                               |
+| plan_gobierno         | Indica si se utiliza un plan de financiamiento de cuotas (por ejemplo: Plan Ahora, MiPyME, etc.) | Sí            | Valores posibles: `true`, `false`                      | false                            |
+| public_apikey         | Clave pública de autenticación                                                               | Sí                | Alfanumérico                                            | "YKcWXjI2aoSnp60urwLd6TbLYNuybcWC" |
+| auth_3ds              | Indica si se requiere autenticación 3DS                                                      | Sí                | Valores posibles: `true`, `false`                      | false                            |
+| installment_type      | Si `plan_gobierno` es `false`, el valor esperado es `<n> Cuotas` (ej.: `"12 Cuotas"`). Si `plan_gobierno` es `true`, usar el nombre del plan (ej.: `"Cuotas MiPyME 3"`, `"Cuotas MiPyME 6"`) | Sí | Alfanumérico | "Cuotas MiPyME 3"               |
+
+
+### CONSIDERACIONES: 
+
+> ⚠️ **IMPORTANTE – `template_id` y uso de Cybersource**
+> - `template_id = 1` → Checkout estándar **sin Cybersource** (transacción sin control de fraude Cybersource).
+> - `template_id = 2` → Checkout **con Cybersource habilitado** (misma operatoria, pero con evaluación antifraude).
+>
+> Asegúrate de seleccionar el `template_id` correcto según el flujo configurado para tu comercio.
+
+
 
 #### Ejemplo
-##### Aclaración
 Los campos payment_description y products son mutuamente excluyentes. No deben enviarse juntos en la misma request. Si ambos son enviados, la solicitud será rechazada.
 ```javascript
             args = {
@@ -2051,5 +2264,52 @@ sdk.payment(paymentWithTravelArgs, function(result, err) {
 | Santiago del Estero | G |
 | Tierra del Fuego | V |
 | Tucumán | T |  
+[Volver al inicio](#decidir-sdk-nodejs)
+
+<a id="changelog"></a>
+
+# 📌 CHANGELOG
+
+## [1.0.7] - 2025-11-10
+
+### Added
+
+- Nuevos campos soportados en `aggregate_data`:
+  - `product`
+  - `origin_country`
+  - `merchant_url`
+  - `aggregator_name`
+  - `gateway_id`
+  - **`seller_id`** (**exclusivo para American Express**).
+- Nueva **tabla completa de `aggregate_data`** para comercios agregadores.
+- Nueva sección en documentación: **TID (Transaction ID)**, con ejemplos para:
+  - Transacción simple.
+  - Transacción distribuida con `sub_payments[*].tid`.
+- Ejemplo completo de **Transacción Distribuida (Node.js)** por monto.
+- Aclaración funcional de **uso de `template_id` en Checkout RETAIL**:
+  - `template_id = 1` → Transacciones **RETAIL sin Cybersource**.
+  - `template_id = 2` → Transacciones **RETAIL con Cybersource**.
+- Advertencia explícita de **alcance exclusivo para rubro RETAIL** en la tabla del Checkout.
+
+### Changed
+
+- Actualización de la descripción del campo `plan_gobierno`:
+  - Antes: “Indica si se utiliza un plan gubernamental”.
+  - Ahora: **“Indica si se utiliza un plan de financiamiento de cuotas (por ejemplo: Plan Ahora, MiPyME, etc.)”**.
+- Mejora de validaciones semánticas en:
+  - `installment_type` según el valor de `plan_gobierno`.
+- Actualización de la tabla de campos de Checkout para diferenciar:
+  - Flujos con Cybersource.
+  - Flujos sin Cybersource.
+- Correcciones de anclas internas y accesos directos del README.
+- Ajustes visuales del README.
+
+### Notes for implementers
+
+- El campo `seller_id` **solo debe enviarse en operaciones con American Express**.
+- `template_id` **aplica únicamente a flujos de Checkout del rubro RETAIL**.
+- Para otras verticales (Ticketing, Services, Digital Goods, Travel) se deben utilizar sus estructuras específicas.
+- En transacciones distribuidas por *monto* → enviar siempre `sub_payments`.
+
 
 [Volver al inicio](#decidir-sdk-nodejs)
