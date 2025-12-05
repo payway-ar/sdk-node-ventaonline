@@ -1094,6 +1094,14 @@ console.log(err);
 ### Formulario de pago
 
 Este servicio permite integrar un formulario de pago en el comercio. Primero, utiliza el recurso **checkoutHash** para generar un hash basado en los datos de la operación. Luego, este hash se emplea al invocar el recurso payments/link, el cual devuelve un enlace personalizado para el formulario de pago del comercio, listo para ser utilizado y completar el flujo de pago.
+
+Una vez generado el link de pago, el formulario se visualiza accediendo a las siguientes URLs según el ambiente configurado en el SDK:
+
+- **Sandbox**: `https://developers.decidir.com/web/checkout/{payment_id}`
+- **Producción**: `https://live.decidir.com/web/checkout/{payment_id}`
+
+Donde `{payment_id}` corresponde al identificador del pago devuelto por la API al crear el link de pago.
+
 ## Aclaraciones
 
 > ⚠️  Los siguientes campos aplican **exclusivamente para comercios del rubro RETAIL**.   ⚠️ 
@@ -1158,7 +1166,6 @@ Los campos payment_description y products son mutuamente excluyentes. No deben e
                 "installments": [3],
                 "id_payment_method": 1,
                 "plan_gobierno": false,
-                "installment_type": "3 Cuotas",
                 "public_apikey": "abcd1234efgh5678ijkl9012mnop3456",
                 "auth_3ds": true
             };
@@ -2293,9 +2300,7 @@ sdk.payment(paymentWithTravelArgs, function(result, err) {
 - Actualización de la descripción del campo `plan_gobierno`:
   - Antes: “Indica si se utiliza un plan gubernamental”.
   - Ahora: **“Indica si se utiliza un plan de financiamiento de cuotas (por ejemplo: Plan Ahora, MiPyME, etc.)”**.
-- Mejora de validaciones semánticas en:
-  - `installment_type` según el valor de `plan_gobierno`.
-- Actualización de la tabla de campos de Checkout para diferenciar:
+  - Actualización de la tabla de campos de Checkout para diferenciar:
   - Flujos con Cybersource.
   - Flujos sin Cybersource.
 - Correcciones de anclas internas y accesos directos del README.
