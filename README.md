@@ -2274,7 +2274,7 @@ sdk.payment(paymentWithTravelArgs, function(result, err) {
 
 # 📌 CHANGELOG
 
-## [1.0.8] - 2025-11-10
+## [1.0.8] - 2025-01-20
 
 ### Added
 
