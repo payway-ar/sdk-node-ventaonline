@@ -142,7 +142,7 @@ Asegúrate de que las dependencias estén definidas en tu archivo package.json, 
 
 ```javascript
 "dependencies": {
-  "sdk-node-payway": "^1.0.7"
+  "sdk-node-payway": "^1.0.8"
 }
 ```
 
@@ -2274,7 +2274,7 @@ sdk.payment(paymentWithTravelArgs, function(result, err) {
 
 # 📌 CHANGELOG
 
-## [1.0.7] - 2025-11-10
+## [1.0.8] - 2025-11-10
 
 ### Added
 
