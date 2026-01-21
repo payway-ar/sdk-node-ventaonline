@@ -142,7 +142,7 @@ Asegúrate de que las dependencias estén definidas en tu archivo package.json, 
 
 ```javascript
 "dependencies": {
-  "sdk-node-payway": "^1.0.7"
+  "sdk-node-payway": "^1.0.8"
 }
 ```
 
@@ -1098,7 +1098,7 @@ Este servicio permite integrar un formulario de pago en el comercio. Primero, ut
 Una vez generado el link de pago, el formulario se visualiza accediendo a las siguientes URLs según el ambiente configurado en el SDK:
 
 - **Sandbox**: `https://developers.decidir.com/web/checkout/{payment_id}`
-- **Producción**: `https://live.decidir.com/web/checkout/{payment_id}`
+- **Producción**: `https://ventasonline.payway.com.ar/api/v1/checkout-payment-button/{payment_id}`
 
 Donde `{payment_id}` corresponde al identificador del pago devuelto por la API al crear el link de pago.
 
@@ -2274,7 +2274,7 @@ sdk.payment(paymentWithTravelArgs, function(result, err) {
 
 # 📌 CHANGELOG
 
-## [1.0.7] - 2025-11-10
+## [1.0.8] - 2026-01-20
 
 ### Added
 
